@@ -1,116 +1,177 @@
 "use client";
 
-import { useState } from "react";
+import { motion } from "framer-motion";
+import Image from "next/image";
+import { FaBuilding, FaUsersCog, FaDraftingCompass, FaPhone, FaWhatsapp, FaInstagram, FaFacebook, FaTiktok, FaYoutube } from "react-icons/fa";
 
-export default function ProfilePage() {
-  const [activeTab, setActiveTab] = useState<"visi" | "misi" | null>(null);
+const features = [
+  {
+    title: "Desain & Perencanaan",
+    description: "Kami akan membantu Anda mendapatkan hasil yang Anda impikan",
+    icon: FaBuilding,
+  },
+  {
+    title: "Tim Profesional",
+    description: "Kami telah didukung dengan tim yang berpengalaman & profesional",
+    icon: FaUsersCog,
+  },
+  {
+    title: "Request Desain",
+    description: "Anda bisa request desain apapun yang Anda ingin wujudkan",
+    icon: FaDraftingCompass,
+  },
+];
 
+export default function ProfilPerusahaan() {
   return (
-    <div className="bg-gradient-to-b from-white via-[#F8F9FA] to-[#ECECEC] text-[#2F3542] min-h-screen py-16 px-3 md:px-12 lg:px-0 space-y-20">
+    <div className="relative bg-white min-h-screen flex flex-col">
+      {/* Floating WA & Phone */}
+      <div className="fixed bottom-5 right-5 z-50 flex flex-col gap-2">
+        <a href="tel:082287777600" target="_blank" className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center shadow-lg">
+          <FaPhone className="text-white text-2xl" />
+        </a>
+        <a href="https://api.whatsapp.com/send?phone=6281555700600" target="_blank" className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center shadow-lg">
+          <FaWhatsapp className="text-white text-2xl" />
+        </a>
+      </div>
 
-      {/* Profil Perusahaan */}
-      <section
-        className="max-w-4xl mx-auto text-center space-y-6 mb-10"
-        data-aos="fade-up"
-      >
-        <h2 className="text-4xl md:text-5xl font-bold text-left md:text-center text-yellow-600 px-5 md:px-0">
-          Profil Perusahaan
-        </h2>
-
-        <p className="text-gray-700 leading-relaxed text-left md:text-center px-5 md:px-0">
-          <span className="text-yellow-600 font-semibold">Bless Kontraktor</span>{" "}
-          hadir sebagai jawaban atas kebutuhan masyarakat akan layanan kontraktor
-          dan desain bangunan yang tidak hanya fungsional, tetapi juga menghadirkan
-          nilai estetika dan kemewahan.
-          <br /><br />
-          <span className="text-yellow-600 font-semibold">Bless Luxury Kontraktor</span>{" "}
-          merupakan perusahaan konsultan jasa kontraktor pembangunan dan interior
-          yang juga melayani jasa arsitek serta penyedia jasa desain. Kami hadir di
-          tengah-tengah Anda untuk membantu mendesain dan berkomitmen membantu
-          mewujudkan hunian sesuai yang diinginkan dengan dukungan tim solid dan
-          berpengalaman.
-          <br /><br />
-          <span className="text-yellow-600 font-semibold">Bless Luxury Kontraktor</span>{" "}
-          sudah berpengalaman dalam mendesain rumah, villa, residential / perumahan,
-          dan bangunan komersial lainnya seperti ruko, kampus, caffe, apartemen, spa,
-          kantor, kos, guest house, kompleks villa, resort hingga hotel sehingga kami
-          dapat mendesain bangunan impian Anda sesuai standar keamanan, kualitas
-          terbaik, dan budget yang sesuai.
-          <br /><br />
-          <span className="text-yellow-600 font-semibold">Bless Luxury Kontraktor</span>{" "}
-          akan selalu mengedepankan pelayanan yang terbaik demi membuat seluruh klien
-          merasa puas. Wujudkan hunian yang indah, nyaman, dan mewah bersama kami
-          sekarang juga.
-        </p>
+      <section className="relative w-full h-[50vh]">
+        <Image
+          src="/images/design/1.png"
+          alt="Background Hero"
+          fill
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+          <h1 className="text-4xl md:text-5xl text-white text-center px-4">
+            Profil Perusahaan Bless Architect
+          </h1>
+        </div>
       </section>
 
-      {/* Visi Misi */}
-      <section className="max-w-3xl mx-auto">
-        <div className="flex justify-center gap-6 mb-8 relative flex-wrap">
-          {/* Visi */}
-          <div className="group relative">
-            <button
-              className="px-8 py-3 rounded-full font-semibold bg-yellow-100 text-yellow-700 hover:bg-yellow-200 transition shadow-sm border border-yellow-200"
-              onClick={() =>
-                setActiveTab((prev) => (prev === "visi" ? null : "visi"))
-              }
-            >
-              Visi
-            </button>
+      {/* Features Section */}
+      <section className="max-w-6xl mx-auto py-16 px-4">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-3 gap-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+        >
+          {features.map((feature, index) => {
+            const Icon = feature.icon;
+            return (
+              <motion.div
+                key={index}
+                className="flex flex-col items-center text-center p-6 bg-gray-50 rounded-xl shadow hover:shadow-lg transition"
+                whileHover={{ y: -5 }}
+              >
+                <div className="w-16 h-16 mb-4 flex items-center justify-center text-orange-500 text-4xl">
+                  <Icon />
+                </div>
+                <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
+                <p className="text-gray-600 text-sm">{feature.description}</p>
+              </motion.div>
+            );
+          })}
+        </motion.div>
+      </section>
 
-            <div
-              className={`absolute top-full mt-3 left-1/2 -translate-x-1/2 w-80 bg-white border border-yellow-100 p-5 rounded-xl shadow-lg transition-all duration-300 z-10
-              ${activeTab === "visi"
-                ? "opacity-100 visible"
-                : "opacity-0 invisible"}`}
-            >
-              <p className="text-yellow-700 leading-relaxed">
-                Menjadi perusahaan kontraktor dan desain bangunan terpercaya di
-                Indonesia yang menghadirkan karya berkualitas tinggi, estetis,
-                dan inovatif.
-              </p>
+      {/* Company Profile */}
+      <section className="max-w-6xl mx-auto px-4 py-12">
+        <div className="flex flex-col md:flex-row gap-8">
+          {/* Kiri: Logo + Portofolio */}
+          <div className="flex flex-col items-start gap-6 md:w-1/3">
+            {/* Logo */}
+            <div className="bg-black p-4">
+              <Image
+                src="/images/brand/logos.png"
+                alt="Bless Architect Logo"
+                width={350}
+                height={120}
+              />
+            </div>
+
+            {/* Kotak Portofolio 2x2 */}
+            <div className="grid grid-cols-2 gap-2 w-full">
+              <div className="bg-gray-200 h-30">
+                <Image
+                  src="/images/design/1.png"
+                  alt="Portofolio 1"
+                  width={150}
+                  height={200}
+                  className="object-cover w-full h-full"
+                />
+              </div>
+              <div className="bg-gray-200 h-30">
+                <Image
+                  src="/images/design/2.png"
+                  alt="Portofolio 2"
+                  width={150}
+                  height={200}
+                  className="object-cover w-full h-full"
+                />
+              </div>
+              <div className="bg-gray-200 h-30">
+                <Image
+                  src="/images/design/3.png"
+                  alt="Portofolio 3"
+                  width={150}
+                  height={200}
+                  className="object-cover w-full h-full"
+                />
+              </div>
+              <div className="bg-gray-200 h-30">
+                <Image
+                  src="/images/design/4.png"
+                  alt="Portofolio 4"
+                  width={150}
+                  height={200}
+                  className="object-cover w-full h-full"
+                />
+              </div>
             </div>
           </div>
 
-          {/* Misi */}
-          <div className="group relative">
-            <button
-              className="px-8 py-3 rounded-full font-semibold bg-yellow-100 text-yellow-700 hover:bg-yellow-200 transition shadow-sm border border-yellow-200"
-              onClick={() =>
-                setActiveTab((prev) => (prev === "misi" ? null : "misi"))
-              }
-            >
-              Misi
-            </button>
-
-            <div
-              className={`absolute top-full mt-3 -translate-x-1/2 left-1/2 w-[22rem] bg-white border border-yellow-100 px-6 py-6 rounded-xl shadow-lg transition-all duration-300 z-10
-              ${activeTab === "misi"
-                ? "opacity-100 visible"
-                : "opacity-0 invisible"}`}
-            >
-              <ul className="list-disc list-outside text-yellow-700 space-y-2">
-                <li>
-                  Memberikan layanan desain dan pembangunan yang detail,
-                  transparan, dan profesional.
-                </li>
-                <li>
-                  Menghadirkan solusi efisiensi biaya tanpa mengurangi kualitas hasil pekerjaan.
-                </li>
-                <li>
-                  Menggunakan teknologi terbaru dalam visualisasi dan perencanaan proyek.
-                </li>
-                <li>
-                  Membangun hubungan jangka panjang dengan klien melalui kepercayaan, kepuasan, dan integritas.
-                </li>
-                <li>
-                  Mengembangkan tim yang kompeten, kreatif, dan berkomitmen tinggi dalam setiap proyek.
-                </li>
-              </ul>
-            </div>
+          {/* Kanan: Teks */}
+          <div className="text-gray-700 text-justify md:w-2/3 space-y-4">
+            <p>
+              <strong>Bless Architect</strong> merupakan perusahaan konsultan jasa arsitek yang menyediakan jasa desain, kontraktor pembangunan, dan interior & furniture. Kami hadir di tengah-tengah Anda untuk membantu mendesain hunian serta keseluruhan ruang bangunan yang diinginkan.
+            </p>
+            <p>
+              <strong>Bless Architect</strong> telah berdiri sejak Juni 2014 dengan komitmen ingin membantu mewujudkan impian semua orang untuk memiliki hunian sesuai keinginan. Kami melayani jasa arsitek, kontraktor, dan interior & furniture di Kediri dengan dukungan tim solid profesional dan berpengalaman.
+            </p>
+            <p>
+              <strong>Bless Architect</strong> berpengalaman mendesain rumah, villa, perumahan, ruko, kampus, apartemen, spa, kantor, kos, guest house, kompleks villa, resort, hingga hotel. Semua desain mengikuti standar keamanan, kualitas terbaik, dan budget yang pas.
+            </p>
+            <p>
+              <strong>Bless Architect</strong> selalu mengedepankan kualitas dan pelayanan terbaik demi membuat seluruh klien merasa puas. Wujudkan hunian yang indah dan nyaman bersama kami sekarang juga.
+            </p>
           </div>
         </div>
       </section>
+
+
+      {/* Portfolio Section */}
+      {/* <section className="max-w-6xl mx-auto px-4 py-12">
+        <h2 className="text-2xl font-semibold mb-8 text-center">Portofolio Kami</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <motion.div
+              key={i}
+              className="overflow-hidden rounded-lg shadow-lg cursor-pointer"
+              whileHover={{ scale: 1.05 }}
+            >
+              <Image
+                src={`/images/design/${i}.png`}
+                alt={`Design ${i}`}
+                width={400}
+                height={300}
+                className="object-cover w-full h-60"
+              />
+            </motion.div>
+          ))}
+        </div>
+      </section> */}
 
     </div>
   );

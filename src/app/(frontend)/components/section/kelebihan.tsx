@@ -22,7 +22,7 @@ export default function KelebihanKekuranganPage() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch("/api/kelebihan-kekurangan");
+        const res = await fetch("/dummyapi/kelebihan-kekurangan");
         if (!res.ok) throw new Error("Gagal mengambil data");
         const result = await res.json();
         setData(result);
@@ -81,13 +81,14 @@ export default function KelebihanKekuranganPage() {
               {item.kelebihan_kekurangan_detail.map((detail) => (
                 <li
                   key={detail.id}
-                  className="flex items-start gap-3 text-[15px] leading-relaxed"
+                  className="flex items-center gap-3 text-[15px] leading-relaxed"
                 >
-                  <span className="text-green-600 text-lg mt-1">✓</span>
+                  <span className="text-green-600 text-lg">✓</span>
                   <span>{detail.detail}</span>
                 </li>
               ))}
             </ul>
+
           </motion.div>
         ))}
 
@@ -108,13 +109,14 @@ export default function KelebihanKekuranganPage() {
               {item.kelebihan_kekurangan_detail.map((detail) => (
                 <li
                   key={detail.id}
-                  className="flex items-start gap-3 text-[15px] leading-relaxed"
+                  className="flex items-center gap-3 text-[15px] leading-relaxed"
                 >
                   <span className="text-red-400 text-lg mt-1">✕</span>
                   <span>{detail.detail}</span>
                 </li>
               ))}
             </ul>
+
           </motion.div>
         ))}
       </div>
