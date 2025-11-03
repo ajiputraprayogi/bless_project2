@@ -12,7 +12,7 @@ export default function PortfolioPage() {
   useEffect(() => {
     async function fetchProjects() {
       try {
-        const res = await fetch("/api/portofolio");
+        const res = await fetch("/dummyapi/portofolio");
         if (!res.ok) throw new Error("Gagal mengambil data portofolio");
         const data = await res.json();
         setProjects(data);

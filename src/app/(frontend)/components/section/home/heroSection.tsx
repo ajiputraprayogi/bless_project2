@@ -21,7 +21,7 @@ export default function HeroSection({ onExploreClick }: HeroSectionProps) {
   useEffect(() => {
     const fetchBanners = async () => {
       try {
-        const res = await fetch("/api/banner");
+        const res = await fetch("/dummyapi/banner");
         if (!res.ok) throw new Error("Gagal fetch banner");
         const data: Banner[] = await res.json();
         setBanners(data);
@@ -38,7 +38,7 @@ export default function HeroSection({ onExploreClick }: HeroSectionProps) {
   // Pilih banner aktif pertama, jika tidak ada fallback default
   const activeBanner =
     banners.find((b) => b.active) ?? {
-      img: "/images/design/home1.jpg",
+      img: "/images/design/1.png",
       active: true,
       id: "default",
     };

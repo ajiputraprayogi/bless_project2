@@ -13,7 +13,7 @@ export default function DesignCategories() {
   useEffect(() => {
     async function fetchProjects() {
       try {
-        const res = await fetch("/api/portofolio");
+        const res = await fetch("/dummyapi/portofolio");
         if (!res.ok) throw new Error("Gagal mengambil data portofolio");
         const data = await res.json();
         setProjects(data);
@@ -52,10 +52,10 @@ export default function DesignCategories() {
       {/* Header Section */}
       <div className="text-center mb-12">
         <p className="text-sm tracking-[3px] text-[#A4B0BE] uppercase">
-          Karya Kami
+          Portofolio
         </p>
         <h2 className="text-3xl md:text-4xl font-semibold text-[#2F3542]">
-          Proyek Desain Terbaru
+          Desain Terbaru
         </h2>
       </div>
 
