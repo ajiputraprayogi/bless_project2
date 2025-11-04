@@ -41,8 +41,8 @@ export default function Navbar({
       ],
     },
     // { label: "Harga", href: "/harga" },
+    { label: "Testimoni", href: "/testimoni" },
     { label: "Kontak", href: "/kontak" },
-    // { label: "Informasi", href: "/information" },
     // { label: "Kontak", href: "/contact" },
   ],
 }) {
