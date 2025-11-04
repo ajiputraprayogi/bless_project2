@@ -12,12 +12,13 @@ import {
 } from "react-icons/fa";
 import Link from "next/link";
 
-// ✅ Tipe sesuai response baru
+// ✅ Tipe sesuai dummy API baru
 type Contact = {
-  id: number;
-  platform: string;
-  url: string;
+  name: string;
+  username: string;
+  link: string;
   icon: "instagram" | "whatsapp" | "facebook" | "tiktok" | "email";
+  color: string;
 };
 
 export default function ContactPage() {
@@ -27,7 +28,7 @@ export default function ContactPage() {
   useEffect(() => {
     async function fetchContacts() {
       try {
-        const res = await fetch("/api/kontak");
+        const res = await fetch("/dummyapi/kontak");
         if (!res.ok) throw new Error("Failed to fetch contacts");
         const data: Contact[] = await res.json();
         setContacts(data);
@@ -103,18 +104,18 @@ export default function ContactPage() {
               <div className="mt-6 grid gap-3">
                 {contacts.map((c) => (
                   <Link
-                    key={c.id}
-                    href={c.url}
+                    key={c.name}
+                    href={c.link}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center gap-4 p-4 rounded-xl ring-1 ring-[#E4E6EB] hover:bg-[#F8F9FA] transition"
+                    className={`flex items-center gap-4 p-4 rounded-xl ring-1 ring-[#E4E6EB] hover:shadow-sm transition ${c.color}`}
                   >
                     {iconMap[c.icon]}
                     <div>
                       <div className="text-sm font-medium text-[#2F3542]">
-                        {c.platform}
+                        {c.name}
                       </div>
-                      <div className="text-xs text-[#A4B0BE]">{c.url}</div>
+                      <div className="text-xs text-[#A4B0BE]">{c.username}</div>
                     </div>
                   </Link>
                 ))}
