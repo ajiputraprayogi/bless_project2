@@ -29,8 +29,6 @@ export default function Navbar({
     { label: "Portfolio", href: "/portfolio" },
     { label: "Testimoni", href: "/testimoni" },
     { label: "Kontak", href: "/kontak" },
-    { label: "Test", href: "/test" },
-    { label: "Test2", href: "/test2" },
   ],
 }) {
   const [open, setOpen] = useState(false);

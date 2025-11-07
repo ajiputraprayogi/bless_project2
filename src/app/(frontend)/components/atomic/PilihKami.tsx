@@ -1,26 +1,26 @@
 "use client";
 
-import { User, Shield, Clock, Lightbulb, Handshake } from "lucide-react";
+import Image from "next/image";
 
 const features = [
   {
-    icon: User,
+    icon: "/images/icons/person.png",
     label: "Profesionalisme dan Pengalaman",
   },
   {
-    icon: Shield,
+    icon: "/images/icons/quality.png",
     label: "Kualitas Terjamin",
   },
   {
-    icon: Clock,
+    icon: "/images/icons/time.png",
     label: "Tepat Waktu dan Efisien",
   },
   {
-    icon: Lightbulb,
+    icon: "/images/icons/lamps.png",
     label: "Solusi Terbaik untuk Setiap Kebutuhan",
   },
   {
-    icon: Handshake,
+    icon: "/images/icons/shake.png",
     label: "Transparansi dan Kepercayaan",
   },
 ];
@@ -41,7 +41,7 @@ const WhyChooseUs = () => {
         overflow-hidden
       "
       style={{
-        backgroundImage: "url('/images/design/2.png')", // ganti sesuai path gambar kamu
+        backgroundImage: "url('/images/design/2.png')", // ganti sesuai path gambar background kamu
       }}
     >
       {/* Overlay hitam transparan biar teks tetap kebaca */}
@@ -61,9 +61,15 @@ const WhyChooseUs = () => {
               key={index}
               className="flex flex-col items-center text-center p-4 w-full sm:w-1/2 md:w-1/3 lg:w-auto"
             >
-              {/* Icon dalam lingkaran */}
-              <div className="bg-white/90 text-[#2f3542] p-5 rounded-full mb-4 inline-flex items-center justify-center shadow-lg transition-transform hover:scale-105">
-                <feature.icon className="w-8 h-8" />
+              {/* Icon PNG dalam lingkaran */}
+              <div className="bg-white text-[#2f3542] p-5 rounded-full mb-4 inline-flex items-center justify-center shadow-lg transition-transform hover:scale-105">
+                <Image
+                  src={feature.icon}
+                  alt={feature.label}
+                  width={50}
+                  height={50}
+                  className="w-8 h-8 object-contain"
+                />
               </div>
 
               {/* Label */}
