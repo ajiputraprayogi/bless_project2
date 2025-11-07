@@ -1,4 +1,4 @@
-// src/app/(frontend)/dummyapi/data/route.ts
+// src/app/(frontend)/api/data/route.ts
 
 // Perhatian: Ganti nama file dan path sesuai kebutuhan, misalnya:
 // src/app/api/frontend/keunggulan/route.ts

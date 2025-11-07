@@ -22,9 +22,9 @@ export default function KelebihanKekuranganPage() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch("/dummyapi/kelebihan-kekurangan");
+        const res = await fetch("/api/kelebihan-kekurangan");
         if (!res.ok) throw new Error("Gagal mengambil data");
-        const result = await res.json();
+        const result: Item[] = await res.json();
         setData(result);
       } catch (err) {
         console.error("Error fetching data:", err);
@@ -35,9 +35,6 @@ export default function KelebihanKekuranganPage() {
     fetchData();
   }, []);
 
-  const kelebihan = data.filter((item) => item.type === "kelebihan");
-  const kekurangan = data.filter((item) => item.type === "kekurangan");
-
   if (loading) {
     return (
       <section className="py-20 text-center text-[#2F3542]">
@@ -46,79 +43,115 @@ export default function KelebihanKekuranganPage() {
     );
   }
 
+  // Pisahkan data
+  const kelebihan = data.filter((item) => item.type === "kelebihan");
+  const kekurangan = data.filter((item) => item.type === "kekurangan");
+
   return (
-    <main className="min-h-screen bg-[#F7F4EF] py-20 px-6">
+    <main className="min-h-screen bg-transparent w-full py-5 px-3">
       {/* Header */}
       <div className="text-center mb-16">
-        <p className="text-sm tracking-[3px] text-[#A4B0BE] uppercase">
+        <p className="text-xl tracking-[3px] text-white">
           Pertimbangkan Sebelum Memilih
         </p>
-        <h1 className="text-3xl md:text-5xl mt-3 font-semibold text-[#2F3542]">
-          Kelebihan & Kekurangan
-        </h1>
-        <p className="text-gray-600 mt-4 max-w-2xl mx-auto hidden md:block">
-          Pahami keuntungan dan potensi tantangan dalam menggunakan jasa
-          kontraktor untuk proyek desain atau pembangunan Anda.
-        </p>
+        {/* <h1 className="text-3xl md:text-5xl mt-3 font-semibold text-[#2F3542]">
+          Kerugian Tidak Memakai Bless Kontraktor
+        </h1> */}
+        {/* <p className="text-gray-600 mt-4 max-w-2xl mx-auto hidden md:block">
+          Pelajari apa saja keuntungan dan risiko yang perlu Anda pahami sebelum memulai proyek bersama kontraktor profesional.
+        </p> */}
       </div>
 
-      {/* Grid dua kolom */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto">
-        {/* KELEBIHAN */}
-        {kelebihan.map((item, idx) => (
-          <motion.div
-            key={item.id}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: idx * 0.1 }}
-            viewport={{ once: true }}
-            className="bg-[#DFE4EA] p-8 rounded-2xl shadow-sm"
-          >
-            <h2 className="text-2xl font-semibold text-[#2F3542] mb-6 border-b border-[#A4B0BE] pb-2">
-              {item.judul}
-            </h2>
-            <ul className="space-y-4 text-[#2F3542]">
-              {item.kelebihan_kekurangan_detail.map((detail) => (
-                <li
-                  key={detail.id}
-                  className="flex items-center gap-3 text-[15px] leading-relaxed"
-                >
-                  <span className="text-green-600 text-lg">✓</span>
-                  <span>{detail.detail}</span>
-                </li>
-              ))}
-            </ul>
+      {/* Grid 2 Kolom */}
+      <div className="grid grid-cols-1 md:grid-cols-1 gap-10 max-w-6xl mx-auto">
+        {/* Kolom Kelebihan */}
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="p-8 bg-[#2F3542]/70 backdrop-blur-sm shadow-sm rounded-2xl border-t-4 border-white"
+        >
+          <h2 className="text-2xl font-semibold text-green-400 mb-6 border-b border-gray-200 pb-2">
+            Kelebihan Memakai jasa Bless Kontraktor
+          </h2>
+          {kelebihan.map((item) => (
+            <div key={item.id} className="mb-6">
+              {/* <h3 className="text-lg font-semibold text-[#2F3542] mb-3">
+                {item.judul}
+              </h3> */}
+              <ul className="space-y-3 text-white text-left">
+                {item.kelebihan_kekurangan_detail.map((detail) => (
+                  <li
+                    key={detail.id}
+                    className="flex items-start gap-3 text-[15px] leading-relaxed"
+                  >
+                    <span className="text-green-400 text-lg mt-[2px]">✓</span>
+                    <span>{detail.detail}</span>
+                  </li>
+                ))}
+              </ul>
+<button
+  onClick={() =>
+    window.open(
+      "https://wa.me/6285176965609?text=Halo%2C%20saya%20mau%20tanya%20mengenai%20layanan...",
+      "_blank"
+    )
+  }
+  className="mt-3 px-4 py-3 bg-yellow-400 text-black font-medium rounded-md 
+             transition duration-300 ease-in-out transform hover:scale-105 hover:bg-yellow-400 hover:text-white"
+>
+  Hubungi Kami
+</button>
 
-          </motion.div>
-        ))}
+            </div>
+          ))}
+        </motion.div>
 
-        {/* KEKURANGAN */}
-        {kekurangan.map((item, idx) => (
-          <motion.div
-            key={item.id}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: idx * 0.1 }}
-            viewport={{ once: true }}
-            className="bg-[#DFE4EA] p-8 rounded-2xl shadow-md"
-          >
-            <h2 className="text-2xl font-semibold text-[#2F3542] mb-6 border-b border-[#A4B0BE]/40 pb-2">
-              {item.judul}
-            </h2>
-            <ul className="space-y-4 text-[#2F3542]">
-              {item.kelebihan_kekurangan_detail.map((detail) => (
-                <li
-                  key={detail.id}
-                  className="flex items-center gap-3 text-[15px] leading-relaxed"
-                >
-                  <span className="text-red-400 text-lg mt-1">✕</span>
-                  <span>{detail.detail}</span>
-                </li>
-              ))}
-            </ul>
+        {/* Kolom Kekurangan */}
+        <motion.div
+          initial={{ opacity: 0, x: 30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="p-8 bg-[#2F3542]/70 backdrop-blur-sm shadow-sm rounded-2xl border-t-4 border-white"
+        >
+          <h2 className="text-2xl font-semibold text-red-400 mb-6 border-b border-gray-200 pb-2">
+            Kerugian Tidak Memakai Jasa Bless Kontraktor
+          </h2>
+          {kekurangan.map((item) => (
+            <div key={item.id} className="mb-6">
+              {/* <h3 className="text-lg font-semibold text-[#2F3542] mb-3">
+                {item.judul}
+              </h3> */}
+              <ul className="space-y-3 text-white text-left">
+                {item.kelebihan_kekurangan_detail.map((detail) => (
+                  <li
+                    key={detail.id}
+                    className="flex items-start gap-3 text-[15px] leading-relaxed"
+                  >
+                    <span className="text-red-500 text-lg mt-[2px]">✕</span>
+                    <span>{detail.detail}</span>
+                  </li>
+                ))}
+              </ul>
+<button
+  onClick={() =>
+    window.open(
+      "https://wa.me/6285176965609?text=Halo%2C%20saya%20mau%20tanya%20mengenai%20layanan...",
+      "_blank"
+    )
+  }
+  className="mt-3 px-4 py-3 bg-yellow-400 text-black font-medium rounded-md 
+             transition duration-300 ease-in-out transform hover:scale-105 hover:bg-yellow-400 hover:text-white"
+>
+  Hubungi Kami
+</button>
 
-          </motion.div>
-        ))}
+            </div>
+
+          ))}
+        </motion.div>
       </div>
     </main>
   );

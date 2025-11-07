@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { FaBuilding, FaUsersCog, FaDraftingCompass, FaPhone, FaWhatsapp, FaInstagram, FaFacebook, FaTiktok, FaYoutube } from "react-icons/fa";
+import { FaBuilding, FaUsersCog, FaDraftingCompass, FaPhone, FaWhatsapp, FaTools, FaPlus, FaInstagram, FaFacebook, FaTiktok, FaYoutube } from "react-icons/fa";
 
 const features = [
   {
@@ -19,6 +19,11 @@ const features = [
     title: "Request Desain",
     description: "Anda bisa request desain apapun yang Anda ingin wujudkan",
     icon: FaDraftingCompass,
+  },
+    {
+    title: "Build",
+    description: "Kami akan merealisasikan mewujudkan rumah impian anda baik bangun baru ataupun renovasi",
+    icon: FaTools,
   },
 ];
 
@@ -52,7 +57,7 @@ export default function ProfilPerusahaan() {
       {/* Features Section */}
       <section className="max-w-6xl mx-auto py-16 px-4">
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-4 gap-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
@@ -138,7 +143,7 @@ export default function ProfilPerusahaan() {
               <strong>Bless Architect</strong> merupakan perusahaan konsultan jasa arsitek yang menyediakan jasa desain, kontraktor pembangunan, dan interior & furniture. Kami hadir di tengah-tengah Anda untuk membantu mendesain hunian serta keseluruhan ruang bangunan yang diinginkan.
             </p>
             <p>
-              <strong>Bless Architect</strong> telah berdiri sejak Juni 2014 dengan komitmen ingin membantu mewujudkan impian semua orang untuk memiliki hunian sesuai keinginan. Kami melayani jasa arsitek, kontraktor, dan interior & furniture di Kediri dengan dukungan tim solid profesional dan berpengalaman.
+              <strong>Bless Architect</strong> telah berdiri sejak Juni 2014 dengan komitmen ingin membantu mewujudkan impian semua orang untuk memiliki hunian sesuai keinginan. Kami melayani jasa arsitek, kontraktor, dan interior & furniture  dengan dukungan tim solid profesional dan berpengalaman.
             </p>
             <p>
               <strong>Bless Architect</strong> berpengalaman mendesain rumah, villa, perumahan, ruko, kampus, apartemen, spa, kantor, kos, guest house, kompleks villa, resort, hingga hotel. Semua desain mengikuti standar keamanan, kualitas terbaik, dan budget yang pas.

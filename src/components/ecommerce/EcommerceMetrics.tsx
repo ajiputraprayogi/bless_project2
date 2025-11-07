@@ -19,7 +19,7 @@ export const EcommerceMetrics = () => {
         Selamat Datang, {nama || role}!
       </h4>
       <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-        Selamat datang di dashboard Bless Architect. Pantau semua data proyek dan aktivitas terbaru di sini.
+        Selamat datang di dashboard Bless Architect. Pantau semua data proyek dan aktivitas Portofolio di sini.
       </p>
     </div>
   );

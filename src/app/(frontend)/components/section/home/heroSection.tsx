@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import WhyChooseUs from "../../atomic/PilihKami";
 
 interface HeroSectionProps {
   onExploreClick: () => void;
@@ -21,7 +22,7 @@ export default function HeroSection({ onExploreClick }: HeroSectionProps) {
   useEffect(() => {
     const fetchBanners = async () => {
       try {
-        const res = await fetch("/dummyapi/banner");
+        const res = await fetch("/api/banner");
         if (!res.ok) throw new Error("Gagal fetch banner");
         const data: Banner[] = await res.json();
         setBanners(data);
@@ -59,9 +60,9 @@ export default function HeroSection({ onExploreClick }: HeroSectionProps) {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="text-4xl md:text-[7rem] tracking-wide text-white/90"
+          className="text-4xl md:text-[7rem] font-montserrat tracking-wide text-white/90"
         >
-          Bless Luxury <br />Kontraktor
+          Bless Luxury <br /><span className="text-yellow-400">Contractor</span>
         </motion.h1>
 
         <button
@@ -85,6 +86,7 @@ export default function HeroSection({ onExploreClick }: HeroSectionProps) {
           </p>
         )}
       </div>
+      
     </section>
   );
 }

@@ -1,4 +1,4 @@
-// src/app/(frontend)/dummyapi/data/[slug]/route.js
+// src/app/(frontend)/api/data/[slug]/route.js
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 

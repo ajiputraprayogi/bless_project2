@@ -1,100 +1,91 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
+import KelebihanKekuranganPage from "../kelebihan";
 
 export default function FurnitureHero() {
   return (
-    <section className="relative h-[120vh] overflow-hidden flex items-center justify-center">
-      {/* Parallax Background */}
+    <section className="relative h-auto overflow-hidden flex flex-col items-center justify-center">
+      {/* Background image + overlay */}
       <div
         className="absolute inset-0 bg-fixed bg-center bg-cover"
-        style={{
-          backgroundImage: "url('/images/design/villa1.jpg')", // ganti sesuai path gambarmu
-        }}
+        style={{ backgroundImage: "url('/images/design/villa1.jpg')" }}
       >
         <div className="absolute inset-0 bg-black/60" />
       </div>
 
-      {/* Overlay Content */}
-      <div className="relative z-10 max-w-5xl px-6 text-center text-[#DFE4EA]">
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="uppercase tracking-[4px] text-[#A4B0BE] mb-4"
-        >
-          Layanan Kami
-        </motion.p>
+      {/* Content */}
+      <div className="relative z-10 max-w-7xl px-6 py-20 grid md:grid-cols-2 gap-12 text-white">
 
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+        {/* Right: Services boxes */}
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.7 }}
           viewport={{ once: true }}
-          className="text-4xl md:text-6xl font-semibold text-white mb-8"
+          className="grid gap-6"
         >
-          Bless Kontraktor
-        </motion.h2>
+          {/* Service 1 */}
+          <div className="bg-transparent p-6 transition-all border-b">
+            <h3 className="text-3xl font-semibold mb-2">Jasa Desain Arsitek</h3>
+            <p className="text-gray-300 text-sm leading-relaxed">
+              Kami akan mewujudkan hunian dengan konsep desain yang bisa direquest sesuai
+              keinginan dan standar arsitektur agar menghasilkan hunian yang indah, aman, dan nyaman.
+            </p>
+          </div>
 
-        <motion.p
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
+          {/* Service 2 */}
+          <div className="bg-transparent p-6 transition-all border-b">
+            <h3 className="text-xl font-semibold mb-2">Kontraktor Pembangunan</h3>
+            <p className="text-gray-300 text-sm leading-relaxed">
+              Kami berkomitmen memberikan hasil pembangunan bermutu tinggi dengan memperhatikan
+              keindahan, kenyamanan, dan ketahanan bangunan sebagai prioritas utama.
+            </p>
+          </div>
+
+          {/* Service 3 */}
+          <div className="bg-transparent p-6 transition-all border-b">
+            <h3 className="text-xl font-semibold mb-2">Interior & Furniture</h3>
+            <p className="text-gray-300 text-sm leading-relaxed">
+              Kami melayani segala bentuk dan style hunian — pribadi maupun komersial — mulai dari
+              urban, eco, modern, tradisional, mediterania, hingga gaya Bali.
+            </p>
+          </div>
+        </motion.div>
+
+                {/* Left: Main title & description */}
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7 }}
           viewport={{ once: true }}
-          className="text-lg md:text-xl text-[#DFE4EA]/90 mb-10 leading-relaxed"
+          className="flex flex-col justify-center"
         >
-          Jasa Arsitek Kontraktor dan Interior Furniture
-        </motion.p>
+          <p className="uppercase tracking-[3px] text-gray-300 mb-3">Layanan Kami</p>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+            Bless ARCHITECT – Jasa Arsitek Kontraktor dan Interior Furniture 
+          </h1>
+          <p className="text-gray-300 mb-6 leading-relaxed">
+            Kami akan mewujudkan hunian dengan konsep desain yang bisa direquest sesuai keinginan
+            sesuai standar arsitektur supaya dapat menghasilkan hunian yang indah, aman, dan nyaman.
+          </p>
+<button
+  onClick={() =>
+    window.open(
+      "https://wa.me/6285176965609?text=Halo%2C%20saya%20ingin%20menghubungi%20arsitek",
+      "_blank"
+    )
+  }
+  className="bg-yellow-500 hover:bg-yellow-600 transition-colors text-black font-semibold px-6 py-3 rounded-md w-max"
+>
+  HUBUNGI ARSITEK
+</button>
 
-        <div className="grid md:grid-cols-3 gap-8 text-left mt-10">
-          {/* Jasa Desain */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="bg-[#2F3542]/70 backdrop-blur-sm p-6 rounded-xl hover:bg-[#2F3542]/90 transition-all"
-          >
-            <h3 className="text-xl font-semibold text-[#DFE4EA] mb-3">
-              Jasa Desain Arsitek
-            </h3>
-            <p className="text-sm text-[#A4B0BE] leading-relaxed">
-              Kami akan mewujudkan hunian dengan konsep desain yang bisa direquest sesuai keinginan dan standar arsitektur agar menghasilkan hunian yang indah, aman, dan nyaman.
-            </p>
-          </motion.div>
+        </motion.div>
 
-          {/* Kontraktor */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="bg-[#2F3542]/70 backdrop-blur-sm p-6 rounded-xl hover:bg-[#2F3542]/90 transition-all"
-          >
-            <h3 className="text-xl font-semibold text-[#DFE4EA] mb-3">
-              Kontraktor Pembangunan
-            </h3>
-            <p className="text-sm text-[#A4B0BE] leading-relaxed">
-              Kami berkomitmen memberikan hasil pembangunan bermutu tinggi dengan memperhatikan keindahan, kenyamanan, dan ketahanan bangunan sebagai prioritas utama.
-            </p>
-          </motion.div>
-
-          {/* Interior */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="bg-[#2F3542]/70 backdrop-blur-sm p-6 rounded-xl hover:bg-[#2F3542]/90 transition-all"
-          >
-            <h3 className="text-xl font-semibold text-[#DFE4EA] mb-3">
-              Interior & Furniture
-            </h3>
-            <p className="text-sm text-[#A4B0BE] leading-relaxed">
-              Kami melayani segala bentuk dan style hunian — pribadi maupun komersial — mulai dari urban, eco, modern, tradisional, mediterania, hingga gaya Bali.
-            </p>
-          </motion.div>
-        </div>
+        {/* Optional tambahan komponen */}
       </div>
+        <KelebihanKekuranganPage />
     </section>
   );
 }
