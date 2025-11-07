@@ -1,4 +1,4 @@
-// src/app/(frontend)/dummyapi/data/route.ts
+// src/app/(frontend)/api/data/route.ts
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { sizePattern } from "@/utils/size";

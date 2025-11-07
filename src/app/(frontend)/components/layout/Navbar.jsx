@@ -10,40 +10,27 @@ export default function Navbar({
   brand = "Monarch",
   links = [
     { label: "Beranda", href: "/" },
-        {
+    {
       label: "layanan",
       dropdown: [
-        // { label: "Desain Rumah", href: "/rumah" },
         { label: "Arsitek", href: "/arsitek" },
         { label: "Kontraktor", href: "/kontraktor" },
         { label: "Interior & Furniture", href: "/furnitur" },
+        { label: "Skema Layanan", href: "/order" },
       ],
     },
-    // { label: "Harga & Layanan", href: "/pricing" },
-    // { label: "Portfolio", href: "/portfolio" },
     {
-      label: "Portfolio",
-      dropdown: [
-        // { label: "Desain Rumah", href: "/rumah" },
-        { label: "Desain Rumah", href: "/desainrumah" },
-        { label: "Desain Interior", href: "/interior" },
-        { label: "Desain Komersial", href: "/komersial" },
-        { label: "Animasi Desain", href: "/animasi" },
-        { label: "Konstruksi", href: "/konstruksi" },
-      ],
-    },
-        {
       label: "Profil",
       dropdown: [
-        // { label: "Desain Rumah", href: "/rumah" },
         { label: "Tim Kami", href: "/team" },
         { label: "Profil Perusahaan", href: "/profile" },
       ],
     },
-    // { label: "Harga", href: "/harga" },
+    { label: "Portfolio", href: "/portfolio" },
     { label: "Testimoni", href: "/testimoni" },
     { label: "Kontak", href: "/kontak" },
-    // { label: "Kontak", href: "/contact" },
+    { label: "Test", href: "/test" },
+    { label: "Test2", href: "/test2" },
   ],
 }) {
   const [open, setOpen] = useState(false);
@@ -57,18 +44,18 @@ export default function Navbar({
 
   return (
     <header className="fixed top-4 left-0 right-0 z-50 px-4 md:px-8 ">
-      <nav className="mx-auto w-full bg-black/80 border border-[#14100c]/15 px-4 py-3 flex items-center justify-between gap-4">
+      <nav className="mx-auto w-full bg-black/80 border border-[#14100c]/15 px-4 py-3 flex items-center justify-between gap-4 z-99">
         {/* Brand */}
         <div className="flex items-center gap-3">
           <span className="w-9 h-9 rounded-full flex items-center justify-center overflow-hidden">
             <Link href={"/"}>
-            <Image
-              src="/images/brand/logos.png"
-              alt="Brand Logo"
-              width={24}
-              height={24}
-              className="object-contain"
-            />
+              <Image
+                src="/images/brand/logos.png"
+                alt="Brand Logo"
+                width={24}
+                height={24}
+                className="object-contain"
+              />
             </Link>
           </span>
           {/* <span className="font-semibold text-white">{brand}</span> */}
@@ -84,7 +71,7 @@ export default function Navbar({
                 onMouseEnter={() => setDropdownOpen(l.label)}
                 onMouseLeave={() => setDropdownOpen(null)}
               >
-                <button className="flex items-center gap-1 text-sm text-white transition-colors">
+                <button className="flex items-center gap-1 text-sm text-yellow-400 transition-colors">
                   {l.label}
                   <HiChevronDown className="w-4 h-4" />
                 </button>
@@ -116,7 +103,7 @@ export default function Navbar({
               <li key={l.href}>
                 <Link
                   href={l.href}
-                  className="relative text-sm text-white hover:text-[#eaddce] transition-colors 
+                  className="relative text-sm text-yellow-400 hover:text-[#eaddce] transition-colors 
                     after:content-[''] after:absolute after:left-0 after:bottom-0 
                     after:w-full after:h-[1px] after:bg-[#eaddce] after:scale-x-0
                     after:origin-left after:transition-transform after:duration-300 
@@ -144,9 +131,9 @@ export default function Navbar({
             className="md:hidden p-2 rounded-lg text-black transition"
           >
             {open ? (
-              <HiX className="w-6 h-6 text-[#2E2B25]" />
+              <HiX className="w-6 h-6 text-white" />
             ) : (
-              <HiMenu className="w-6 h-6 text-[#2E2B25]" />
+              <HiMenu className="w-6 h-6 text-white" />
             )}
           </button>
         </div>

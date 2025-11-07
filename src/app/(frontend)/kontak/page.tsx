@@ -11,14 +11,14 @@ import {
   FaEnvelope,
 } from "react-icons/fa";
 import Link from "next/link";
+import OrderForm from "../components/atomic/order";
 
-// ✅ Tipe sesuai dummy API baru
+// ✅ Tipe sesuai response baru
 type Contact = {
-  name: string;
-  username: string;
-  link: string;
+  id: number;
+  platform: string;
+  url: string;
   icon: "instagram" | "whatsapp" | "facebook" | "tiktok" | "email";
-  color: string;
 };
 
 export default function ContactPage() {
@@ -28,7 +28,7 @@ export default function ContactPage() {
   useEffect(() => {
     async function fetchContacts() {
       try {
-        const res = await fetch("/dummyapi/kontak");
+        const res = await fetch("/api/kontak");
         if (!res.ok) throw new Error("Failed to fetch contacts");
         const data: Contact[] = await res.json();
         setContacts(data);
@@ -50,6 +50,7 @@ export default function ContactPage() {
   };
 
   return (
+    <>
     <main className="min-h-screen w-full flex items-center justify-center bg-[#F7F4EF] text-[#2F3542] p-6 pt-[8rem] md:pt-[5rem]">
       <motion.section
         initial={{ opacity: 0, y: 16 }}
@@ -104,18 +105,18 @@ export default function ContactPage() {
               <div className="mt-6 grid gap-3">
                 {contacts.map((c) => (
                   <Link
-                    key={c.name}
-                    href={c.link}
+                    key={c.id}
+                    href={c.url}
                     target="_blank"
                     rel="noreferrer"
-                    className={`flex items-center gap-4 p-4 rounded-xl ring-1 ring-[#E4E6EB] hover:shadow-sm transition ${c.color}`}
+                    className="flex items-center gap-4 p-4 rounded-xl ring-1 ring-[#E4E6EB] hover:bg-[#F8F9FA] transition"
                   >
                     {iconMap[c.icon]}
                     <div>
                       <div className="text-sm font-medium text-[#2F3542]">
-                        {c.name}
+                        {c.platform}
                       </div>
-                      <div className="text-xs text-[#A4B0BE]">{c.username}</div>
+                      <div className="text-xs text-[#A4B0BE]">{c.url}</div>
                     </div>
                   </Link>
                 ))}
@@ -124,6 +125,9 @@ export default function ContactPage() {
           </div>
         </div>
       </motion.section>
+      
     </main>
+    <OrderForm />
+    </>
   );
 }

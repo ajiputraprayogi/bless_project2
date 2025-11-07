@@ -1,4 +1,4 @@
-// src/app/(frontend)/dummyapi/data/[slug]/route.js
+// src/app/(frontend)/api/data/[slug]/route.js
 
 // Perhatian: Ganti nama file dan path sesuai kebutuhan, misalnya:
 // src/app/api/frontend/keunggulan/[slug]/route.js

@@ -5,7 +5,7 @@ export async function GET() {
   try {
     // ✅ Ambil chat pertama (atau bisa pakai findMany kalau mau semua chat)
     const chat = await prisma.chat.findFirst({
-      orderBy: { created_at: "desc" }, // ambil chat terbaru
+      orderBy: { created_at: "desc" }, // ambil chat Portofolio
       select: {
         id: true,
         title: true,

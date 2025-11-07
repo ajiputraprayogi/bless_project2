@@ -15,11 +15,11 @@ export default function PortfolioPage() {
   const [selected, setSelected] = useState<null | PortfolioItem>(null);
   const [loading, setLoading] = useState(true);
 
-  // Fetch data dari API dummyapi/eksterior
+  // Fetch data dari API api/eksterior
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch("/dummyapi/eksterior");
+        const res = await fetch("/api/eksterior");
         if (!res.ok) throw new Error("Gagal mengambil data");
         const data = await res.json();
         setPortfolios(data);
