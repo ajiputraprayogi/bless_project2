@@ -146,7 +146,7 @@ export default function KontraktorPage() {
                         className="max-w-[220px] bg-white overflow-hidden flex-shrink-0 
                                    hover:shadow-[8px_8px_0_#2f3542] hover:-translate-y-1 
                                    transition-all duration-300 cursor-pointer rounded-md"
-                        onClick={() => router.push(`/portofolio/${group.type}`)}
+                        onClick={() => router.push(`/portofolio`)}
                       >
                         <div className="relative h-36 w-full">
                           <Image

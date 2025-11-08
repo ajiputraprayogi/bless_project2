@@ -114,7 +114,7 @@ export default function JasaKontraktorPage() {
                   {group.type}
                 </h2>
                 <button
-                  onClick={() => router.push(`/portofolio/${group.type}`)}
+                  onClick={() => router.push(`/portofolio`)}
                   className="text-orange-600 text-sm hover:underline"
                 >
                   Lihat Semua →
