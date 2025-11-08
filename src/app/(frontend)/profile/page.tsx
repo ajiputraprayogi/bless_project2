@@ -32,10 +32,10 @@ export default function ProfilPerusahaan() {
     <div className="relative bg-white min-h-screen flex flex-col">
       {/* Floating WA & Phone */}
       <div className="fixed bottom-5 right-5 z-50 flex flex-col gap-2">
-        <a href="tel:082287777600" target="_blank" className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center shadow-lg">
+        {/* <a href="tel:082287777600" target="_blank" className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center shadow-lg">
           <FaPhone className="text-white text-2xl" />
-        </a>
-        <a href="https://api.whatsapp.com/send?phone=6281555700600" target="_blank" className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center shadow-lg">
+        </a> */}
+        <a href="https://api.whatsapp.com/send?phone=6282224015802" target="_blank" className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center shadow-lg">
           <FaWhatsapp className="text-white text-2xl" />
         </a>
       </div>
