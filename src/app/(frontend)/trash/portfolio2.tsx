@@ -13,7 +13,7 @@ interface PortfolioItem {
   type: string;
 }
 
-const filterTypes = ["all", "arsitek", "kontraktor", "furnitur"];
+// const filterTypes = ["all", "arsitek", "kontraktor", "furnitur"];
 const filterButtons = [
   { label: "Semua", type: "all" },
   { label: "Desain Arsitek", type: "arsitek" },
@@ -68,7 +68,6 @@ export default function PortfolioPage() {
         </p>
       </div>
 
-      {/* Filter Buttons */}
 {/* Filter Buttons */}
 <div className="flex flex-wrap justify-center gap-3 mb-8">
   {filterButtons.map((btn) => (
@@ -91,7 +90,7 @@ export default function PortfolioPage() {
       {loading ? (
         <p className="text-center text-gray-500">Memuat portfolio...</p>
       ) : (
-        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-8">
           {portfolios.map((item, index) => (
             <motion.div
               key={index}
@@ -105,7 +104,7 @@ export default function PortfolioPage() {
                 setActiveImage(0);
               }}
             >
-              <div className="relative h-[280px] w-full overflow-hidden">
+              <div className="relative h-[500px] w-full overflow-hidden">
                 <Image
                   src={item.image}
                   alt={item.title}
