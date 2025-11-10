@@ -10,7 +10,7 @@ interface PortfolioItem {
   image: string;
 }
 
-export default function PortfolioPage() {
+export default function EksteriorPage() {
   const [portfolios, setPortfolios] = useState<PortfolioItem[]>([]);
   const [selected, setSelected] = useState<null | PortfolioItem>(null);
   const [loading, setLoading] = useState(true);
