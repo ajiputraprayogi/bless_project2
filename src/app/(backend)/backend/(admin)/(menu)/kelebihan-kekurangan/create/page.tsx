@@ -76,7 +76,7 @@ function CreateKelebihanKekurangan() {
               required
               value={judul}
               onChange={(e) => setJudul(e.target.value)}
-              placeholder="Masukkan judul (contoh: Mengapa Bless Architect ?)"
+              placeholder="Masukkan judul (contoh: Mengapa Bless Kontraktor ?)"
             />
           </div>
 

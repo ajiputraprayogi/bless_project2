@@ -63,7 +63,7 @@ export default function FurnitureHero() {
         >
           <p className="uppercase tracking-[3px] text-gray-300 mb-3">Layanan Kami</p>
           <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
-            Bless ARCHITECT – Jasa Arsitek Kontraktor dan Interior Furniture 
+            Bless Kontraktor – Jasa Arsitek Kontraktor dan Interior Furniture 
           </h1>
           <p className="text-gray-300 mb-6 leading-relaxed">
             Kami akan mewujudkan hunian dengan konsep desain yang bisa direquest sesuai keinginan

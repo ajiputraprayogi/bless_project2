@@ -47,7 +47,7 @@ export default function KontraktorPage() {
   }, []);
 
   // 🎯 Tipe utama
-  const mainTypes = ["interior", "rumah", "komersial", "konstruksi"];
+  const mainTypes = ["interior"];
 
   // 🧩 Ambil 5 gambar per type
   const filteredByType = mainTypes.map((type) => ({
@@ -84,7 +84,7 @@ export default function KontraktorPage() {
           transition={{ duration: 0.6 }}
           className="text-gray-700 mb-12"
         >
-            <p className="mb-4"> Sudah punya ide desain ruangan & mau merealisasikannya? Pakai jasa Desain Interior dan Furniture solusinya. Bless Architect melayani desain interior & furniture sehingga ide Anda dapat direalisasikan. </p> <p className="mb-4"> Kami melayani seluruh bentuk dan style hunian, pribadi maupun komersil dengan berbagai style seperti urban, eco, modern, tradisional, mediterania maupun bali, dan lainnya. Dengan pelayanan yang terstruktur dan terstandarisasi, kami melayani seluruh Indonesia. </p> <p> Jika sudah ada ide silahkan komunikasikan dengan kami tetapi jika belum Anda tidak perlu khawatir kami akan menentukan desain yang cocok bagi ruang interior Anda. Wujudkan Impian Interior Furniture Anda Bersama Bless Architect. </p>
+            <p className="mb-4"> Sudah punya ide desain ruangan & mau merealisasikannya? Pakai jasa Desain Interior dan Furniture solusinya. Bless Kontraktor melayani desain interior & furniture sehingga ide Anda dapat direalisasikan. </p> <p className="mb-4"> Kami melayani seluruh bentuk dan style hunian, pribadi maupun komersil dengan berbagai style seperti urban, eco, modern, tradisional, mediterania maupun bali, dan lainnya. Dengan pelayanan yang terstruktur dan terstandarisasi, kami melayani seluruh Indonesia. </p> <p> Jika sudah ada ide silahkan komunikasikan dengan kami tetapi jika belum Anda tidak perlu khawatir kami akan menentukan desain yang cocok bagi ruang interior Anda. Wujudkan Impian Interior Furniture Anda Bersama Bless Kontraktor. </p>
 <button
   onClick={() =>
     window.open(
@@ -107,7 +107,7 @@ export default function KontraktorPage() {
               {/* Judul Kategori */}
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-semibold text-gray-800 capitalize">
-                  {group.type}
+                  Interior & Furniture
                 </h2>
                 <button
                   onClick={() => router.push(`/portofolio`)}

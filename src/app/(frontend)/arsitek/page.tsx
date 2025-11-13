@@ -47,7 +47,7 @@ export default function JasaKontraktorPage() {
   }, []);
 
   // 🎯 Tipe utama
-  const mainTypes = ["interior", "rumah", "komersial", "konstruksi"];
+  const mainTypes = ["rumah"];
 
   // 🧩 Ambil 5 gambar per type
   const filteredByType = mainTypes.map((type) => ({
@@ -85,7 +85,7 @@ export default function JasaKontraktorPage() {
           className="text-gray-700 mb-12"
         >
           <p className="mb-4">
-            <strong>Bless Architect</strong> menyediakan layanan jasa arsitek
+            <strong>Bless Kontraktor</strong> menyediakan layanan jasa arsitek
             dengan tim profesional berpengalaman. Kami membantu Anda mendesain rumah, villa, kost, kantor, dan bangunan komersial lainnya.
           </p>
           <p className="mb-4">
@@ -94,13 +94,13 @@ export default function JasaKontraktorPage() {
           <p>
             Layanan tersedia untuk seluruh wilayah Indonesia. Konsultasi online mudah dan terpercaya — solusi terbaik mewujudkan rumah impian Anda.
           </p>
-<button
-  onClick={() => window.open("https://wa.me/6285176965609", "_blank")}
-  className="mt-4 px-5 py-3 bg-orange-600 text-white font-medium rounded-md 
+          <button
+            onClick={() => window.open("https://wa.me/6285176965609", "_blank")}
+            className="mt-4 px-5 py-3 bg-orange-600 text-white font-medium rounded-md 
              transition duration-300 ease-in-out transform hover:scale-105 hover:bg-orange-700"
->
-  Hubungi Kami
-</button>
+          >
+            Hubungi Kami
+          </button>
 
         </motion.div>
 
@@ -111,7 +111,7 @@ export default function JasaKontraktorPage() {
               {/* Judul Kategori */}
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-semibold text-gray-800 capitalize">
-                  {group.type}
+                  Arsitek
                 </h2>
                 <button
                   onClick={() => router.push(`/portofolio`)}

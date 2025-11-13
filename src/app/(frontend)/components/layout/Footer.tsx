@@ -23,15 +23,15 @@ export default function Footer() {
         <div className="space-y-4">
           <Image
             src="/images/brand/logos.png"
-            alt="Bless Architect Logo Footer"
+            alt="Bless Kontraktor Logo Footer"
             width={50}
             height={50}
           />
           <p className="text-white/90">
-            Bless Architect merupakan perusahaan konsultan jasa arsitek yang menyediakan jasa desain, kontraktor pembangunan, dan interior & furniture.
+            Bless Kontraktor merupakan perusahaan konsultan jasa arsitek yang menyediakan jasa desain, kontraktor pembangunan, dan interior & furniture.
           </p>
           <div className="flex gap-4 text-xl text-white/90">
-            <a href="https://www.instagram.com/Bless_architect/" target="_blank"><FaInstagram /></a>
+            <a href="https://www.instagram.com/Bless_Kontraktor/" target="_blank"><FaInstagram /></a>
             <a href="https://instagram.com/Bless_construction?utm_medium=copy_link" target="_blank"><FaInstagram /></a>
             <a href="https://www.facebook.com/jasaarsitek.kedirijawatimur" target="_blank"><FaFacebook /></a>
             <a href="https://www.tiktok.com/@Bless.arsitek?lang=id-ID" target="_blank"><FaTiktok /></a>

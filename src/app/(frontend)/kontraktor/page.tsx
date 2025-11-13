@@ -47,7 +47,7 @@ export default function KontraktorPage() {
   }, []);
 
   // 🎯 Tipe utama
-  const mainTypes = ["interior", "rumah", "komersial", "konstruksi"];
+  const mainTypes = ["konstruksi"];
 
   // 🧩 Ambil 5 gambar per type
   const filteredByType = mainTypes.map((type) => ({
@@ -84,7 +84,7 @@ export default function KontraktorPage() {
           transition={{ duration: 0.6 }}
           className="text-gray-700 mb-12"
         >
-          <p className="mb-4"> <strong>Bless Architect</strong> Bless Architect menyediakan jasa kontraktor pembangunan & renovasi segala jenis bangunan baik rumah, villa, ruko, kantor, dan lainnya. Kami berkomitmen memberikan hasil pembangunan bermutu bagus. Memperhatikan segi keindahan, kenyamanan, dan ketahanan bangunan adalah PRIORITAS kami. </p> <p className="mb-4"> Kami akan membantu Anda dalam melakukan renovasi rumah, baik berskala kecil seperti perbaikan atap yang bocor, perbaikan listrik, dan lainnya maupun berskala besar seperti renovasi total atau renovasi ruangan tertentu. </p> <p> Kami didukung dengan tenaga berpengalaman sehingga pekerjaan selesai tepat waktu dengan hasil maksimal. Harga dapat disesuaikan dengan budget klien silahkan Anda negosiasi dengan kami. </p>
+          <p className="mb-4"> <strong>Bless Kontraktor</strong> Bless Kontraktor menyediakan jasa kontraktor pembangunan & renovasi segala jenis bangunan baik rumah, villa, ruko, kantor, dan lainnya. Kami berkomitmen memberikan hasil pembangunan bermutu bagus. Memperhatikan segi keindahan, kenyamanan, dan ketahanan bangunan adalah PRIORITAS kami. </p> <p className="mb-4"> Kami akan membantu Anda dalam melakukan renovasi rumah, baik berskala kecil seperti perbaikan atap yang bocor, perbaikan listrik, dan lainnya maupun berskala besar seperti renovasi total atau renovasi ruangan tertentu. </p> <p> Kami didukung dengan tenaga berpengalaman sehingga pekerjaan selesai tepat waktu dengan hasil maksimal. Harga dapat disesuaikan dengan budget klien silahkan Anda negosiasi dengan kami. </p>
 <button
   onClick={() =>
     window.open(
@@ -107,7 +107,7 @@ export default function KontraktorPage() {
               {/* Judul Kategori */}
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-semibold text-gray-800 capitalize">
-                  {group.type}
+                  Kontraktor
                 </h2>
                 <button
                   onClick={() => router.push(`/portofolio/${group.type}`)}
