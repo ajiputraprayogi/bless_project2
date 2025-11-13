@@ -51,12 +51,14 @@ export default function ContactPage() {
 
   return (
     <>
-    <main className="min-h-screen w-full flex items-center justify-center bg-[#F7F4EF] text-[#2F3542] p-6 pt-[8rem] md:pt-[5rem]">
+    <main className="min-h-screen w-full flex items-center justify-center 
+             bg-[url('/images/design/1.png')] bg-cover bg-center bg-no-repeat 
+             text-[#2F3542] p-6 pt-[8rem] md:pt-[5rem]">
       <motion.section
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-5xl rounded-2xl shadow-md overflow-hidden border border-[#E4E6EB]"
+        className="relative w-full max-w-5xl rounded-2xl shadow-md overflow-hidden border border-[#E4E6EB] bg-[#F7F4EF]/90 backdrop-blur-md"
       >
         <div className="grid grid-cols-1 md:grid-cols-2">
           {/* Left - Info Brand */}
@@ -76,7 +78,7 @@ export default function ContactPage() {
                     Bless Design
                   </h1>
                   <p className="text-sm text-[#A4B0BE]">
-                    Modern architecture & interior design
+                    Modern Kontraktorure & interior design
                   </p>
                 </div>
               </div>

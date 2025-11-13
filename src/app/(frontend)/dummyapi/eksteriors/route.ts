@@ -80,6 +80,123 @@ const portfolioDB = [
     ],
     type: "furnitur",
   },
+    {
+    id: 7,
+    slug: "aurora-interior-suite",
+    name: "Arsitek 3",
+    description:
+      "Desain interior premium untuk hotel bintang lima dengan nuansa gold-modern.",
+    images: [
+      "/images/design/1.png",
+      "/images/design/2.png",
+      "/images/design/3.png",
+    ],
+    type: "arsitek",
+  },
+  {
+    id: 8,
+    slug: "harbor-point-complex",
+    name: "Kontraktor 3",
+    description:
+      "Pusat komersial multifungsi dengan area retail, kantor, dan rooftop lounge.",
+    images: [
+      "/images/design/4.png",
+      "/images/design/5.png",
+      "/images/design/6.png",
+    ],
+    type: "kontraktor",
+  },
+  {
+    id: 9,
+    slug: "motion-showcase",
+    name: "Furnitur 3",
+    description:
+      "Showreel animasi arsitektur yang menampilkan proyek-proyek unggulan.",
+    images: [
+      "/images/design/7.png",
+      "/images/design/8.png",
+      "/images/design/9.png",
+    ],
+    type: "furnitur",
+  },
+   {
+    id: 10,
+    slug: "aurora-office-space",
+    name: "Kontraktor 4",
+    description:
+      "Desain kantor modern dengan open space dan aksen natural.",
+    images: [
+      "/images/design/13.png",
+      "/images/design/14.png",
+      "/images/design/15.png",
+    ],
+    type: "kontraktor",
+  },
+  {
+    id: 11,
+    slug: "metropolis-center",
+    name: "Furnitur 4",
+    description:
+      "Pusat bisnis perkotaan dengan struktur baja ringan dan konsep green design.",
+    images: [
+      "/images/design/16.png",
+      "/images/design/17.png",
+      "/images/design/18.png",
+    ],
+    type: "furnitur",
+  },
+    {
+    id: 12,
+    slug: "aurora-interior-suite",
+    name: "Arsitek 4",
+    description:
+      "Desain interior premium untuk hotel bintang lima dengan nuansa gold-modern.",
+    images: [
+      "/images/design/1.png",
+      "/images/design/2.png",
+      "/images/design/3.png",
+    ],
+    type: "arsitek",
+  },
+  {
+    id: 13,
+    slug: "harbor-point-complex",
+    name: "Kontraktor 5",
+    description:
+      "Pusat komersial multifungsi dengan area retail, kantor, dan rooftop lounge.",
+    images: [
+      "/images/design/4.png",
+      "/images/design/5.png",
+      "/images/design/6.png",
+    ],
+    type: "kontraktor",
+  },
+  {
+    id: 14,
+    slug: "motion-showcase",
+    name: "Furnitur 5",
+    description:
+      "Showreel animasi arsitektur yang menampilkan proyek-proyek unggulan.",
+    images: [
+      "/images/design/7.png",
+      "/images/design/8.png",
+      "/images/design/9.png",
+    ],
+    type: "furnitur",
+  },
+    {
+    id: 1,
+    slug: "aurora-interior-suite",
+    name: "Arsitek 5",
+    description:
+      "Desain interior premium untuk hotel bintang lima dengan nuansa gold-modern.",
+    images: [
+      "/images/design/3.png",
+      "/images/design/1.png",
+      "/images/design/3.png",
+    ],
+    type: "arsitek",
+  },
 ];
 
 export async function GET(req: Request) {

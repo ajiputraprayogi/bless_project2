@@ -30,7 +30,7 @@ export default function OrderForm() {
     e.preventDefault();
 
     const pesan = `
-*Form Order Jasa Arsitek - Bless Architect*
+*Form Order Jasa Arsitek - Bless Kontraktor*
 --------------------------------
 1. Nama Lengkap: ${formData.nama}
 2. Email: ${formData.email}
@@ -52,7 +52,7 @@ export default function OrderForm() {
       <div className="w-full mx-auto grid gap-6 md:grid-cols-2">
         <div className="md:col-span-2 bg-transparent rounded-2xl p-6 md:p-10">
           <h1 className="text-3xl font-bold mb-8 text-center text-amber-600">
-            Form Order Bless Architect
+            Form Order Bless Kontraktor
           </h1>
 
           <form onSubmit={handleSubmit} className="grid gap-5">

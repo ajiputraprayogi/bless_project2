@@ -49,7 +49,7 @@ export default function ProfilPerusahaan() {
         />
         <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
           <h1 className="text-4xl md:text-5xl text-white text-center px-4">
-            Profil Perusahaan Bless Architect
+            Profil Perusahaan Bless Kontraktor
           </h1>
         </div>
       </section>
@@ -90,7 +90,7 @@ export default function ProfilPerusahaan() {
             <div className="bg-black p-4">
               <Image
                 src="/images/brand/logos.png"
-                alt="Bless Architect Logo"
+                alt="Bless Kontraktor Logo"
                 width={350}
                 height={120}
               />
@@ -140,16 +140,16 @@ export default function ProfilPerusahaan() {
           {/* Kanan: Teks */}
           <div className="text-gray-700 text-justify md:w-2/3 space-y-4">
             <p>
-              <strong>Bless Architect</strong> merupakan perusahaan konsultan jasa arsitek yang menyediakan jasa desain, kontraktor pembangunan, dan interior & furniture. Kami hadir di tengah-tengah Anda untuk membantu mendesain hunian serta keseluruhan ruang bangunan yang diinginkan.
+              <strong>Bless Kontraktor</strong> merupakan perusahaan konsultan jasa arsitek yang menyediakan jasa desain, kontraktor pembangunan, dan interior & furniture. Kami hadir di tengah-tengah Anda untuk membantu mendesain hunian serta keseluruhan ruang bangunan yang diinginkan.
             </p>
             <p>
-              <strong>Bless Architect</strong> telah berdiri sejak Juni 2014 dengan komitmen ingin membantu mewujudkan impian semua orang untuk memiliki hunian sesuai keinginan. Kami melayani jasa arsitek, kontraktor, dan interior & furniture  dengan dukungan tim solid profesional dan berpengalaman.
+              <strong>Bless Kontraktor</strong> telah berdiri sejak Juni 2014 dengan komitmen ingin membantu mewujudkan impian semua orang untuk memiliki hunian sesuai keinginan. Kami melayani jasa arsitek, kontraktor, dan interior & furniture  dengan dukungan tim solid profesional dan berpengalaman.
             </p>
             <p>
-              <strong>Bless Architect</strong> berpengalaman mendesain rumah, villa, perumahan, ruko, kampus, apartemen, spa, kantor, kos, guest house, kompleks villa, resort, hingga hotel. Semua desain mengikuti standar keamanan, kualitas terbaik, dan budget yang pas.
+              <strong>Bless Kontraktor</strong> berpengalaman mendesain rumah, villa, perumahan, ruko, kampus, apartemen, spa, kantor, kos, guest house, kompleks villa, resort, hingga hotel. Semua desain mengikuti standar keamanan, kualitas terbaik, dan budget yang pas.
             </p>
             <p>
-              <strong>Bless Architect</strong> selalu mengedepankan kualitas dan pelayanan terbaik demi membuat seluruh klien merasa puas. Wujudkan hunian yang indah dan nyaman bersama kami sekarang juga.
+              <strong>Bless Kontraktor</strong> selalu mengedepankan kualitas dan pelayanan terbaik demi membuat seluruh klien merasa puas. Wujudkan hunian yang indah dan nyaman bersama kami sekarang juga.
             </p>
           </div>
         </div>

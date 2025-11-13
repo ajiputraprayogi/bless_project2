@@ -40,7 +40,10 @@ export default function PortfolioPage() {
       );
       if (!res.ok) throw new Error("Gagal mengambil data");
       const data: PortfolioItem[] = await res.json();
-      setPortfolios(data);
+          // kalau "all", cuma ambil 3 pertama aja
+    const limitedData = type === "all" ? data.slice(0, 3) : data;
+
+    setPortfolios(limitedData);
     } catch (error) {
       console.error("Error fetching portfolio:", error);
     } finally {
@@ -162,7 +165,7 @@ export default function PortfolioPage() {
                       : 0
                   )
                 }
-                className="absolute left-6 top-1/2 -translate-y-1/2 text-white text-4xl font-bold bg-black/40 hover:bg-black/60 rounded-full px-3 py-1 transition"
+                className="absolute left-6 top-1/2 -translate-y-1/2 text-white text-4xl font-bold bg-black/40 hover:bg-black/60 px-3 py-1 transition"
               >
                 ‹
               </button>
@@ -176,7 +179,7 @@ export default function PortfolioPage() {
                       : 0
                   )
                 }
-                className="absolute right-6 top-1/2 -translate-y-1/2 text-white text-4xl font-bold bg-black/40 hover:bg-black/60 rounded-full px-3 py-1 transition"
+                className="absolute right-6 top-1/2 -translate-y-1/2 text-white text-4xl font-bold bg-black/40 hover:bg-black/60 px-3 py-1 transition"
               >
                 ›
               </button>
@@ -184,7 +187,7 @@ export default function PortfolioPage() {
               {/* Tombol Close */}
               <button
                 onClick={() => setSelectedIndex(null)}
-                className="absolute top-4 right-4 text-white bg-black/40 hover:bg-black/60 rounded-full p-2 transition"
+                className="absolute top-4 right-4 text-white  p-2 transition"
               >
                 ✕
               </button>
@@ -193,17 +196,25 @@ export default function PortfolioPage() {
               {selected.images?.length > 1 && (
                 <button
                   onClick={() => setShowSlider(true)}
-                  className="absolute top-4 left-4 bg-[#BFA98E]/90 hover:bg-[#A88E72] text-white px-4 py-2 rounded-full text-sm font-medium shadow-md transition"
+                  className="z-99 absolute -bottom-8 right-4 bg-white/90 hover:bg-[#A88E72] text-black px-4 py-2 rounded-full text-sm font-medium shadow-md transition"
                 >
-                  Lihat Detail
+                  Selengkapnya
                 </button>
               )}
 
               {/* Caption */}
-              <div className="absolute bottom-6 left-0 right-0 text-center text-white">
-                <h3 className="text-xl font-semibold">{selected.title}</h3>
-                <p className="text-sm text-gray-300 mt-1">{selected.subtitle}</p>
-              </div>
+{/* 🏷️ Caption (seragam di semua layar) */}
+<div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 w-[90%] sm:w-[80%] md:w-[70%] lg:w-[60%] md:backdrop-blur-lg bg-black/30 text-white rounded-lg px-4 py-3 text-center shadow-lg">
+  <h3 className="text-base sm:text-lg font-semibold">
+    {selected.title} {showSlider && `— Pose ${activeImage + 1}`}
+  </h3>
+  <p className="text-xs sm:text-sm mt-1 opacity-90">
+    {selected.subtitle || (showSlider && `Foto tampilan ${activeImage + 1}`)}
+  </p>
+</div>
+
+
+
             </motion.div>
           </motion.div>
         )}
@@ -217,24 +228,32 @@ export default function PortfolioPage() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      onClick={() => setShowSlider(false)} // ⬅️ sekarang cuma nutup slider, gak reset selected
+      onClick={() => setShowSlider(false)}
     >
       <motion.div
-        className="relative w-[90%] max-w-5xl h-[80vh]"
+        className="relative w-[95%] sm:w-[90%] md:w-[80%] lg:max-w-5xl h-[70vh] sm:h-[75vh] md:h-[80vh]"
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.95, opacity: 0 }}
         transition={{ duration: 0.3 }}
         onClick={(e) => e.stopPropagation()}
       >
-        <Image
-          src={selected.images[activeImage]}
-          alt={selected.title}
-          fill
-          className="object-contain rounded-lg"
-        />
+        {/* 🖼️ Gambar utama */}
+        <div className="relative w-full h-full rounded-lg overflow-hidden flex items-center justify-center bg-black/30">
+          <Image
+            src={selected.images[activeImage]}
+            alt={selected.title}
+            fill
+            priority
+            className="object-contain md:object-cover rounded-lg transition-all duration-300"
+            sizes="(max-width: 640px) 95vw, (max-width: 1024px) 80vw, 70vw"
+          />
 
-        {/* Tombol Navigasi */}
+          {/* 🌈 Gradient overlay (biar teks kontras tapi halus) */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent pointer-events-none" />
+        </div>
+
+        {/* ⬅️ Tombol Navigasi */}
         {selected.images.length > 1 && (
           <>
             <button
@@ -243,40 +262,49 @@ export default function PortfolioPage() {
                   prev === 0 ? selected.images.length - 1 : prev - 1
                 )
               }
-              className="absolute left-6 top-1/2 -translate-y-1/2 text-white text-3xl font-bold bg-black/40 hover:bg-black/60 rounded-full px-3 py-1 transition"
+              className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 text-white text-2xl sm:text-3xl font-bold bg-black/40 hover:bg-black/60 px-2 sm:px-3 py-1 transition"
             >
               ‹
             </button>
+
             <button
               onClick={() =>
                 setActiveImage((prev) =>
                   prev === selected.images.length - 1 ? 0 : prev + 1
                 )
               }
-              className="absolute right-6 top-1/2 -translate-y-1/2 text-white text-3xl font-bold bg-black/40 hover:bg-black/60 rounded-full px-3 py-1 transition"
+              className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 text-white text-2xl sm:text-3xl font-bold bg-black/40 hover:bg-black/60 px-2 sm:px-3 py-1 transition"
             >
               ›
             </button>
           </>
         )}
 
-        {/* Tombol Close balik ke modal pertama */}
+        {/* ❌ Tombol Close */}
         <button
-          onClick={() => setShowSlider(false)} // ⬅️ balik ke modal pertama
-          className="absolute top-4 right-4 text-white bg-black/40 hover:bg-black/60 rounded-full p-2 transition"
+          onClick={() => setShowSlider(false)}
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 text-white p-1.5 sm:p-2 transition"
         >
           ✕
         </button>
 
-        {/* Caption */}
-        {/* <div className="absolute bottom-6 left-0 right-0 text-center text-white">
-          <h3 className="text-xl font-semibold">{selected.title}</h3>
-          <p className="text-sm text-gray-300 mt-1">{selected.subtitle}</p>
-        </div> */}
+        {/* 🏷️ Caption Responsif */}
+{/* 🏷️ Caption (seragam di semua layar) */}
+<div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 w-[90%] sm:w-[80%] md:w-[70%] lg:w-[60%] backdrop-blur-lg text-white rounded-lg px-4 py-3 text-center shadow-lg">
+  <h3 className="text-base sm:text-lg font-semibold">
+    {selected.title} {showSlider && `— Pose ${activeImage + 1}`}
+  </h3>
+  <p className="text-xs sm:text-sm mt-1 opacity-90">
+    {selected.subtitle || (showSlider && `Foto tampilan ${activeImage + 1}`)}
+  </p>
+</div>
+
       </motion.div>
     </motion.div>
   )}
 </AnimatePresence>
+
+
 
     </main>
   );

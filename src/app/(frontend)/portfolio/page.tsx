@@ -69,22 +69,21 @@ export default function PortfolioPage() {
       </div>
 
       {/* Filter Buttons */}
-{/* Filter Buttons */}
-<div className="flex flex-wrap justify-center gap-3 mb-8">
-  {filterButtons.map((btn) => (
-    <button
-      key={btn.type}
-      onClick={() => setActiveType(btn.type)}
-      className={`px-4 py-2 rounded-full font-medium transition ${
-        activeType === btn.type
-          ? "bg-[#BFA98E] text-white"
-          : "bg-white text-gray-700 hover:bg-[#D9C8AA]"
-      }`}
-    >
-      {btn.label}
-    </button>
-  ))}
-</div>
+      {/* Filter Buttons */}
+      <div className="flex flex-wrap justify-center gap-3 mb-8">
+        {filterButtons.map((btn) => (
+          <button
+            key={btn.type}
+            onClick={() => setActiveType(btn.type)}
+            className={`px-4 py-2 rounded-full font-medium transition ${activeType === btn.type
+                ? "bg-[#BFA98E] text-white"
+                : "bg-white text-gray-700 hover:bg-[#D9C8AA]"
+              }`}
+          >
+            {btn.label}
+          </button>
+        ))}
+      </div>
 
 
       {/* Grid Card */}
@@ -194,9 +193,9 @@ export default function PortfolioPage() {
               {selected.images?.length > 1 && (
                 <button
                   onClick={() => setShowSlider(true)}
-                  className="absolute top-4 left-4 bg-[#BFA98E]/90 hover:bg-[#A88E72] text-white px-4 py-2 rounded-full text-sm font-medium shadow-md transition"
+                  className="z-99 absolute bottom-4 right-4 bg-white text-black px-4 py-2 rounded-full text-sm font-medium shadow-md transition"
                 >
-                  Lihat Detail
+                  Selengkapnya
                 </button>
               )}
 
@@ -210,74 +209,74 @@ export default function PortfolioPage() {
         )}
       </AnimatePresence>
 
-{/* MODAL #2 (Full Slider) */}
-<AnimatePresence>
-  {selected && showSlider && (
-    <motion.div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      onClick={() => setShowSlider(false)} // ⬅️ sekarang cuma nutup slider, gak reset selected
-    >
-      <motion.div
-        className="relative w-[90%] max-w-5xl h-[80vh]"
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.95, opacity: 0 }}
-        transition={{ duration: 0.3 }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <Image
-          src={selected.images[activeImage]}
-          alt={selected.title}
-          fill
-          className="object-contain rounded-lg"
-        />
-
-        {/* Tombol Navigasi */}
-        {selected.images.length > 1 && (
-          <>
-            <button
-              onClick={() =>
-                setActiveImage((prev) =>
-                  prev === 0 ? selected.images.length - 1 : prev - 1
-                )
-              }
-              className="absolute left-6 top-1/2 -translate-y-1/2 text-white text-3xl font-bold bg-black/40 hover:bg-black/60 rounded-full px-3 py-1 transition"
+      {/* MODAL #2 (Full Slider) */}
+      <AnimatePresence>
+        {selected && showSlider && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowSlider(false)} // ⬅️ sekarang cuma nutup slider, gak reset selected
+          >
+            <motion.div
+              className="relative w-[90%] max-w-5xl h-[80vh]"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              onClick={(e) => e.stopPropagation()}
             >
-              ‹
-            </button>
-            <button
-              onClick={() =>
-                setActiveImage((prev) =>
-                  prev === selected.images.length - 1 ? 0 : prev + 1
-                )
-              }
-              className="absolute right-6 top-1/2 -translate-y-1/2 text-white text-3xl font-bold bg-black/40 hover:bg-black/60 rounded-full px-3 py-1 transition"
-            >
-              ›
-            </button>
-          </>
-        )}
+              <Image
+                src={selected.images[activeImage]}
+                alt={selected.title}
+                fill
+                className="object-contain rounded-lg"
+              />
 
-        {/* Tombol Close balik ke modal pertama */}
-        <button
-          onClick={() => setShowSlider(false)} // ⬅️ balik ke modal pertama
-          className="absolute top-4 right-4 text-white bg-black/40 hover:bg-black/60 rounded-full p-2 transition"
-        >
-          ✕
-        </button>
+              {/* Tombol Navigasi */}
+              {selected.images.length > 1 && (
+                <>
+                  <button
+                    onClick={() =>
+                      setActiveImage((prev) =>
+                        prev === 0 ? selected.images.length - 1 : prev - 1
+                      )
+                    }
+                    className="absolute left-6 top-1/2 -translate-y-1/2 text-white text-3xl font-bold bg-black/40 hover:bg-black/60 rounded-full px-3 py-1 transition"
+                  >
+                    ‹
+                  </button>
+                  <button
+                    onClick={() =>
+                      setActiveImage((prev) =>
+                        prev === selected.images.length - 1 ? 0 : prev + 1
+                      )
+                    }
+                    className="absolute right-6 top-1/2 -translate-y-1/2 text-white text-3xl font-bold bg-black/40 hover:bg-black/60 rounded-full px-3 py-1 transition"
+                  >
+                    ›
+                  </button>
+                </>
+              )}
 
-        {/* Caption */}
-        {/* <div className="absolute bottom-6 left-0 right-0 text-center text-white">
+              {/* Tombol Close balik ke modal pertama */}
+              <button
+                onClick={() => setShowSlider(false)} // ⬅️ balik ke modal pertama
+                className="absolute top-4 right-4 text-white bg-black/40 hover:bg-black/60 rounded-full p-2 transition"
+              >
+                ✕
+              </button>
+
+              {/* Caption */}
+              {/* <div className="absolute bottom-6 left-0 right-0 text-center text-white">
           <h3 className="text-xl font-semibold">{selected.title}</h3>
           <p className="text-sm text-gray-300 mt-1">{selected.subtitle}</p>
         </div> */}
-      </motion.div>
-    </motion.div>
-  )}
-</AnimatePresence>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
     </main>
   );
