@@ -26,7 +26,15 @@ export default function Navbar({
         { label: "Profil Perusahaan", href: "/profile" },
       ],
     },
-    { label: "Portfolio", href: "/portfolio" },
+    // { label: "Portfolio", href: "/portfolio" },
+    {
+      label: "Portfolio",
+      dropdown: [
+        { label: "Arsitek", href: "/desainarsitek" },
+        { label: "Kontraktor", href: "/desainkontraktor" },
+        { label: "Interior & Furniture", href: "/desaininterior" },
+      ],
+    },
     { label: "Testimoni", href: "/testimoni" },
     { label: "Kontak", href: "/kontak" },
   ],

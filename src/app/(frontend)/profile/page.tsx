@@ -97,7 +97,7 @@ export default function ProfilPerusahaan() {
             </div>
 
             {/* Kotak Portofolio 2x2 */}
-            <div className="grid grid-cols-2 gap-2 w-full">
+            {/* <div className="grid grid-cols-2 gap-2 w-full">
               <div className="bg-gray-200 h-30">
                 <Image
                   src="/images/design/1.png"
@@ -134,11 +134,11 @@ export default function ProfilPerusahaan() {
                   className="object-cover w-full h-full"
                 />
               </div>
-            </div>
+            </div> */}
           </div>
 
           {/* Kanan: Teks */}
-          <div className="text-gray-700 text-justify md:w-2/3 space-y-4">
+          <div className="text-gray-700 text-justify md:w-2/3 space-y-4 text-2md">
             <p>
               <strong>Bless Kontraktor</strong> merupakan perusahaan konsultan jasa arsitek yang menyediakan jasa desain, kontraktor pembangunan, dan interior & furniture. Kami hadir di tengah-tengah Anda untuk membantu mendesain hunian serta keseluruhan ruang bangunan yang diinginkan.
             </p>

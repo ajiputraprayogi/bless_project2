@@ -5,7 +5,7 @@ const portfolioDB = [
   {
     id: 1,
     slug: "aurora-interior-suite",
-    name: "Arsitek 1",
+    name: "Rumah Pak Bayan",
     description:
       "Desain interior premium untuk hotel bintang lima dengan nuansa gold-modern.",
     images: [
@@ -18,7 +18,7 @@ const portfolioDB = [
   {
     id: 2,
     slug: "harbor-point-complex",
-    name: "Kontraktor 1",
+    name: "Rumah Pak Hugo",
     description:
       "Pusat komersial multifungsi dengan area retail, kantor, dan rooftop lounge.",
     images: [
@@ -31,7 +31,7 @@ const portfolioDB = [
   {
     id: 3,
     slug: "motion-showcase",
-    name: "Furnitur 1",
+    name: "Rumah Ibu Isti",
     description:
       "Showreel animasi arsitektur yang menampilkan proyek-proyek unggulan.",
     images: [
@@ -44,7 +44,7 @@ const portfolioDB = [
   {
     id: 4,
     slug: "lakeview-villa",
-    name: "Arsitek 2",
+    name: "Rumah Pak Hasan",
     description:
       "Villa tepi danau dengan fasad kaca penuh untuk menikmati panorama alam.",
     images: [
@@ -57,7 +57,7 @@ const portfolioDB = [
   {
     id: 5,
     slug: "aurora-office-space",
-    name: "Kontraktor 2",
+    name: "Rumah Kak Icha",
     description:
       "Desain kantor modern dengan open space dan aksen natural.",
     images: [
@@ -70,7 +70,7 @@ const portfolioDB = [
   {
     id: 6,
     slug: "metropolis-center",
-    name: "Furnitur 2",
+    name: "Rumah Kak Seto",
     description:
       "Pusat bisnis perkotaan dengan struktur baja ringan dan konsep green design.",
     images: [
@@ -83,7 +83,7 @@ const portfolioDB = [
     {
     id: 7,
     slug: "aurora-interior-suite",
-    name: "Arsitek 3",
+    name: "Rumah Kak Alex",
     description:
       "Desain interior premium untuk hotel bintang lima dengan nuansa gold-modern.",
     images: [
@@ -96,7 +96,7 @@ const portfolioDB = [
   {
     id: 8,
     slug: "harbor-point-complex",
-    name: "Kontraktor 3",
+    name: "Rumah Pak Joko",
     description:
       "Pusat komersial multifungsi dengan area retail, kantor, dan rooftop lounge.",
     images: [
@@ -109,7 +109,7 @@ const portfolioDB = [
   {
     id: 9,
     slug: "motion-showcase",
-    name: "Furnitur 3",
+    name: "Rumah Pak Rudi",
     description:
       "Showreel animasi arsitektur yang menampilkan proyek-proyek unggulan.",
     images: [
@@ -122,7 +122,7 @@ const portfolioDB = [
    {
     id: 10,
     slug: "aurora-office-space",
-    name: "Kontraktor 4",
+    name: "Rumah Pak Leman",
     description:
       "Desain kantor modern dengan open space dan aksen natural.",
     images: [
@@ -135,7 +135,7 @@ const portfolioDB = [
   {
     id: 11,
     slug: "metropolis-center",
-    name: "Furnitur 4",
+    name: "Rumah Ibu Sari",
     description:
       "Pusat bisnis perkotaan dengan struktur baja ringan dan konsep green design.",
     images: [
@@ -148,7 +148,7 @@ const portfolioDB = [
     {
     id: 12,
     slug: "aurora-interior-suite",
-    name: "Arsitek 4",
+    name: "Rumah Pak Helman",
     description:
       "Desain interior premium untuk hotel bintang lima dengan nuansa gold-modern.",
     images: [
@@ -161,7 +161,7 @@ const portfolioDB = [
   {
     id: 13,
     slug: "harbor-point-complex",
-    name: "Kontraktor 5",
+    name: "Rumah Pak Budi",
     description:
       "Pusat komersial multifungsi dengan area retail, kantor, dan rooftop lounge.",
     images: [
@@ -174,7 +174,7 @@ const portfolioDB = [
   {
     id: 14,
     slug: "motion-showcase",
-    name: "Furnitur 5",
+    name: "Rumah Pak Hotman",
     description:
       "Showreel animasi arsitektur yang menampilkan proyek-proyek unggulan.",
     images: [
@@ -185,9 +185,9 @@ const portfolioDB = [
     type: "furnitur",
   },
     {
-    id: 1,
+    id: 15,
     slug: "aurora-interior-suite",
-    name: "Arsitek 5",
+    name: "Rumah Pak Daniel",
     description:
       "Desain interior premium untuk hotel bintang lima dengan nuansa gold-modern.",
     images: [
@@ -211,6 +211,7 @@ export async function GET(req: Request) {
 
     // Format respons untuk komponen React
     const projects = filtered.map((proj) => ({
+      id: proj.id,
       title: proj.name,
       subtitle: proj.description,
       image: proj.images[0], // tampilan thumbnail default

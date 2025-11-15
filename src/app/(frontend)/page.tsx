@@ -7,7 +7,7 @@ import FurnitureHero from "./components/section/home/furniture";
 import AboutStatsPage from "./components/section/home/satisfied";
 import KelebihanKekuranganPage from "./components/section/kelebihan";
 import WhyChooseUs from "./components/atomic/PilihKami";
-import PortfolioPage from "./trash/portfolio2";
+import PortfolioPage from "./trash/portfolio1";
 
 export default function HomePage() {
   const sectionRef = useRef<HTMLDivElement | null>(null);
