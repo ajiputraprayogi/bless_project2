@@ -3,56 +3,46 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
-interface ProjectItem {
+interface Project {
   id: number;
-  title: string;
-  img: string;
-  youtube: string; // YouTube embed link
-  type?: string;
+  slug: string;
+  name: string;
+  description: string;
+  images: string[];
+  type: string;
 }
 
-export default function ArsitekPage() {
-  const [projects, setProjects] = useState<ProjectItem[]>([]);
+export default function ComercialPage() {
+  const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [resetKey, setResetKey] = useState(0);
+  const router = useRouter();
 
-  // Dummy API embedded
-const dummyData: ProjectItem[] = [
-  {
-    id: 1,
-    title: "Animasi Interior",
-    img: "https://img.youtube.com/vi/590cp7MV--Q/hqdefault.jpg",
-    youtube: "https://www.youtube.com/embed/590cp7MV--Q",
-    type: "Animasi",
-  },
-  {
-    id: 2,
-    title: "Animasi Rumah 2",
-    img: "https://img.youtube.com/vi/590cp7MV--Q/hqdefault.jpg",
-    youtube: "https://www.youtube.com/embed/590cp7MV--Q",
-    type: "Animasi",
-  },
-];
+useEffect(() => {
+  async function fetchProjects() {
+    try {
+      const res = await fetch("/api/portofolio/eksteriors");
+      if (!res.ok) throw new Error("Failed to fetch portfolio data");
+      const data: Project[] = await res.json();
 
+      // Filter hanya tipe arsitek
+      const filtered = data.filter((item) => item.type === "animasi");
 
-  // Fetch dummy API
-  useEffect(() => {
-    async function fetchProjects() {
-      try {
-        // Simulasi fetch
-        await new Promise((r) => setTimeout(r, 500));
-        setProjects(dummyData);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
+      setProjects(filtered);
+    } catch (err) {
+      console.error("Error fetching data:", err);
+    } finally {
+      setLoading(false);
     }
-    fetchProjects();
-  }, []);
+  }
 
-  // Reset animation when scrolled to top
+  fetchProjects();
+}, []);
+
+
+  // Reset animasi pas scroll ke atas
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY === 0) setResetKey((prev) => prev + 1);
@@ -73,7 +63,7 @@ const dummyData: ProjectItem[] = [
 
   return (
     <>
-      {/* Hero Section */}
+      {/* HERO */}
       <section className="relative w-full h-[50vh]">
         <Image
           src="/images/design/2.png"
@@ -83,57 +73,61 @@ const dummyData: ProjectItem[] = [
         />
         <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
           <h1 className="text-4xl md:text-5xl text-white text-center px-4 font-semibold">
-            Desain Animasi
+            Desain Animasi 3D
           </h1>
         </div>
       </section>
 
-      {/* Portfolio Section */}
-      <section key={resetKey} className="py-20 max-w-6xl mx-auto px-6 mt-3">
+      {/* PORTFOLIO */}
+      <section
+        key={resetKey}
+        className="bg-black py-20 max-w-full mx-auto px-6 mt-3"
+      >
         <div className="text-center mb-12">
-          <p className="text-sm tracking-[3px] text-[#A4B0BE] uppercase">
+          <p className="text-sm tracking-[3px] text-gray-200 uppercase">
             Portfolio
           </p>
-          <h2 className="text-3xl md:text-4xl font-semibold text-[#2F3542]">
+          <h2 className="text-3xl md:text-4xl font-semibold text-white">
             Portofolio Bless
           </h2>
         </div>
 
-        {/* Grid of Projects */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* GRID */}
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-6">
           {projects.map((item, index) => (
             <motion.div
               key={item.id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="group cursor-pointer"
+              className={`
+                group cursor-pointer bg-white rounded-xl shadow-md overflow-hidden
+                ${index % 2 === 1 ? "translate-y-4 sm:translate-y-0" : ""}
+              `}
+              onClick={() => router.push(`/portfolio/${item.slug}`)}
             >
-              <div className="relative h-[280px] w-full overflow-hidden shadow-md bg-[#DFE4EA]">
+              {/* IMAGE */}
+              <div className="relative w-full h-[220px] sm:h-[260px] md:h-[300px] lg:h-[340px] overflow-hidden">
                 <Image
-                  src={item.img}
-                  alt={item.title}
+                  src={item.images[0]}       // <= FIX UTAMA
+                  alt={item.name}
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                 />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-all duration-500">
-                  <div className="absolute bottom-5 left-5 opacity-0 group-hover:opacity-100 transition-all duration-500">
-                    <h3 className="text-lg md:text-xl font-semibold text-white drop-shadow-md">
-                      {item.title}
-                    </h3>
-                    {item.type && (
-                      <p className="text-sm text-gray-300">{item.type}</p>
-                    )}
-                  </div>
-                </div>
-                {/* Youtube embed */}
-                <a
-                  href={item.youtube}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="absolute inset-0"
-                ></a>
+
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-500" />
+              </div>
+
+              {/* DESCRIPTION */}
+              <div className="px-4 py-2">
+                <h3 className="text-sm md:text-base font-semibold text-gray-800">
+                  {item.name}
+                </h3>
+
+                <p className="text-xs md:text-sm text-gray-500 mt-1">
+                  {item.type}
+                </p>
               </div>
             </motion.div>
           ))}

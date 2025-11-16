@@ -561,6 +561,18 @@ const portfolioDB = [
   ],
   type: "arsitek",
 },
+{
+  id: 46,
+  slug: "eksterior-15",
+  name: "Animasi",
+  description: "Rumah modern futuristik dengan pencahayaan LED.",
+  images: [
+    "/images/design/eks15.png",
+    "/images/design/eks1.png",
+    "/images/design/eks2.png"
+  ],
+  type: "animasi",
+},
 
 ];
 

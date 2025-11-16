@@ -2,15 +2,14 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 
 interface Project {
   id: number;
   slug: string;
-  title: string;
-  subtitle: string;
-  image: string;
+  name: string;
+  description: string;
   images: string[];
   type: string;
 }
@@ -21,25 +20,29 @@ export default function ComercialPage() {
   const [resetKey, setResetKey] = useState(0);
   const router = useRouter();
 
-  // Fetch portfolio data dari API tipe komersial
-  useEffect(() => {
-    async function fetchProjects() {
-      try {
-        const res = await fetch("/dummyapi/eksteriors?type=arsitek");
-        if (!res.ok) throw new Error("Failed to fetch portfolio data");
-        const data: Project[] = await res.json();
-        setProjects(data);
-      } catch (err) {
-        console.error("Error fetching data:", err);
-      } finally {
-        setLoading(false);
-      }
+useEffect(() => {
+  async function fetchProjects() {
+    try {
+      const res = await fetch("/api/portofolio/eksteriors");
+      if (!res.ok) throw new Error("Failed to fetch portfolio data");
+      const data: Project[] = await res.json();
+
+      // Filter hanya tipe arsitek
+      const filtered = data.filter((item) => item.type === "arsitek");
+
+      setProjects(filtered);
+    } catch (err) {
+      console.error("Error fetching data:", err);
+    } finally {
+      setLoading(false);
     }
+  }
 
-    fetchProjects();
-  }, []);
+  fetchProjects();
+}, []);
 
-  // Reset animasi pas scroll ke top
+
+  // Reset animasi pas scroll ke atas
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY === 0) setResetKey((prev) => prev + 1);
@@ -60,7 +63,7 @@ export default function ComercialPage() {
 
   return (
     <>
-      {/* Hero Section */}
+      {/* HERO */}
       <section className="relative w-full h-[50vh]">
         <Image
           src="/images/design/2.png"
@@ -75,19 +78,22 @@ export default function ComercialPage() {
         </div>
       </section>
 
-      {/* Portfolio Section */}
-      <section key={resetKey} className="py-20 max-w-6xl mx-auto px-6 mt-3">
+      {/* PORTFOLIO */}
+      <section
+        key={resetKey}
+        className="bg-black py-20 max-w-full mx-auto px-6 mt-3"
+      >
         <div className="text-center mb-12">
-          <p className="text-sm tracking-[3px] text-[#A4B0BE] uppercase">
+          <p className="text-sm tracking-[3px] text-gray-200 uppercase">
             Portfolio
           </p>
-          <h2 className="text-3xl md:text-4xl font-semibold text-[#2F3542]">
+          <h2 className="text-3xl md:text-4xl font-semibold text-white">
             Portofolio Arsitek
           </h2>
         </div>
 
-        {/* Grid of Projects */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* GRID */}
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-6">
           {projects.map((item, index) => (
             <motion.div
               key={item.id}
@@ -95,26 +101,33 @@ export default function ComercialPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="group cursor-pointer"
+              className={`
+                group cursor-pointer bg-white rounded-xl shadow-md overflow-hidden
+                ${index % 2 === 1 ? "translate-y-4 sm:translate-y-0" : ""}
+              `}
               onClick={() => router.push(`/portfolio/${item.slug}`)}
             >
-              <div className="relative h-[280px] w-full overflow-hidden shadow-md bg-[#DFE4EA]">
+              {/* IMAGE */}
+              <div className="relative w-full h-[220px] sm:h-[260px] md:h-[300px] lg:h-[340px] overflow-hidden">
                 <Image
-                  src={item.image}
-                  alt={item.title}
+                  src={item.images[0]}       // <= FIX UTAMA
+                  alt={item.name}
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                 />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-all duration-500">
-                  <div className="absolute bottom-5 left-5 opacity-0 group-hover:opacity-100 transition-all duration-500">
-                    <h3 className="text-lg md:text-xl font-semibold text-white drop-shadow-md">
-                      {item.title}
-                    </h3>
-                    {item.type && (
-                      <p className="text-sm text-gray-300">{item.type}</p>
-                    )}
-                  </div>
-                </div>
+
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-500" />
+              </div>
+
+              {/* DESCRIPTION */}
+              <div className="px-4 py-2">
+                <h3 className="text-sm md:text-base font-semibold text-gray-800">
+                  {item.name}
+                </h3>
+
+                <p className="text-xs md:text-sm text-gray-500 mt-1">
+                  {item.type}
+                </p>
               </div>
             </motion.div>
           ))}
