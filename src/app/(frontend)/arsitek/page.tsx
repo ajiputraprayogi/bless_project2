@@ -8,8 +8,9 @@ import { useRouter } from "next/navigation";
 interface PortfolioItem {
   id: number;
   title: string;
-  img: string;
-  desc: string;
+  subtitle: string;
+  image: string;
+  images: string[];
   type: string;
 }
 
@@ -19,23 +20,15 @@ export default function JasaKontraktorPage() {
   const [portfolioList, setPortfolioList] = useState<PortfolioItem[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // 🔥 Fetch data dari API dummy
+  // 🔥 Fetch data dari API
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("/dummyapi/portofolio");
+        const res = await fetch("/dummyapi/eksteriors?type=arsitek"); // pakai filter type langsung
         if (!res.ok) throw new Error("Gagal mengambil data dari API");
 
-        const data = await res.json();
-        const mapped: PortfolioItem[] = data.map((item: any) => ({
-          id: item.id,
-          title: item.title,
-          img: item.img,
-          desc: item.desc,
-          type: item.type,
-        }));
-
-        setPortfolioList(mapped);
+        const data: PortfolioItem[] = await res.json();
+        setPortfolioList(data);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -45,15 +38,6 @@ export default function JasaKontraktorPage() {
 
     fetchData();
   }, []);
-
-  // 🎯 Tipe utama
-  const mainTypes = ["rumah"];
-
-  // 🧩 Ambil 5 gambar per type
-  const filteredByType = mainTypes.map((type) => ({
-    type,
-    items: portfolioList.filter((p) => p.type === type).slice(0, 5),
-  }));
 
   // Fungsi scroll horizontal
   const scrollLeft = () => scrollRef.current?.scrollBy({ left: -300, behavior: "smooth" });
@@ -101,92 +85,60 @@ export default function JasaKontraktorPage() {
           >
             Hubungi Kami
           </button>
-
         </motion.div>
 
-        {/* LOOP KATEGORI */}
-        {filteredByType.map((group) =>
-          group.items.length > 0 ? (
-            <div key={group.type} className="mb-16">
-              {/* Judul Kategori */}
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-semibold text-gray-800 capitalize">
-                  Arsitek
-                </h2>
-                <button
-                  onClick={() => router.push(`/portofolio`)}
-                  className="text-orange-600 text-sm hover:underline"
-                >
-                  Lihat Semua →
-                </button>
-              </div>
+        {/* SLIDER PORTFOLIO */}
+        <div className="mb-16">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-2xl font-semibold text-gray-800 capitalize">
+              Arsitek
+            </h2>
+            <button
+              onClick={() => router.push(`/desainarsitek`)}
+              className="text-orange-600 text-sm hover:underline"
+            >
+              Lihat Semua →
+            </button>
+          </div>
 
-              {/* SLIDER */}
-              <div className="relative">
-                {/* Tombol geser kiri */}
-                {/* <button
-                  onClick={scrollLeft}
-                  className="absolute left-0 top-1/2 -translate-y-1/2 bg-white shadow p-2 z-10 hover:bg-gray-100 transition backdrop-blur-lg rounded-full"
-                >
-                  ◀
-                </button> */}
-
-                <div
-                  ref={scrollRef}
-                  className="flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth py-2"
-                >
-                  {loading ? (
-                    <div className="flex items-center justify-center w-full text-gray-400 py-12">
-                      Loading...
-                    </div>
-                  ) : (
-                    group.items.map((item, idx) => (
-                      <motion.div
-                        key={item.id}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: idx * 0.1 }}
-                        className="max-w-[220px] bg-white overflow-hidden flex-shrink-0 
-                                   hover:shadow-[8px_8px_0_#2f3542] hover:-translate-y-1 
-                                   transition-all duration-300 cursor-pointer rounded-md"
-                        onClick={() => router.push(`/portofolio/${group.type}`)}
-                      >
-                        <div className="relative h-36 w-full">
-                          <Image
-                            src={item.img}
-                            alt={item.title}
-                            fill
-                            className="object-cover"
-                          />
-                          <div className="absolute top-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded-md">
-                            {group.type}
-                          </div>
-                        </div>
-                        <div className="p-3">
-                          <h3 className="font-semibold text-gray-800 capitalize truncate">
-                            {item.title}
-                          </h3>
-                          <p className="text-sm text-gray-500 mt-1 line-clamp-2">
-                            {item.desc || "Tidak ada deskripsi."}
-                          </p>
-                        </div>
-                      </motion.div>
-                    ))
-                  )}
+          <div className="relative">
+            <div
+              ref={scrollRef}
+              className="flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth py-2"
+            >
+              {loading ? (
+                <div className="flex items-center justify-center w-full text-gray-400 py-12">
+                  Loading...
                 </div>
+              ) : (
+                portfolioList.map((item, idx) => (
+                  <motion.div
+  key={item.id}
+  initial={{ opacity: 0, y: 20 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  transition={{ duration: 0.5, delay: idx * 0.1 }}
+  className="w-[220px] h-[180px] flex-shrink-0 overflow-hidden rounded-md 
+             cursor-pointer hover:shadow-[8px_8px_0_#2f3542] hover:-translate-y-1 
+             transition-all duration-300 relative"
+  onClick={() => router.push(`/portofolio/${item.id}`)}
+>
+  <Image
+    src={item.image}
+    alt={item.title}
+    fill
+    className="object-cover"
+  />
+  <div className="absolute top-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded-md">
+    {item.type}
+  </div>
+</motion.div>
 
-                {/* Tombol geser kanan */}
-                {/* <button
-                  onClick={scrollRight}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 bg-white shadow p-2 z-10 hover:bg-gray-100 transition rounded-full"
-                >
-                  ▶
-                </button> */}
-              </div>
+                ))
+              )}
             </div>
-          ) : null
-        )}
+          </div>
+        </div>
       </section>
     </>
   );

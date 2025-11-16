@@ -2,44 +2,57 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
-import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 
-interface Project {
+interface ProjectItem {
   id: number;
-  slug: string;
   title: string;
-  subtitle: string;
-  image: string;
-  images: string[];
-  type: string;
+  img: string;
+  youtube: string; // YouTube embed link
+  type?: string;
 }
 
-export default function ComercialPage() {
-  const [projects, setProjects] = useState<Project[]>([]);
+export default function ArsitekPage() {
+  const [projects, setProjects] = useState<ProjectItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [resetKey, setResetKey] = useState(0);
-  const router = useRouter();
 
-  // Fetch portfolio data dari API tipe komersial
+  // Dummy API embedded
+const dummyData: ProjectItem[] = [
+  {
+    id: 1,
+    title: "Animasi Interior",
+    img: "https://img.youtube.com/vi/590cp7MV--Q/hqdefault.jpg",
+    youtube: "https://www.youtube.com/embed/590cp7MV--Q",
+    type: "Animasi",
+  },
+  {
+    id: 2,
+    title: "Animasi Rumah 2",
+    img: "https://img.youtube.com/vi/590cp7MV--Q/hqdefault.jpg",
+    youtube: "https://www.youtube.com/embed/590cp7MV--Q",
+    type: "Animasi",
+  },
+];
+
+
+  // Fetch dummy API
   useEffect(() => {
     async function fetchProjects() {
       try {
-        const res = await fetch("/dummyapi/eksteriors?type=arsitek");
-        if (!res.ok) throw new Error("Failed to fetch portfolio data");
-        const data: Project[] = await res.json();
-        setProjects(data);
+        // Simulasi fetch
+        await new Promise((r) => setTimeout(r, 500));
+        setProjects(dummyData);
       } catch (err) {
-        console.error("Error fetching data:", err);
+        console.error(err);
       } finally {
         setLoading(false);
       }
     }
-
     fetchProjects();
   }, []);
 
-  // Reset animasi pas scroll ke top
+  // Reset animation when scrolled to top
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY === 0) setResetKey((prev) => prev + 1);
@@ -70,7 +83,7 @@ export default function ComercialPage() {
         />
         <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
           <h1 className="text-4xl md:text-5xl text-white text-center px-4 font-semibold">
-            Desain Arsitek
+            Desain Animasi
           </h1>
         </div>
       </section>
@@ -82,7 +95,7 @@ export default function ComercialPage() {
             Portfolio
           </p>
           <h2 className="text-3xl md:text-4xl font-semibold text-[#2F3542]">
-            Portofolio Arsitek
+            Portofolio Bless
           </h2>
         </div>
 
@@ -91,16 +104,15 @@ export default function ComercialPage() {
           {projects.map((item, index) => (
             <motion.div
               key={item.id}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               className="group cursor-pointer"
-              onClick={() => router.push(`/${item.slug}`)}
             >
               <div className="relative h-[280px] w-full overflow-hidden shadow-md bg-[#DFE4EA]">
                 <Image
-                  src={item.image}
+                  src={item.img}
                   alt={item.title}
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
@@ -115,6 +127,13 @@ export default function ComercialPage() {
                     )}
                   </div>
                 </div>
+                {/* Youtube embed */}
+                <a
+                  href={item.youtube}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="absolute inset-0"
+                ></a>
               </div>
             </motion.div>
           ))}
