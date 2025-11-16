@@ -27,6 +27,8 @@ export default function HomePage() {
         <PortfolioPage />
         {/* <DesignCategories /> */}
       </div>
+      
+                     
 
       {/* Portfolio */}
       {/* <PortfolioPage /> */}

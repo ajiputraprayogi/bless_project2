@@ -51,7 +51,7 @@ export default function ContactPage() {
 
   return (
     <>
-    <main className="min-h-screen w-full flex items-center justify-center 
+    <main className="h-auto pt-5rem w-full flex items-center justify-center 
              bg-[url('/images/design/1.png')] bg-cover bg-center bg-no-repeat 
              text-[#2F3542] p-6 pt-[8rem] md:pt-[5rem]">
       <motion.section

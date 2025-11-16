@@ -38,7 +38,7 @@ export default function TestimoniChatPage() {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-20 px-4 md:px-8 mt-3">
+    <div className="h-autobg-gray-50 py-20 px-4 md:px-8 mt-3">
       <h1 className="text-3xl md:text-4xl font-semibold text-center mb-12 text-gray-900">
         Testimoni Klien
       </h1>
