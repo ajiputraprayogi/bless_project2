@@ -96,7 +96,7 @@ export default function ComercialPage() {
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               className="group cursor-pointer"
-              onClick={() => router.push(`/${item.slug}`)}
+              onClick={() => router.push(`/portfolio/${item.slug}`)}
             >
               <div className="relative h-[280px] w-full overflow-hidden shadow-md bg-[#DFE4EA]">
                 <Image
