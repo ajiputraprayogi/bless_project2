@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState } from "react";
 import { useDropzone } from "react-dropzone";
@@ -26,10 +26,9 @@ export default function ImageCompressorPage() {
         canvas.height = img.height * scale;
         const ctx = canvas.getContext("2d")!;
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
         canvas.toBlob(
-          (blob) => {
-            if (blob) resolve(blob);
-          },
+          (blob) => blob && resolve(blob),
           "image/jpeg",
           quality
         );
@@ -37,17 +36,50 @@ export default function ImageCompressorPage() {
     });
   };
 
+  // ⬇️ fungsi watermark
+  const addWatermark = (blob: Blob, text = "© Bless Kontraktor") => {
+    return new Promise<Blob>((resolve) => {
+      const img = new Image();
+      img.src = URL.createObjectURL(blob);
+
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        const ctx = canvas.getContext("2d")!;
+        ctx.drawImage(img, 0, 0);
+
+        // STYLE watermark
+        ctx.font = `${img.width * 0.04}px Arial`;
+        ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+        ctx.textAlign = "right";
+        ctx.textBaseline = "bottom";
+
+        // posisi watermark (kanan bawah)
+        ctx.fillText(text, img.width - 20, img.height - 20);
+
+        canvas.toBlob((watermarkedBlob) => {
+          if (watermarkedBlob) resolve(watermarkedBlob);
+        }, "image/jpeg");
+      };
+    });
+  };
+
   const onDrop = async (acceptedFiles: File[]) => {
     const compressedFiles: CompressedFile[] = [];
+
     for (const file of acceptedFiles) {
-      const blob = await compressImage(file);
+      const compressed = await compressImage(file);
+
       compressedFiles.push({
         name: file.name,
         originalSize: file.size,
-        compressedSize: blob.size,
-        blob,
+        compressedSize: compressed.size,
+        blob: compressed,
       });
     }
+
     setFiles(compressedFiles);
   };
 
@@ -57,17 +89,22 @@ export default function ImageCompressorPage() {
     multiple: true,
   });
 
-  const downloadFile = (file: CompressedFile) => {
-    saveAs(file.blob, file.name);
+  // ⬇️ download hasil watermark, bukan blob asli
+  const downloadFile = async (file: CompressedFile) => {
+    const watermarked = await addWatermark(file.blob);
+    saveAs(watermarked, `WM-${file.name}`);
   };
 
-  const downloadAll = () => {
-    files.forEach((file) => saveAs(file.blob, file.name));
+  const downloadAll = async () => {
+    for (const f of files) {
+      const wm = await addWatermark(f.blob);
+      saveAs(wm, `WM-${f.name}`);
+    }
   };
 
   return (
     <div className="min-h-screen p-8 bg-gray-50">
-      <h1 className="text-2xl font-bold text-center mb-6">Image Compressor</h1>
+      <h1 className="text-2xl font-bold text-center mb-6">Image Compressor + Watermark</h1>
 
       <div
         {...getRootProps()}
@@ -99,11 +136,12 @@ export default function ImageCompressorPage() {
                   {Math.round(file.compressedSize / 1024)} KB
                 </p>
               </div>
+
               <button
                 onClick={() => downloadFile(file)}
                 className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
               >
-                Download
+                Download + WM
               </button>
             </motion.div>
           ))}
@@ -113,7 +151,7 @@ export default function ImageCompressorPage() {
               onClick={downloadAll}
               className="mt-4 px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600"
             >
-              Download All
+              Download All + WM
             </button>
           )}
         </div>

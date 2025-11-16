@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 interface Project {
   id: number;
-  title: string;
-  subtitle: string;
-  image: string;
+  slug: string;
+  name: string;
+  description: string;
   images: string[];
   type: string;
 }
@@ -17,27 +18,31 @@ export default function ComercialPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [resetKey, setResetKey] = useState(0);
-  const [selected, setSelected] = useState<Project | null>(null);
+  const router = useRouter();
 
-  // Fetch portfolio data from API
-  useEffect(() => {
-    async function fetchProjects() {
-      try {
-        const res = await fetch("/dummyapi/eksteriors?type=furnitur");
-        if (!res.ok) throw new Error("Failed to fetch portfolio data");
-        const data: Project[] = await res.json();
-        setProjects(data);
-      } catch (err) {
-        console.error("Error fetching data:", err);
-      } finally {
-        setLoading(false);
-      }
+useEffect(() => {
+  async function fetchProjects() {
+    try {
+      const res = await fetch("/api/portofolio/eksteriors");
+      if (!res.ok) throw new Error("Failed to fetch portfolio data");
+      const data: Project[] = await res.json();
+
+      // Filter hanya tipe arsitek
+      const filtered = data.filter((item) => item.type === "furnitur");
+
+      setProjects(filtered);
+    } catch (err) {
+      console.error("Error fetching data:", err);
+    } finally {
+      setLoading(false);
     }
+  }
 
-    fetchProjects();
-  }, []);
+  fetchProjects();
+}, []);
 
-  // Reset animation when scrolled to top
+
+  // Reset animasi pas scroll ke atas
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY === 0) setResetKey((prev) => prev + 1);
@@ -58,7 +63,7 @@ export default function ComercialPage() {
 
   return (
     <>
-      {/* Hero Section */}
+      {/* HERO */}
       <section className="relative w-full h-[50vh]">
         <Image
           src="/images/design/2.png"
@@ -68,103 +73,65 @@ export default function ComercialPage() {
         />
         <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
           <h1 className="text-4xl md:text-5xl text-white text-center px-4 font-semibold">
-            Desain Interior & Furnitur
+            Interior & Furnitur
           </h1>
         </div>
       </section>
 
-      {/* Portfolio Section */}
-      <section key={resetKey} className="py-20 max-w-6xl mx-auto px-6 mt-3">
+      {/* PORTFOLIO */}
+      <section
+        key={resetKey}
+        className="bg-black py-20 max-w-full mx-auto px-6 mt-3"
+      >
         <div className="text-center mb-12">
-          <p className="text-sm tracking-[3px] text-[#A4B0BE] uppercase">
+          <p className="text-sm tracking-[3px] text-gray-200 uppercase">
             Portfolio
           </p>
-          <h2 className="text-3xl md:text-4xl font-semibold text-[#2F3542]">
+          <h2 className="text-3xl md:text-4xl font-semibold text-white">
             Portofolio Bless
           </h2>
         </div>
 
-        {/* Grid of Projects */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* GRID */}
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-6">
           {projects.map((item, index) => (
             <motion.div
               key={item.id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="group cursor-pointer"
+              className={`
+                group cursor-pointer bg-white rounded-xl shadow-md overflow-hidden
+                ${index % 2 === 1 ? "translate-y-4 sm:translate-y-0" : ""}
+              `}
+              onClick={() => router.push(`/portfolio/${item.slug}`)}
             >
-              <div
-                className="relative h-[280px] w-full overflow-hidden shadow-md bg-[#DFE4EA]"
-                onClick={() => setSelected(item)}
-              >
+              {/* IMAGE */}
+              <div className="relative w-full h-[220px] sm:h-[260px] md:h-[300px] lg:h-[340px] overflow-hidden">
                 <Image
-                  src={item.image}
-                  alt={item.title}
+                  src={item.images[0]}       // <= FIX UTAMA
+                  alt={item.name}
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                 />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-all duration-500">
-                  <div className="absolute bottom-5 left-5 opacity-0 group-hover:opacity-100 transition-all duration-500">
-                    <h3 className="text-lg md:text-xl font-semibold text-white drop-shadow-md">
-                      {item.title}
-                    </h3>
-                    {item.type && (
-                      <p className="text-sm text-gray-300">{item.type}</p>
-                    )}
-                  </div>
-                </div>
+
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-500" />
+              </div>
+
+              {/* DESCRIPTION */}
+              <div className="px-4 py-2">
+                <h3 className="text-sm md:text-base font-semibold text-gray-800">
+                  {item.name}
+                </h3>
+
+                <p className="text-xs md:text-sm text-gray-500 mt-1">
+                  {item.type}
+                </p>
               </div>
             </motion.div>
           ))}
         </div>
-
-        {/* Fullscreen Modal */}
-        <AnimatePresence>
-          {selected && (
-            <motion.div
-              className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setSelected(null)}
-            >
-              <motion.div
-                className="relative w-[90%] max-w-5xl h-[80vh]"
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.95, opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                onClick={(e) => e.stopPropagation()}
-              >
-                <Image
-                  src={selected.image}
-                  alt={selected.title}
-                  fill
-                  className="object-contain rounded-lg"
-                />
-                <button
-                  onClick={() => setSelected(null)}
-                  className="absolute top-4 right-4 text-white bg-black/40 hover:bg-black/60 rounded-full p-2 transition"
-                >
-                  ✕
-                </button>
-                <div className="absolute bottom-6 left-0 right-0 text-center text-white">
-                  <h3 className="text-xl font-semibold">{selected.title}</h3>
-                  {selected.subtitle && (
-                    <p className="text-sm text-gray-300 mt-1">
-                      {selected.subtitle}
-                    </p>
-                  )}
-                  {selected.type && (
-                    <p className="text-sm text-gray-300 mt-1">{selected.type}</p>
-                  )}
-                </div>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </section>
     </>
   );
