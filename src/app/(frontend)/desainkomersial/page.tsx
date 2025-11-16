@@ -25,7 +25,7 @@ export default function ComercialPage() {
   useEffect(() => {
     async function fetchProjects() {
       try {
-        const res = await fetch("/dummyapi/eksteriors?type=arsitek");
+        const res = await fetch("/dummyapi/eksteriors?type=komersial");
         if (!res.ok) throw new Error("Failed to fetch portfolio data");
         const data: Project[] = await res.json();
         setProjects(data);
@@ -70,7 +70,7 @@ export default function ComercialPage() {
         />
         <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
           <h1 className="text-4xl md:text-5xl text-white text-center px-4 font-semibold">
-            Desain Arsitek
+            Desain Komersial
           </h1>
         </div>
       </section>
@@ -82,7 +82,7 @@ export default function ComercialPage() {
             Portfolio
           </p>
           <h2 className="text-3xl md:text-4xl font-semibold text-[#2F3542]">
-            Portofolio Arsitek
+            Portofolio Bless
           </h2>
         </div>
 

@@ -1,16 +1,18 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { useState } from "react";
 
 const testimoniChat = [
   {
     id: 1,
     client: "Budi",
-    avatar: "/images/user/ferry.jpg", // path avatar
-    src: "/images/design/1.png",
+    avatar: "/images/user/ferry.jpg",
+    src: "/images/design/whatsap.jpg",
     alt: "Desain Rumah 1",
-    message: "Desain rumahnya keren dan sesuai harapan! Mungkin kedepan bakal pesan lagi :)"
+    message: "Desain rumahnya keren dan sesuai harapan! Mungkin kedepan bakal pesan lagi :)",
+    video: "https://www.youtube.com/embed/dQw4w9WgXcQ"
   },
   {
     id: 2,
@@ -18,7 +20,8 @@ const testimoniChat = [
     avatar: "/images/user/ferry.jpg",
     src: "/images/design/2.png",
     alt: "Desain Rumah 2",
-    message: "Pelayanan cepat, komunikasi lancar banget. Preview desainnya juga memuaskan!"
+    message: "Pelayanan cepat, komunikasi lancar banget. Preview desainnya juga memuaskan!",
+    video: "https://www.youtube.com/embed/3JZ_D3ELwOQ"
   },
   {
     id: 3,
@@ -26,11 +29,14 @@ const testimoniChat = [
     avatar: "/images/user/ferry.jpg",
     src: "/images/design/3.png",
     alt: "Desain Rumah 3",
-    message: "Desain rumah minimalis modern sesuai budget. Rekomendasi banget deh!"
+    message: "Desain rumah minimalis modern sesuai budget.",
+    video: "https://www.youtube.com/embed/3JZ_D3ELwOQ"
   },
 ];
 
 export default function TestimoniChatPage() {
+  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+
   return (
     <div className="min-h-screen bg-gray-50 py-20 px-4 md:px-8 mt-3">
       <h1 className="text-3xl md:text-4xl font-semibold text-center mb-12 text-gray-900">
@@ -41,7 +47,7 @@ export default function TestimoniChatPage() {
         {testimoniChat.map((item) => (
           <motion.div
             key={item.id}
-            className="bg-white rounded-2xl shadow-md overflow-hidden flex flex-col"
+            className="bg-white rounded-2xl shadow-md overflow-hidden flex flex-col cursor-pointer"
             whileHover={{ scale: 1.03 }}
             transition={{ duration: 0.3 }}
           >
@@ -76,14 +82,62 @@ export default function TestimoniChatPage() {
             </div>
 
             {/* Pesan testimoni */}
-            <div className="px-4 pb-4">
+            <div className="px-4 pb-4 flex flex-col gap-2">
               <div className="bg-gray-100 rounded-xl p-3 text-gray-700 text-sm italic">
                 {item.message}
               </div>
+
+              {/* Tombol video */}
+              {/* Tombol video */}
+              {item.video && item.video.trim() !== "" && (
+                <button
+                  onClick={() => setSelectedVideo(item.video)}
+                  className="flex items-center justify-center gap-2 mt-2 px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+                >
+                  <span className="text-lg">▶</span>
+                  <span>Video Testimoni</span>
+                </button>
+              )}
+
             </div>
           </motion.div>
         ))}
       </div>
+
+      {/* Modal video full screen */}
+      <AnimatePresence>
+        {selectedVideo && (
+          <motion.div
+            key="video-modal"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/90 flex items-center justify-center z-50"
+            onClick={() => setSelectedVideo(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.8 }}
+              className="relative w-full max-w-5xl h-[90vh]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <iframe
+                src={selectedVideo}
+                title="Video Testimoni"
+                className="w-full h-full rounded-lg"
+                allowFullScreen
+              />
+              <button
+                onClick={() => setSelectedVideo(null)}
+                className="absolute top-2 right-2 text-white text-2xl font-bold bg-black/50 rounded-full w-10 h-10 flex items-center justify-center"
+              >
+                ×
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

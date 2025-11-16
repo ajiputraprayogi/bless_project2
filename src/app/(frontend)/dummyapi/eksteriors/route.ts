@@ -196,6 +196,18 @@ const portfolioDB = [
       "/images/design/3.png",
     ],
     type: "arsitek",
+  },    {
+    id: 16,
+    slug: "aurora-interior-suite",
+    name: "Rumah Pak Daniel",
+    description:
+      "Desain interior premium untuk hotel bintang lima dengan nuansa gold-modern.",
+    images: [
+      "/images/design/3.png",
+      "/images/design/1.png",
+      "/images/design/3.png",
+    ],
+    type: "komersial",
   },
 ];
 

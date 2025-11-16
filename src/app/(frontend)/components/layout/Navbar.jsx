@@ -33,6 +33,8 @@ export default function Navbar({
         { label: "Arsitek", href: "/desainarsitek" },
         { label: "Kontraktor", href: "/desainkontraktor" },
         { label: "Interior & Furniture", href: "/desaininterior" },
+        { label: "Komersial", href: "/desainkomersial" },
+        { label: "Animasi Rumah", href: "/desainanimasi" },
       ],
     },
     { label: "Testimoni", href: "/testimoni" },
