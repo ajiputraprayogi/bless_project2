@@ -262,6 +262,15 @@ function PortofolioPage() {
   const canEdit = useMemo(() => hasPermission(userPermissions, "edit-portofolio"), [userPermissions]);
   const canDelete = useMemo(() => hasPermission(userPermissions, "delete-portofolio"), [userPermissions]);
 
+  const typeLabels = {
+    arsitek: "Arsitek",
+    kontraktor: "Kontraktor",
+    furnitur: "Interior & Furtinur",
+    animasi: "Animasi",
+    komersial: "Komersial",
+  };
+
+
   useEffect(() => {
     document.title = "Data Portofolio | Admin Panel";
     fetchPortofolio();
@@ -393,7 +402,7 @@ function PortofolioPage() {
 
                         {/* Kolom Type */}
                         <TableCell className="px-5 py-4 sm:px-6 text-start">
-                          {portfolio.type ?? "-"}
+                          {typeLabels[portfolio.type] ?? "-"}
                         </TableCell>
 
                         {/* Kolom Kategori */}
