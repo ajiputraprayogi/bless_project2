@@ -237,9 +237,9 @@ import Button from "@/components/ui/button/Button";
 
 // Tipe data untuk setiap objek gambar (dari model PortfolioImage)
 type PortfolioImage = {
-    id: number;
-    url: string;
-    portofolioId: number;
+  id: number;
+  url: string;
+  portofolioId: number;
 };
 
 // PERUBAHAN UTAMA: Ganti 'image' menjadi 'images' array
@@ -367,10 +367,10 @@ function PortofolioPage() {
                       description.length > 150
                         ? description.slice(0, 150) + "..."
                         : description || "Tidak ada deskripsi";
-                        
+
                     // PERUBAHAN KEDUA: Ambil URL gambar pertama untuk preview
                     const firstImageUrl = portfolio.portofolio_images.length > 0 ? portfolio.portofolio_images[0].url : null;
-                    
+
                     return (
                       <TableRow key={portfolio.id}>
                         {/* Kolom Portofolio */}
@@ -379,7 +379,7 @@ function PortofolioPage() {
                             {/* Gunakan firstImageUrl untuk preview */}
                             {firstImageUrl ? (
                               <img
-                                src={firstImageUrl} 
+                                src={firstImageUrl}
                                 alt={portfolio.name}
                                 className="h-32 w-32 rounded-lg object-cover border border-gray-200 dark:border-gray-700"
                               />
@@ -402,7 +402,10 @@ function PortofolioPage() {
 
                         {/* Kolom Type */}
                         <TableCell className="px-5 py-4 sm:px-6 text-start">
-                          {typeLabels[portfolio.type] ?? "-"}
+                          {/* Menggunakan type assertion untuk memastikan index adalah salah satu key dari typeLabels */}
+                          {typeLabels[
+                            (portfolio.type ?? '') as keyof typeof typeLabels
+                          ] ?? "-"}
                         </TableCell>
 
                         {/* Kolom Kategori */}
