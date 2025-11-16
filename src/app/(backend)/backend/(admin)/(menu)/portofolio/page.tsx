@@ -341,9 +341,9 @@ function PortofolioPage() {
                     <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
                       Type
                     </TableCell>
-                    <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
+                    {/* <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
                       Kategori
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-center text-theme-xs dark:text-gray-400">
                       Actions
                     </TableCell>
@@ -397,9 +397,9 @@ function PortofolioPage() {
                         </TableCell>
 
                         {/* Kolom Kategori */}
-                        <TableCell className="px-5 py-4 sm:px-6 text-start">
+                        {/* <TableCell className="px-5 py-4 sm:px-6 text-start">
                           {portfolio.kategori ?? "-"}
-                        </TableCell>
+                        </TableCell> */}
 
                         {/* Actions */}
                         <TableCell className="px-5 py-4 sm:px-6 text-start">
