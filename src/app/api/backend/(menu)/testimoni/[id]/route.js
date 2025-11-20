@@ -11,9 +11,9 @@ const supabase = createClient(
     process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
-// ==========================================================================
-// Fungsi Helper Supabase
-// ==========================================================================
+// ======================================================
+// Helper Supabase
+// ======================================================
 function getTestimoniFilePath(publicUrl, field) {
     if (!publicUrl) return null;
 
@@ -24,25 +24,25 @@ function getTestimoniFilePath(publicUrl, field) {
     const expectedBucket =
         field === "avatar" ? "testimoni-avatars" : "testimoni-src";
 
-    if (bucket === expectedBucket) {
-        return filename || null;
-    }
+    if (bucket === expectedBucket) return filename || null;
+
     return null;
 }
 
-// ==========================================================================
-// GET BY ID
-// ==========================================================================
+// ======================================================
+// GET
+// ======================================================
 export async function GET(req, context) {
     try {
-        const id = parseInt(context.params.id, 10);
+        const { id } = await context.params;
+        const numericId = parseInt(id, 10);
 
-        if (isNaN(id)) {
+        if (isNaN(numericId)) {
             return NextResponse.json({ error: "ID tidak valid" }, { status: 400 });
         }
 
         const testimoni = await prisma.testimoni.findUnique({
-            where: { id },
+            where: { id: numericId },
             select: {
                 id: true,
                 client: true,
@@ -51,36 +51,30 @@ export async function GET(req, context) {
                 video: true,
                 avatar: true,
                 src: true,
-                created_by: true,
-                created_at: true,
-                updated_at: true,
             },
         });
 
         if (!testimoni) {
-            return NextResponse.json(
-                { error: "Testimoni tidak ditemukan" },
-                { status: 404 }
-            );
+            return NextResponse.json({ error: "Testimoni tidak ditemukan" }, { status: 404 });
         }
 
         return NextResponse.json(testimoni, { status: 200 });
+
     } catch (error) {
         console.error("GET error:", error);
-        return NextResponse.json(
-            { error: "Gagal mengambil testimoni" },
-            { status: 500 }
-        );
+        return NextResponse.json({ error: "Gagal mengambil testimoni" }, { status: 500 });
     }
 }
 
-// ==========================================================================
-// PATCH — UPDATE TESTIMONI
-// ==========================================================================
+// ======================================================
+// PATCH
+// ======================================================
 export async function PATCH(req, context) {
     try {
-        const id = parseInt(context.params.id, 10);
-        if (isNaN(id)) {
+        const { id } = await context.params;
+        const numericId = parseInt(id, 10);
+
+        if (isNaN(numericId)) {
             return NextResponse.json({ error: "ID tidak valid" }, { status: 400 });
         }
 
@@ -101,7 +95,7 @@ export async function PATCH(req, context) {
         const deleteSrcSignal = formData.get("delete_src") === "true";
 
         const existing = await prisma.testimoni.findUnique({
-            where: { id },
+            where: { id: numericId },
         });
 
         if (!existing) {
@@ -113,7 +107,6 @@ export async function PATCH(req, context) {
 
         const updateData = {};
 
-        // Validasi text
         const newClient = client ?? existing.client;
         const newMessage = message ?? existing.message;
 
@@ -129,45 +122,30 @@ export async function PATCH(req, context) {
         updateData.alt = alt;
         updateData.video = video;
 
-        // ==========================
+        // ======================================================
         // FILE HANDLING
-        // ==========================
-        const filesToProcess = [
-            {
-                field: "avatar",
-                file: newAvatarFile,
-                deleteSignal: deleteAvatarSignal,
-                existingUrl: existing.avatar,
-            },
-            {
-                field: "src",
-                file: newSrcFile,
-                deleteSignal: deleteSrcSignal,
-                existingUrl: existing.src,
-            },
+        // ======================================================
+        const fileFields = [
+            { field: "avatar", file: newAvatarFile, delete: deleteAvatarSignal, existing: existing.avatar },
+            { field: "src", file: newSrcFile, delete: deleteSrcSignal, existing: existing.src },
         ];
 
-        for (const { field, file, deleteSignal, existingUrl } of filesToProcess) {
-            const bucketName =
-                field === "avatar" ? "testimoni-avatars" : "testimoni-src";
-
+        for (const { field, file, delete: del, existing } of fileFields) {
+            const bucketName = field === "avatar" ? "testimoni-avatars" : "testimoni-src";
             const isNewFile = file instanceof File;
+            const shouldDelete = del || isNewFile;
 
-            const shouldDeleteExisting = deleteSignal || isNewFile;
-
-            // Hapus file lama
-            if (shouldDeleteExisting && existingUrl) {
-                const path = getTestimoniFilePath(existingUrl, field);
+            if (shouldDelete && existing) {
+                const path = getTestimoniFilePath(existing, field);
                 if (path) {
                     await supabase.storage.from(bucketName).remove([path]);
                 }
 
-                if (deleteSignal && !isNewFile) {
+                if (del && !isNewFile) {
                     updateData[field] = null;
                 }
             }
 
-            // Upload baru
             if (isNewFile && file.size > 0) {
                 if (file.size > MAX_SIZE) {
                     return NextResponse.json(
@@ -175,6 +153,7 @@ export async function PATCH(req, context) {
                         { status: 400 }
                     );
                 }
+
                 if (!ALLOWED_TYPES.includes(file.type)) {
                     return NextResponse.json(
                         { error: `Format file ${field} tidak valid` },
@@ -184,15 +163,12 @@ export async function PATCH(req, context) {
 
                 const buffer = Buffer.from(await file.arrayBuffer());
                 const ext = file.name.split(".").pop();
-
                 const filename =
                     `${newClient.toLowerCase().replace(/\s/g, "_")}-${field}-${Date.now()}.${ext}`;
 
                 const { error: uploadError } = await supabase.storage
                     .from(bucketName)
-                    .upload(filename, buffer, {
-                        contentType: file.type,
-                    });
+                    .upload(filename, buffer, { contentType: file.type });
 
                 if (uploadError) {
                     return NextResponse.json(
@@ -201,81 +177,72 @@ export async function PATCH(req, context) {
                     );
                 }
 
-                const { data } = supabase.storage
-                    .from(bucketName)
-                    .getPublicUrl(filename);
+                const { data } =
+                    supabase.storage.from(bucketName).getPublicUrl(filename);
 
                 updateData[field] = data.publicUrl;
             }
         }
 
         const updated = await prisma.testimoni.update({
-            where: { id },
+            where: { id: numericId },
             data: updateData,
         });
 
         return NextResponse.json(updated, { status: 200 });
+
     } catch (error) {
         console.error("PATCH error:", error);
-        return NextResponse.json(
-            { error: "Gagal update testimoni" },
-            { status: 500 }
-        );
+        return NextResponse.json({ error: "Gagal update testimoni" }, { status: 500 });
     }
 }
 
-// ==========================================================================
-// DELETE — HAPUS TESTIMONI + FILE
-// ==========================================================================
+// ======================================================
+// DELETE
+// ======================================================
 export async function DELETE(req, context) {
     try {
-        const id = parseInt(context.params.id, 10);
+        const { id } = await context.params;
+        const numericId = parseInt(id, 10);
 
-        if (isNaN(id)) {
+        if (isNaN(numericId)) {
             return NextResponse.json({ error: "ID tidak valid" }, { status: 400 });
         }
 
         const existing = await prisma.testimoni.findUnique({
-            where: { id },
+            where: { id: numericId },
             select: { avatar: true, src: true },
         });
 
         if (!existing) {
-            return NextResponse.json(
-                { error: "Testimoni tidak ditemukan" },
-                { status: 404 }
-            );
+            return NextResponse.json({ error: "Testimoni tidak ditemukan" }, { status: 404 });
         }
 
-        const filesToDelete = [];
+        const files = [];
 
         if (existing.avatar) {
-            const path = getTestimoniFilePath(existing.avatar, "avatar");
-            if (path) filesToDelete.push({ bucket: "testimoni-avatars", path });
+            const p = getTestimoniFilePath(existing.avatar, "avatar");
+            if (p) files.push({ bucket: "testimoni-avatars", path: p });
         }
 
         if (existing.src) {
-            const path = getTestimoniFilePath(existing.src, "src");
-            if (path) filesToDelete.push({ bucket: "testimoni-src", path });
+            const p = getTestimoniFilePath(existing.src, "src");
+            if (p) files.push({ bucket: "testimoni-src", path: p });
         }
 
-        // Hapus dari Supabase
-        for (const file of filesToDelete) {
-            await supabase.storage.from(file.bucket).remove([file.path]);
+        for (const f of files) {
+            await supabase.storage.from(f.bucket).remove([f.path]);
         }
 
-        // Hapus database
-        await prisma.testimoni.delete({ where: { id } });
+        await prisma.testimoni.delete({ where: { id: numericId } });
 
         return NextResponse.json(
             { message: "Testimoni berhasil dihapus" },
             { status: 200 }
         );
+
     } catch (error) {
         console.error("DELETE error:", error);
-        return NextResponse.json(
-            { error: "Gagal menghapus testimoni" },
-            { status: 500 }
-        );
+        return NextResponse.json({ error: "Gagal menghapus testimoni" }, { status: 500 });
     }
 }
