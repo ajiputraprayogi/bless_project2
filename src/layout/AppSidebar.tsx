@@ -68,6 +68,7 @@ const navItems: NavItem[] = [
   },
   { icon: <InfoIcon />, name: "Informasi", path: "/backend/faq", permission: "view-faq" },
   { icon: <EnvelopeIcon />, name: "Kontak", path: "/backend/kontak", permission: "view-kontak" },
+  { icon: <EnvelopeIcon />, name: "Testimoni", path: "/backend/testimoni", permission: "view-testimoni" },
   {
     name: "Settings",
     icon: <PlugInIcon />,
