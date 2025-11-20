@@ -16,13 +16,14 @@ interface PortfolioItem {
 }
 
 const filterButtons = [
-  { label: "Semua", type: "all" },
-  { label: "Desain Arsitek", type: "arsitek" },
-  { label: "Jasa Kontraktor", type: "kontraktor" },
-  { label: "Interior & Furniture", type: "furnitur" },
-  { label: "Komersial", type: "komersial" },
-  { label: "Animasi 3D", type: "animasi" },
+  { label: "Semua", type: "all", href: "/" },
+  { label: "Desain Arsitek", type: "arsitek", href: "/desainarsitek" },
+  { label: "Jasa Kontraktor", type: "kontraktor", href: "/desainkontraktor" },
+  { label: "Interior & Furniture", type: "furnitur", href: "/desaininterior" },
+  { label: "Komersial", type: "komersial", href: "/desainkomersial" },
+  { label: "Animasi 3D", type: "animasi", href: "/desainanimasi" },
 ];
+
 
 export default function PortfolioPage() {
   const [portfolios, setPortfolios] = useState<PortfolioItem[]>([]);
@@ -30,38 +31,52 @@ export default function PortfolioPage() {
   const [activeType, setActiveType] = useState("all");
 
   // Ambil filter sebelumnya
-  useEffect(() => {
-    const saved = sessionStorage.getItem("lastType");
-    if (saved) setActiveType(saved);
-  }, []);
+  // useEffect(() => {
+  //   const saved = sessionStorage.getItem("lastType");
+  //   if (saved) setActiveType(saved);
+  // }, []);
 
-  async function fetchData(type: string) {
-    setLoading(true);
-    try {
-      const res = await fetch(
-        `api/portofolio/eksteriors${type !== "all" ? "?type=" + type : ""}`
-      );
+async function fetchData(type: string) {
+  setLoading(true);
+  try {
+    const res = await fetch(
+      `api/portofolio/eksteriors${type !== "all" ? "?type=" + type : ""}`
+    );
 
-      if (!res.ok) throw new Error("Gagal mengambil data");
+    if (!res.ok) throw new Error("Gagal mengambil data");
 
-      const data: PortfolioItem[] = await res.json();
+    const data: PortfolioItem[] = await res.json();
 
-      // Limit 5
-      const limited = data.slice(0, 5);
+    let finalData: PortfolioItem[] = [];
 
-      // Sorting sesuai urutan filterButtons
+    if (type === "all") {
+      // Ambil 1 item masing-masing tipe sesuai urutan filterButtons
       const typeOrder = filterButtons.map((btn) => btn.type);
-      const sorted = limited.sort(
+
+      typeOrder.forEach((t) => {
+        if (t === "all") return;
+
+        const found = data.find((item) => item.type === t);
+        if (found) finalData.push(found);
+      });
+    } else {
+      // Mode filter biasa: ambil max 5 + urut
+      const limited = data.slice(0, 5);
+      const typeOrder = filterButtons.map((btn) => btn.type);
+
+      finalData = limited.sort(
         (a, b) => typeOrder.indexOf(a.type) - typeOrder.indexOf(b.type)
       );
-
-      setPortfolios(sorted);
-    } catch (error) {
-      console.error("Error:", error);
-    } finally {
-      setLoading(false);
     }
+
+    setPortfolios(finalData);
+  } catch (error) {
+    console.error("Error:", error);
+  } finally {
+    setLoading(false);
   }
+}
+
 
   useEffect(() => {
     fetchData(activeType);
@@ -95,7 +110,7 @@ export default function PortfolioPage() {
           Koleksi Desain
         </p>
         <h1 className="text-4xl md:text-5xl font-semibold text-yellow-400">
-          Portfolio Bless Design
+          Portofolio Bless
         </h1>
         <p className="text-white mt-4 max-w-2xl mx-auto">
           Temukan berbagai inspirasi desain arsitektur dan interior yang telah kami buat.
@@ -105,20 +120,22 @@ export default function PortfolioPage() {
       {/* Filter */}
       <div className="flex flex-wrap justify-center gap-3 mb-8">
         {filterButtons.map((btn) => (
-          <button
-            key={btn.type}
-            onClick={() => {
-              setActiveType(btn.type);
-              sessionStorage.setItem("lastType", btn.type);
-            }}
-            className={`px-4 py-2 rounded-full font-medium transition
-              ${activeType === btn.type
-                ? "bg-[#BFA98E] text-white"
-                : "bg-white text-gray-700 hover:bg-[#D9C8AA]"
-              }`}
-          >
-            {btn.label}
-          </button>
+<Link
+  key={btn.type}
+  href={btn.href}
+  onClick={() => {
+    setActiveType(btn.type);
+    sessionStorage.setItem("lastType", btn.type);
+  }}
+  className={`px-4 py-2 rounded-full font-medium transition
+    ${activeType === btn.type
+      ? "bg-[#BFA98E] text-white"
+      : "bg-white text-gray-700 hover:bg-[#D9C8AA]"
+    }`}
+>
+  {btn.label}
+</Link>
+
         ))}
       </div>
 
@@ -164,9 +181,9 @@ export default function PortfolioPage() {
                     <h3 className="text-lg font-semibold text-gray-800">
                       {item.name}
                     </h3>
-                    <p className="text-sm text-gray-600">
+                    {/* <p className="text-sm text-gray-600">
                       {item.description}
-                    </p>
+                    </p> */}
                   </div>
 
                   {/* Badge tipe */}
