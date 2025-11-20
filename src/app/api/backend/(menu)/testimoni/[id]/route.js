@@ -11,12 +11,9 @@ const supabase = createClient(
     process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
-/**
- * Mendapatkan filename dari URL Supabase berdasarkan field (avatar atau src)
- * @param {string} publicUrl URL publik Supabase
- * @param {'avatar' | 'src'} field Nama field ('avatar' atau 'src')
- * @returns {string | null} Filename jika valid, null jika tidak
- */
+// ==========================================================================
+// Fungsi Helper Supabase
+// ==========================================================================
 function getTestimoniFilePath(publicUrl, field) {
     if (!publicUrl) return null;
 
@@ -24,7 +21,8 @@ function getTestimoniFilePath(publicUrl, field) {
     const filename = segments.pop();
     const bucket = segments[segments.length - 1];
 
-    const expectedBucket = field === 'avatar' ? 'testimoni-avatars' : 'testimoni-src';
+    const expectedBucket =
+        field === "avatar" ? "testimoni-avatars" : "testimoni-src";
 
     if (bucket === expectedBucket) {
         return filename || null;
@@ -35,10 +33,6 @@ function getTestimoniFilePath(publicUrl, field) {
 // ==========================================================================
 // GET BY ID
 // ==========================================================================
-/**
- * @param {Request} req
- * @param {{ params: { id: string } }} context
- */
 export async function GET(req, context) {
     try {
         const id = parseInt(context.params.id, 10);
@@ -55,32 +49,34 @@ export async function GET(req, context) {
                 message: true,
                 alt: true,
                 video: true,
-                avatar: true, // URL Avatar
-                src: true, // URL Gambar Desain
-                // created_by: true, // DIHAPUS
-                // created_at: true, // ❌ HARUS DIHAPUS (Berdasarkan skema)
-                // updated_at: true, // ❌ HARUS DIHAPUS (Berdasarkan skema)
+                avatar: true,
+                src: true,
+                created_by: true,
+                created_at: true,
+                updated_at: true,
             },
         });
 
         if (!testimoni) {
-            return NextResponse.json({ error: "Testimoni tidak ditemukan" }, { status: 404 });
+            return NextResponse.json(
+                { error: "Testimoni tidak ditemukan" },
+                { status: 404 }
+            );
         }
 
         return NextResponse.json(testimoni, { status: 200 });
     } catch (error) {
         console.error("GET error:", error);
-        return NextResponse.json({ error: "Gagal mengambil testimoni" }, { status: 500 });
+        return NextResponse.json(
+            { error: "Gagal mengambil testimoni" },
+            { status: 500 }
+        );
     }
 }
 
 // ==========================================================================
 // PATCH — UPDATE TESTIMONI
 // ==========================================================================
-/**
- * @param {Request} req
- * @param {{ params: { id: string } }} context
- */
 export async function PATCH(req, context) {
     try {
         const id = parseInt(context.params.id, 10);
@@ -97,9 +93,10 @@ export async function PATCH(req, context) {
         const message = formData.get("message")?.toString() || null;
         const alt = formData.get("alt")?.toString() || null;
         const video = formData.get("video")?.toString() || null;
-        
+
         const newAvatarFile = formData.get("new_avatar");
         const newSrcFile = formData.get("new_src");
+
         const deleteAvatarSignal = formData.get("delete_avatar") === "true";
         const deleteSrcSignal = formData.get("delete_src") === "true";
 
@@ -108,12 +105,15 @@ export async function PATCH(req, context) {
         });
 
         if (!existing) {
-            return NextResponse.json({ error: "Testimoni tidak ditemukan" }, { status: 404 });
+            return NextResponse.json(
+                { error: "Testimoni tidak ditemukan" },
+                { status: 404 }
+            );
         }
 
         const updateData = {};
 
-        // Validasi dan set data teks
+        // Validasi text
         const newClient = client ?? existing.client;
         const newMessage = message ?? existing.message;
 
@@ -123,42 +123,52 @@ export async function PATCH(req, context) {
                 { status: 400 }
             );
         }
-        
+
         updateData.client = newClient;
         updateData.message = newMessage;
-        updateData.alt = alt; 
+        updateData.alt = alt;
         updateData.video = video;
 
-        // --------------------------------------------------
-        // LOGIKA GAMBAR (Avatar dan Src)
-        // --------------------------------------------------
-        
+        // ==========================
+        // FILE HANDLING
+        // ==========================
         const filesToProcess = [
-            { field: 'avatar', file: newAvatarFile, deleteSignal: deleteAvatarSignal, existingUrl: existing.avatar },
-            { field: 'src', file: newSrcFile, deleteSignal: deleteSrcSignal, existingUrl: existing.src },
+            {
+                field: "avatar",
+                file: newAvatarFile,
+                deleteSignal: deleteAvatarSignal,
+                existingUrl: existing.avatar,
+            },
+            {
+                field: "src",
+                file: newSrcFile,
+                deleteSignal: deleteSrcSignal,
+                existingUrl: existing.src,
+            },
         ];
-        
+
         for (const { field, file, deleteSignal, existingUrl } of filesToProcess) {
-            const bucketName = field === 'avatar' ? 'testimoni-avatars' : 'testimoni-src';
+            const bucketName =
+                field === "avatar" ? "testimoni-avatars" : "testimoni-src";
 
-            // 1. HAPUS GAMBAR LAMA (Jika ada sinyal hapus atau diganti file baru)
-            const shouldDeleteExisting = deleteSignal || (file instanceof File);
+            const isNewFile = file instanceof File;
 
+            const shouldDeleteExisting = deleteSignal || isNewFile;
+
+            // Hapus file lama
             if (shouldDeleteExisting && existingUrl) {
-                const filePath = getTestimoniFilePath(existingUrl, field);
-                if (filePath) {
-                    const { error } = await supabase.storage.from(bucketName).remove([filePath]);
-                    if (error) console.warn(`Supabase delete warning for ${field}:`, error);
+                const path = getTestimoniFilePath(existingUrl, field);
+                if (path) {
+                    await supabase.storage.from(bucketName).remove([path]);
                 }
-                
-                // Set field di database menjadi null jika dihapus dan tidak diganti file baru
-                if (deleteSignal && !(file instanceof File)) {
+
+                if (deleteSignal && !isNewFile) {
                     updateData[field] = null;
                 }
             }
 
-            // 2. UPLOAD GAMBAR BARU (Jika ada file baru)
-            if (file instanceof File && file.size > 0) {
+            // Upload baru
+            if (isNewFile && file.size > 0) {
                 if (file.size > MAX_SIZE) {
                     return NextResponse.json(
                         { error: `Ukuran file ${field} lebih dari 500KB` },
@@ -174,39 +184,31 @@ export async function PATCH(req, context) {
 
                 const buffer = Buffer.from(await file.arrayBuffer());
                 const ext = file.name.split(".").pop();
-                const filename = `${newClient.toLowerCase().replace(/\s/g, '_')}-${field}-${Date.now()}.${ext}`;
+
+                const filename =
+                    `${newClient.toLowerCase().replace(/\s/g, "_")}-${field}-${Date.now()}.${ext}`;
 
                 const { error: uploadError } = await supabase.storage
                     .from(bucketName)
-                    .upload(filename, buffer, { contentType: file.type });
+                    .upload(filename, buffer, {
+                        contentType: file.type,
+                    });
 
                 if (uploadError) {
-                    console.error("Upload error:", uploadError);
                     return NextResponse.json(
                         { error: `Gagal upload file ${field}` },
                         { status: 500 }
                     );
                 }
 
-                const { data } = supabase.storage.from(bucketName).getPublicUrl(filename);
-                if (data?.publicUrl) {
-                    updateData[field] = data.publicUrl;
-                }
+                const { data } = supabase.storage
+                    .from(bucketName)
+                    .getPublicUrl(filename);
+
+                updateData[field] = data.publicUrl;
             }
         }
-        
-        // Penyesuaian akhir untuk memastikan URL lama dipertahankan jika tidak ada perubahan/penghapusan.
-        if (updateData.avatar === undefined && existing.avatar && !deleteAvatarSignal && !newAvatarFile) {
-            delete updateData.avatar; 
-        }
-        
-        if (updateData.src === undefined && existing.src && !deleteSrcSignal && !newSrcFile) {
-            delete updateData.src; 
-        }
 
-        // --------------------------------------------------
-        // 3. UPDATE DATABASE
-        // --------------------------------------------------
         const updated = await prisma.testimoni.update({
             where: { id },
             data: updateData,
@@ -215,20 +217,20 @@ export async function PATCH(req, context) {
         return NextResponse.json(updated, { status: 200 });
     } catch (error) {
         console.error("PATCH error:", error);
-        return NextResponse.json({ error: "Gagal update testimoni" }, { status: 500 });
+        return NextResponse.json(
+            { error: "Gagal update testimoni" },
+            { status: 500 }
+        );
     }
 }
 
 // ==========================================================================
-// DELETE — HAPUS TESTIMONI + GAMBAR
+// DELETE — HAPUS TESTIMONI + FILE
 // ==========================================================================
-/**
- * @param {Request} req
- * @param {{ params: { id: string } }} context
- */
 export async function DELETE(req, context) {
     try {
         const id = parseInt(context.params.id, 10);
+
         if (isNaN(id)) {
             return NextResponse.json({ error: "ID tidak valid" }, { status: 400 });
         }
@@ -239,44 +241,41 @@ export async function DELETE(req, context) {
         });
 
         if (!existing) {
-            return NextResponse.json({ error: "Testimoni tidak ditemukan" }, { status: 404 });
+            return NextResponse.json(
+                { error: "Testimoni tidak ditemukan" },
+                { status: 404 }
+            );
         }
-        
+
         const filesToDelete = [];
 
-        // Hapus Avatar
         if (existing.avatar) {
-            const avatarPath = getTestimoniFilePath(existing.avatar, 'avatar');
-            if (avatarPath) filesToDelete.push({ path: avatarPath, bucket: "testimoni-avatars" });
+            const path = getTestimoniFilePath(existing.avatar, "avatar");
+            if (path) filesToDelete.push({ bucket: "testimoni-avatars", path });
         }
 
-        // Hapus Src
         if (existing.src) {
-            const srcPath = getTestimoniFilePath(existing.src, 'src');
-            if (srcPath) filesToDelete.push({ path: srcPath, bucket: "testimoni-src" });
+            const path = getTestimoniFilePath(existing.src, "src");
+            if (path) filesToDelete.push({ bucket: "testimoni-src", path });
         }
 
-        // Eksekusi penghapusan di Supabase Storage
-        if (filesToDelete.length > 0) {
-            const avatarPaths = filesToDelete.filter(f => f.bucket === 'testimoni-avatars').map(f => f.path);
-            const srcPaths = filesToDelete.filter(f => f.bucket === 'testimoni-src').map(f => f.path);
-            
-            if (avatarPaths.length > 0) {
-                const { error } = await supabase.storage.from("testimoni-avatars").remove(avatarPaths);
-                if (error) console.warn("Supabase delete warning (avatar):", error);
-            }
-            if (srcPaths.length > 0) {
-                const { error } = await supabase.storage.from("testimoni-src").remove(srcPaths);
-                if (error) console.warn("Supabase delete warning (src):", error);
-            }
+        // Hapus dari Supabase
+        for (const file of filesToDelete) {
+            await supabase.storage.from(file.bucket).remove([file.path]);
         }
 
-        // Hapus dari Prisma
+        // Hapus database
         await prisma.testimoni.delete({ where: { id } });
 
-        return NextResponse.json({ message: "Testimoni berhasil dihapus" });
+        return NextResponse.json(
+            { message: "Testimoni berhasil dihapus" },
+            { status: 200 }
+        );
     } catch (error) {
         console.error("DELETE error:", error);
-        return NextResponse.json({ error: "Gagal menghapus testimoni" }, { status: 500 });
+        return NextResponse.json(
+            { error: "Gagal menghapus testimoni" },
+            { status: 500 }
+        );
     }
 }
