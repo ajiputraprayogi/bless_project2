@@ -34,7 +34,7 @@ export default function Navbar({
         { label: "Kontraktor", href: "/desainkontraktor" },
         { label: "Interior & Furniture", href: "/desaininterior" },
         { label: "Komersial", href: "/desainkomersial" },
-        { label: "Animasi Rumah", href: "/desainanimasi" },
+        { label: "Animasi 3D", href: "/desainanimasi" },
       ],
     },
     { label: "Testimoni", href: "/testimoni" },

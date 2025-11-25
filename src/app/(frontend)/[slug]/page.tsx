@@ -27,7 +27,7 @@ export default function PortfolioDetailPage() {
     async function fetchItem() {
       setLoading(true);
       try {
-        const res = await fetch(`/dummyapi/eksteriors?slug=${slug}`);
+        const res = await fetch(`/api/portofolio/eksteriors?slug=${slug}`);
         const data: PortfolioItem[] = await res.json();
         setItem(data[0] ?? null);
         setActiveIndex(0); // reset slider
@@ -50,9 +50,9 @@ export default function PortfolioDetailPage() {
     setActiveIndex((prev) => (prev - 1 + totalImages) % totalImages);
 
   return (
-    <main className="min-h-screen bg-[#F7F4EF] py-20 px-6 flex flex-col items-center gap-10 pt-[5rem]">
+    <main className="min-h-screen bg-[#F7F4EF] py-10 px-6 flex flex-col items-center gap-5 pt-[5rem]">
       {/* Slider */}
-      <div className="relative w-full max-w-4xl h-[600px] flex items-center justify-center">
+      <div className="relative w-full max-w-4xl h-auto flex items-center justify-center rounded-xl">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeIndex}
@@ -60,13 +60,13 @@ export default function PortfolioDetailPage() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.4 }}
-            className="relative w-full h-full"
+            className="relative w-full h-full rounded-xl"
           >
             <Image
               src={item.images[activeIndex]}
               alt={`${item.title} - ${activeIndex + 1}`}
               fill
-              className="object-contain rounded-lg"
+              className="object-contain rounded-lg "
             />
           </motion.div>
         </AnimatePresence>

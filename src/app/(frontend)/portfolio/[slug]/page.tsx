@@ -9,8 +9,8 @@ import Link from "next/link";
 interface PortfolioItem {
   id: number;
   slug: string;
-  title: string;
-  subtitle: string;
+  name: string;
+  description: string;
   images: string[];
   type: string;
 }
@@ -27,7 +27,7 @@ export default function PortfolioDetailPage() {
       setLoading(true);
 
       try {
-        const res = await fetch(`/dummyapi/eksteriors`);
+        const res = await fetch(`/api/portofolio/eksteriors`);
         const data: PortfolioItem[] = await res.json();
 
         // Cari berdasarkan slug
@@ -57,23 +57,25 @@ export default function PortfolioDetailPage() {
     <main className="min-h-screen bg-[#F7F4EF] py-20 px-6 flex flex-col items-center gap-10 pt-[5rem]">
       {/* Slider */}
       <div className="relative w-full max-w-4xl h-[600px] flex items-center justify-center">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeIndex}
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            transition={{ duration: 0.4 }}
-            className="relative w-full h-full"
-          >
-            <Image
-              src={item.images[activeIndex]}
-              alt={item.title}
-              fill
-              className="object-contain rounded-lg"
-            />
-          </motion.div>
-        </AnimatePresence>
+<AnimatePresence mode="wait">
+  <motion.div
+    key={activeIndex}
+    initial={{ opacity: 0, x: 50 }}
+    animate={{ opacity: 1, x: 0 }}
+    exit={{ opacity: 0, x: -50 }}
+    transition={{ duration: 0.4 }}
+    className="relative w-full flex justify-center"
+  >
+    <Image
+      src={item.images[activeIndex]}
+      alt={item.name}
+      width={800}
+      height={600} // angka berapa pun, hanya untuk ratio awal
+      className="rounded-xl object-contain h-auto w-full max-w-full"
+    />
+  </motion.div>
+</AnimatePresence>
+
 
         {/* Navigasi */}
         {totalImages > 1 && (
@@ -103,8 +105,8 @@ export default function PortfolioDetailPage() {
 
       {/* Deskripsi */}
       <div className="max-w-3xl text-center">
-        <h1 className="text-4xl font-semibold text-[#2E2B25]">{item.title}</h1>
-        <p className="text-gray-600 mt-4">{item.subtitle}</p>
+        <h1 className="text-4xl font-semibold text-[#2E2B25]">{item.name}</h1>
+        <p className="text-gray-600 mt-4">{item.description}</p>
       </div>
 
       {/* Button Hubungi Kami */}
