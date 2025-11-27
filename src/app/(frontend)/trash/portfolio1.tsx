@@ -177,14 +177,15 @@ async function fetchData(type: string) {
                   </div>
 
                   {/* Box teks */}
-                  <div className="p-2 bg-white">
+                  {/* <div className="p-2 bg-white">
                     <h3 className="text-lg font-semibold text-gray-800">
                       {item.name}
                     </h3>
-                    {/* <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-600">
                       {item.description}
-                    </p> */}
-                  </div>
+                    </p>
+                  </div> */}
+                  
 
                   {/* Badge tipe */}
                   <span className="absolute top-4 left-4 bg-black/50 text-white text-xs font-medium px-3 py-1 rounded-full">

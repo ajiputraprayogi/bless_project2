@@ -18,16 +18,14 @@ export default function TestimoniChatPage() {
   const [data, setData] = useState<Testimoni[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null); // state modal image
   const [error, setError] = useState<string | null>(null);
 
-  // FETCH DATA FROM API
   useEffect(() => {
     async function fetchTestimoni() {
       try {
         const res = await fetch("/api/testimoni");
-
         if (!res.ok) throw new Error("Gagal mengambil testimoni");
-
         const json = await res.json();
         setData(json);
       } catch (err: any) {
@@ -36,7 +34,6 @@ export default function TestimoniChatPage() {
         setLoading(false);
       }
     }
-
     fetchTestimoni();
   }, []);
 
@@ -46,19 +43,9 @@ export default function TestimoniChatPage() {
         Testimoni Klien
       </h1>
 
-      {/* LOADING */}
-      {loading && (
-        <p className="text-center text-gray-500 text-lg">Memuat testimoni...</p>
-      )}
+      {loading && <p className="text-center text-gray-500 text-lg">Memuat testimoni...</p>}
+      {error && <p className="text-center text-red-500 text-lg">Terjadi kesalahan: {error}</p>}
 
-      {/* ERROR */}
-      {error && (
-        <p className="text-center text-red-500 text-lg">
-          Terjadi kesalahan: {error}
-        </p>
-      )}
-
-      {/* GRID DATA */}
       {!loading && !error && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
           {data.map((item) => (
@@ -70,7 +57,10 @@ export default function TestimoniChatPage() {
             >
               {/* Gambar desain */}
               {item.src && (
-                <div className="relative w-full h-64">
+                <div
+                  className="relative w-full h-64"
+                  onClick={() => setSelectedImage(item.src!)}
+                >
                   <Image
                     src={item.src}
                     alt={item.alt || "Testimoni Image"}
@@ -95,7 +85,6 @@ export default function TestimoniChatPage() {
                     {item.client[0]}
                   </div>
                 )}
-
                 <span className="font-semibold text-gray-800">{item.client}</span>
               </div>
 
@@ -104,8 +93,6 @@ export default function TestimoniChatPage() {
                 <div className="bg-gray-100 rounded-xl p-3 text-gray-700 text-sm italic">
                   {item.message}
                 </div>
-
-                {/* Tombol Video */}
                 {item.video && item.video.trim() !== "" && (
                   <button
                     onClick={() => setSelectedVideo(item.video!)}
@@ -147,6 +134,41 @@ export default function TestimoniChatPage() {
               />
               <button
                 onClick={() => setSelectedVideo(null)}
+                className="absolute top-2 right-2 text-white text-2xl font-bold bg-black/50 rounded-full w-10 h-10 flex items-center justify-center"
+              >
+                ×
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* MODAL IMAGE */}
+      <AnimatePresence>
+        {selectedImage && (
+          <motion.div
+            key="image-modal"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/90 flex items-center justify-center z-50"
+            onClick={() => setSelectedImage(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.8 }}
+              className="relative w-full max-w-5xl h-[90vh] flex items-center justify-center"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Image
+                src={selectedImage}
+                alt="Preview"
+                fill
+                className="object-contain rounded-lg"
+              />
+              <button
+                onClick={() => setSelectedImage(null)}
                 className="absolute top-2 right-2 text-white text-2xl font-bold bg-black/50 rounded-full w-10 h-10 flex items-center justify-center"
               >
                 ×
