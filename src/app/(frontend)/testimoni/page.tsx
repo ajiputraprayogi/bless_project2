@@ -18,8 +18,11 @@ export default function TestimoniChatPage() {
   const [data, setData] = useState<Testimoni[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null); // state modal image
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  // Slider state
+  const [current, setCurrent] = useState(0);
 
   useEffect(() => {
     async function fetchTestimoni() {
@@ -37,12 +40,98 @@ export default function TestimoniChatPage() {
     fetchTestimoni();
   }, []);
 
+  // Auto-slide setiap 4 detik
+  useEffect(() => {
+    if (data.length === 0) return;
+    const timer = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % data.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [data]);
+
   return (
     <div className="h-auto bg-gray-50 py-20 px-4 md:px-8 mt-3">
       <h1 className="text-3xl md:text-4xl font-semibold text-center mb-12 text-gray-900">
         Testimoni Klien
       </h1>
 
+      {/* ======================== SLIDER TESTIMONI ======================== */}
+      {!loading && !error && data.length > 0 && (
+        <div className="max-w-4xl mx-auto mb-16 relative overflow-hidden">
+
+          {/* Wrapper Slide */}
+          <div className="relative h-60 flex items-center justify-center">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={current}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.5 }}
+                className="text-center px-6"
+              >
+                {/* Avatar */}
+                <div className="flex justify-center mb-4">
+                  {data[current].avatar ? (
+                    <Image
+                      src={data[current].avatar!}
+                      width={70}
+                      height={70}
+                      alt={data[current].client}
+                      className="rounded-full object-cover shadow-md"
+                    />
+                  ) : (
+                    <div className="w-16 h-16 rounded-full bg-blue-600 flex items-center justify-center text-white text-2xl font-bold shadow-lg">
+                      {data[current].client[0]}
+                    </div>
+                  )}
+                </div>
+
+                {/* Nama */}
+                <p className="font-semibold text-gray-800 text-xl">
+                  {data[current].client}
+                </p>
+
+                {/* Pesan */}
+                <p className="text-gray-600 text-md max-w-xl mx-auto italic mt-2">
+                  “{data[current].message}”
+                </p>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Tombol Prev / Next */}
+          <button
+            onClick={() =>
+              setCurrent((prev) => (prev - 1 + data.length) % data.length)
+            }
+            className="absolute left-2 top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-full w-10 h-10 flex items-center justify-center hover:bg-gray-100"
+          >
+            ‹
+          </button>
+          <button
+            onClick={() => setCurrent((prev) => (prev + 1) % data.length)}
+            className="absolute right-2 top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-full w-10 h-10 flex items-center justify-center hover:bg-gray-100"
+          >
+            ›
+          </button>
+
+          {/* Indicator dots */}
+          <div className="flex justify-center mt-4 gap-2">
+            {data.map((_, i) => (
+              <div
+                key={i}
+                onClick={() => setCurrent(i)}
+                className={`w-3 h-3 rounded-full cursor-pointer transition ${
+                  current === i ? "bg-blue-600 scale-110" : "bg-gray-300"
+                }`}
+              ></div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* ======================== GRID TESTIMONI ======================== */}
       {loading && <p className="text-center text-gray-500 text-lg">Memuat testimoni...</p>}
       {error && <p className="text-center text-red-500 text-lg">Terjadi kesalahan: {error}</p>}
 
@@ -93,6 +182,7 @@ export default function TestimoniChatPage() {
                 <div className="bg-gray-100 rounded-xl p-3 text-gray-700 text-sm italic">
                   {item.message}
                 </div>
+
                 {item.video && item.video.trim() !== "" && (
                   <button
                     onClick={() => setSelectedVideo(item.video!)}
@@ -108,7 +198,7 @@ export default function TestimoniChatPage() {
         </div>
       )}
 
-      {/* MODAL VIDEO */}
+      {/* ======================== MODAL VIDEO ======================== */}
       <AnimatePresence>
         {selectedVideo && (
           <motion.div
@@ -143,7 +233,7 @@ export default function TestimoniChatPage() {
         )}
       </AnimatePresence>
 
-      {/* MODAL IMAGE */}
+      {/* ======================== MODAL IMAGE ======================== */}
       <AnimatePresence>
         {selectedImage && (
           <motion.div
