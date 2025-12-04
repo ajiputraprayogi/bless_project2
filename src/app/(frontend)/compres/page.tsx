@@ -35,77 +35,93 @@ export default function ImageCompressorPage() {
       };
     });
   };
+  
+  const LOGO_URL = "/bless_logo.png"; // <-- GANTI dengan path logo Anda
 
-  // // ⬇️ fungsi watermark
-  // const addWatermark = (blob: Blob, text = "© Bless Kontraktor") => {
-  //   return new Promise<Blob>((resolve) => {
-  //     const img = new Image();
-  //     img.src = URL.createObjectURL(blob);
+  // const addWatermark = (blob: Blob, logoUrl: string = LOGO_URL) => {
+  //   return new Promise<Blob>((resolve) => {
+  //     const imageToWatermark = new Image();
+  //     imageToWatermark.src = URL.createObjectURL(blob);
 
-  //     img.onload = () => {
-  //       const canvas = document.createElement("canvas");
-  //       canvas.width = img.width;
-  //       canvas.height = img.height;
+  //     imageToWatermark.onload = () => {
+  //       const canvas = document.createElement("canvas");
+  //       canvas.width = imageToWatermark.width;
+  //       canvas.height = imageToWatermark.height;
+  //       const ctx = canvas.getContext("2d")!;
+  //       ctx.drawImage(imageToWatermark, 0, 0);
 
-  //       const ctx = canvas.getContext("2d")!;
-  //       ctx.drawImage(img, 0, 0);
+  //       // --- 1. MEMUAT LOGO ---
+  //       const logo = new Image();
+  //       logo.src = logoUrl;
+  //       logo.crossOrigin = "anonymous"; // Penting jika logo dari domain lain
 
-  //       // STYLE watermark
-  //       ctx.font = `${img.width * 0.04}px Arial`;
-  //       ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
-  //       ctx.textAlign = "right";
-  //       ctx.textBaseline = "bottom";
+  //       logo.onload = () => {
+  //         // --- 2. MENGHITUNG UKURAN DAN POSISI LOGO ---
+  //         // Misalnya, atur lebar logo menjadi 15% dari lebar gambar
+  //         const logoWidth = imageToWatermark.width * 0.15; 
+  //         const logoHeight = (logo.height / logo.width) * logoWidth;
+  //         
+  //         // Posisi (kanan bawah dengan margin 20px)
+  //         const x = imageToWatermark.width - logoWidth - 20;
+  //         const y = imageToWatermark.height - logoHeight - 20;
 
-  //       // posisi watermark (kanan bawah)
-  //       ctx.fillText(text, img.width - 20, img.height - 20);
+  //         // --- 3. MENGGAMBAR LOGO KE KANVAS ---
+  //         ctx.globalAlpha = 0.7; // Atur transparansi (opsional)
+  //         ctx.drawImage(logo, x, y, logoWidth, logoHeight);
+  //         ctx.globalAlpha = 1.0; // Kembalikan transparansi
 
-  //       canvas.toBlob((watermarkedBlob) => {
-  //         if (watermarkedBlob) resolve(watermarkedBlob);
-  //       }, "image/jpeg");
-  //     };
-  //   });
-  const LOGO_URL = "/favicon.png"; // <-- GANTI dengan path logo Anda
+  //         canvas.toBlob((watermarkedBlob) => {
+  //           if (watermarkedBlob) resolve(watermarkedBlob);
+  //         }, "image/jpeg");
+  //       };
+  //     };
+  //   });
+  // };
+  // };
 
   const addWatermark = (blob: Blob, logoUrl: string = LOGO_URL) => {
-    return new Promise<Blob>((resolve) => {
-      const imageToWatermark = new Image();
-      imageToWatermark.src = URL.createObjectURL(blob);
+  return new Promise<Blob>((resolve) => {
+    const imageToWatermark = new Image();
+    imageToWatermark.src = URL.createObjectURL(blob);
 
-      imageToWatermark.onload = () => {
-        const canvas = document.createElement("canvas");
-        canvas.width = imageToWatermark.width;
-        canvas.height = imageToWatermark.height;
-        const ctx = canvas.getContext("2d")!;
-        ctx.drawImage(imageToWatermark, 0, 0);
+    imageToWatermark.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = imageToWatermark.width;
+      canvas.height = imageToWatermark.height;
 
-        // --- 1. MEMUAT LOGO ---
-        const logo = new Image();
-        logo.src = logoUrl;
-        logo.crossOrigin = "anonymous"; // Penting jika logo dari domain lain
+      const ctx = canvas.getContext("2d")!;
+      ctx.drawImage(imageToWatermark, 0, 0);
 
-        logo.onload = () => {
-          // --- 2. MENGHITUNG UKURAN DAN POSISI LOGO ---
-          // Misalnya, atur lebar logo menjadi 15% dari lebar gambar
-          const logoWidth = imageToWatermark.width * 0.15; 
-          const logoHeight = (logo.height / logo.width) * logoWidth;
-          
-          // Posisi (kanan bawah dengan margin 20px)
-          const x = imageToWatermark.width - logoWidth - 20;
-          const y = imageToWatermark.height - logoHeight - 20;
+      const logo = new Image();
+      logo.src = logoUrl;
+      logo.crossOrigin = "anonymous";
 
-          // --- 3. MENGGAMBAR LOGO KE KANVAS ---
-          ctx.globalAlpha = 0.7; // Atur transparansi (opsional)
-          ctx.drawImage(logo, x, y, logoWidth, logoHeight);
-          ctx.globalAlpha = 1.0; // Kembalikan transparansi
+      logo.onload = () => {
+        // ✅ Watermark BESAR di TENGAH agak ke BAWAH
+        const logoWidth = imageToWatermark.width * 0.2;
+        const logoHeight = (logo.height / logo.width) * logoWidth;
 
-          canvas.toBlob((watermarkedBlob) => {
-            if (watermarkedBlob) resolve(watermarkedBlob);
-          }, "image/jpeg");
-        };
-      };
-    });
-  };
-  // };
+        // Tengah agak bawah (geser 8% dari tinggi gambar)
+        const x = (imageToWatermark.width - logoWidth) / 2;
+        const y =
+          (imageToWatermark.height - logoHeight) / 2 +
+          imageToWatermark.height * 0.2;
+
+        // ✅ Transparansi watermark
+        ctx.globalAlpha = 0.9;
+
+        ctx.drawImage(logo, x, y, logoWidth, logoHeight);
+
+        ctx.globalAlpha = 1.0;
+
+
+        canvas.toBlob((watermarkedBlob) => {
+          if (watermarkedBlob) resolve(watermarkedBlob);
+        }, "image/jpeg", 0.9);
+      };
+    };
+  });
+};
 
   const onDrop = async (acceptedFiles: File[]) => {
     const compressedFiles: CompressedFile[] = [];
