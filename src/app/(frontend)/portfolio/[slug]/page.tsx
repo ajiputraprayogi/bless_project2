@@ -105,9 +105,15 @@ export default function PortfolioDetailPage() {
 
       {/* Deskripsi */}
       <div className="max-w-3xl text-center">
-        <h1 className="text-4xl font-semibold text-[#2E2B25]">{item.name}</h1>
-        <p className="text-gray-600 mt-4">{item.description}</p>
-      </div>
+  <h1 className="text-4xl font-semibold text-[#2E2B25]">
+    {item.name}
+  </h1>
+
+  <p className="text-gray-600 mt-4 text-justify">
+    {item.description}
+  </p>
+</div>
+
 
       {/* Button Hubungi Kami */}
       <div className="w-full max-w-4xl flex justify-end">
