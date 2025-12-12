@@ -37,7 +37,6 @@ export default function ImageCompressorPage() {
   };
 
   const LOGO_URL = "/bless_logo.png"; // <-- GANTI dengan path logo Anda
-
   const addWatermark = (blob: Blob, logoUrl: string = LOGO_URL) => {
     return new Promise<Blob>((resolve) => {
       const imageToWatermark = new Image();
@@ -49,30 +48,28 @@ export default function ImageCompressorPage() {
         canvas.height = imageToWatermark.height;
 
         const ctx = canvas.getContext("2d")!;
-        ctx.drawImage(imageToWatermark, 0, 0);
+        ctx.drawImage(imageToWatermark, 0, 0, canvas.width, canvas.height);
 
         const logo = new Image();
         logo.src = logoUrl;
         logo.crossOrigin = "anonymous";
 
         logo.onload = () => {
-          // ==== FIXED SIZE ====
-          const baseWidth = 1920;
-          const targetSize = 210; // sesuaikan ukuran
-          const scale = canvas.width / baseWidth;
-          const wmWidth = targetSize * scale;
+          // Ukuran watermark sebagai persentase dari lebar canvas
+          const wmWidthPercent = 0.11; // 11% dari lebar canvas
+          const wmWidth = canvas.width * wmWidthPercent;
           const wmHeight = wmWidth * (logo.height / logo.width);
 
-          // ==== POSISI KANAN BAWAH ====
-          const padding = 40;
+          // Padding sebagai persentase
+          const paddingPercent = 0.02; // 2% dari lebar canvas
+          const padding = canvas.width * paddingPercent;
+
+          // Posisi kanan bawah
           const x = canvas.width - wmWidth - padding;
           const y = canvas.height - wmHeight - padding;
 
-          // Transparansi
           ctx.globalAlpha = 0.9;
-
           ctx.drawImage(logo, x, y, wmWidth, wmHeight);
-
           ctx.globalAlpha = 1.0;
 
           canvas.toBlob(
