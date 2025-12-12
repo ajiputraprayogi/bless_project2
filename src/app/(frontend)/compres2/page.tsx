@@ -56,28 +56,32 @@ export default function ImageCompressorPage() {
         logo.crossOrigin = "anonymous";
 
         logo.onload = () => {
-
-          // ==== FIXED REAL SIZE ====
-          // Target size 150px pada gambar 1920px
+          // ==== FIXED SIZE ====
           const baseWidth = 1920;
-          const targetSize = 210;
-
-          // Hitung scaling untuk berbagai resolusi
+          const targetSize = 210; // sesuaikan ukuran
           const scale = canvas.width / baseWidth;
           const wmWidth = targetSize * scale;
           const wmHeight = wmWidth * (logo.height / logo.width);
 
-          // ==== POSISI TENGAH BAWAH ====
-          const x = (canvas.width - wmWidth) / 2;
-          const y = (canvas.height - wmHeight) / 2 + canvas.height * 0.2;
+          // ==== POSISI KANAN BAWAH ====
+          const padding = 40;
+          const x = canvas.width - wmWidth - padding;
+          const y = canvas.height - wmHeight - padding;
 
+          // Transparansi
           ctx.globalAlpha = 0.9;
+
           ctx.drawImage(logo, x, y, wmWidth, wmHeight);
+
           ctx.globalAlpha = 1.0;
 
-          canvas.toBlob((watermarkedBlob) => {
-            if (watermarkedBlob) resolve(watermarkedBlob);
-          }, "image/jpeg", 0.9);
+          canvas.toBlob(
+            (watermarkedBlob) => {
+              if (watermarkedBlob) resolve(watermarkedBlob);
+            },
+            "image/jpeg",
+            0.9
+          );
         };
       };
     });
