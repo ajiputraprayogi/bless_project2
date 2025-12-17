@@ -5,7 +5,9 @@ import GradualBlur from "./components/layout/gradual";
 import Navbar from "./components/layout/Navbar";
 import AOSInitializer from "./components/layout/AOSinitializer";
 import { Outfit } from "next/font/google";
-import Footer from "./components/layout/Footer";
+
+// ⬇️ IMPORT WRAPPER CLIENT
+import FooterWrapper from "./components/layout/footerwrapper";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -14,17 +16,13 @@ const outfit = Outfit({
 
 export const metadata: Metadata = {
   title: "Bless Luxury Contractor",
-  description: "Architect Site",
-    icons: {
-    icon: "/images/brand/logos.png", // default favicon
+  description: "Kontraktor Site",
+  icons: {
+    icon: "/favicon.png",
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className={outfit.className}>
@@ -32,10 +30,13 @@ export default function RootLayout({
         <section className="relative min-h-screen overflow-hidden">
           <div className="h-full">
             <Navbar />
-            {/* <div className="mb-10" /> */}
+            <div className="mt-[5rem]"></div>
             {children}
-            <Footer />
+
+            {/* Footer otomatis hide di slug */}
+            <FooterWrapper />
           </div>
+
           <div className="fixed bottom-0 left-0 w-full pointer-events-none">
             <GradualBlur
               target="parent"

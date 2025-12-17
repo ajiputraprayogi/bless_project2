@@ -11,9 +11,10 @@ import {
   BoxCubeIcon,
   EnvelopeIcon,
   GridIcon,
-  InfoIcon,
+  // InfoIcon,
   DollarLineIcon,
-  UserCircleIcon
+  UserCircleIcon,
+  ChatIcon
 } from "../icons/index";
 import SidebarWidget from "./SidebarWidget";
 import { usePermissions } from "@/context/PermissionsContext";
@@ -45,19 +46,20 @@ const navItems: NavItem[] = [
     subItems: [
       { name: "Banner", path: "/backend/banner", permission: "view-banner" },
       { name: "Kelebihan & Kekurangan", path: "/backend/kelebihan-kekurangan", permission: "view-kk" },
-      { name: "Keunggulan Utama", path: "/backend/keunggulan", permission: "view-keunggulan" },
-      { name: "Chat", path: "/backend/chat", permission: "view-chat" }
+      // { name: "Keunggulan Utama", path: "/backend/keunggulan", permission: "view-keunggulan" },
+      // { name: "Chat", path: "/backend/chat", permission: "view-chat" }
     ],
   },
   {
-    name: "Harga & Layanan",
+    name: "Layanan",
     icon: <DollarLineIcon />,
     subItems: [
-      { name: "Paket", path: "/backend/paket", permission: "view-paket" },
-      { name: "Tahap Layanan", path: "/backend/steppayment", permission: "view-steppayment" }
+      // { name: "Paket", path: "/backend/paket", permission: "view-paket" },
+      { name: "Order", path: "/backend/steppayment", permission: "view-steppayment" }
     ],
   },
   { icon: <BoxCubeIcon />, name: "Portofolio", path: "/backend/portofolio", permission: "view-portofolio" },
+  // { icon: <BoxCubeIcon />, name: "Layanan", path: "/backend/layanan", permission: "view-portofolio" },
   {
     name: "Profil",
     icon: <UserCircleIcon />,
@@ -66,8 +68,9 @@ const navItems: NavItem[] = [
       { name: "Tim", path: "/backend/tim", permission: "view-tim" }
     ],
   },
-  { icon: <InfoIcon />, name: "Informasi", path: "/backend/faq", permission: "view-faq" },
+  // { icon: <InfoIcon />, name: "Informasi", path: "/backend/faq", permission: "view-faq" },
   { icon: <EnvelopeIcon />, name: "Kontak", path: "/backend/kontak", permission: "view-kontak" },
+  { icon: <ChatIcon />, name: "Testimoni", path: "/backend/testimoni", permission: "view-testimoni" },
   {
     name: "Settings",
     icon: <PlugInIcon />,

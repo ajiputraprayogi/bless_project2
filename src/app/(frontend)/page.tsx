@@ -6,6 +6,8 @@ import DesignCategories from "./components/section/home/card";
 import FurnitureHero from "./components/section/home/furniture";
 import AboutStatsPage from "./components/section/home/satisfied";
 import KelebihanKekuranganPage from "./components/section/kelebihan";
+import WhyChooseUs from "./components/atomic/PilihKami";
+import PortfolioPage from "./trash/portfolio1";
 
 export default function HomePage() {
   const sectionRef = useRef<HTMLDivElement | null>(null);
@@ -18,10 +20,19 @@ export default function HomePage() {
     <div className="min-h-screen bg-[#F7F4EF] text-[#2E2B25]">
       <HeroSection onExploreClick={handleScroll} />
 
+      <WhyChooseUs />
+
       {/* Bungkus section card pakai div dengan ref */}
       <div ref={sectionRef}>
-        <DesignCategories />
+        <PortfolioPage />
+        {/* <DesignCategories /> */}
       </div>
+      
+                     
+
+      {/* Portfolio */}
+      {/* <PortfolioPage /> */}
+
 
       {/* Satisfied Client */}
       {/* <AboutStatsPage /> */}
@@ -30,7 +41,7 @@ export default function HomePage() {
       <FurnitureHero/>
 
       {/* kelebihan */}
-      <KelebihanKekuranganPage />
+      {/* <KelebihanKekuranganPage /> */}
       
     </div>
   );

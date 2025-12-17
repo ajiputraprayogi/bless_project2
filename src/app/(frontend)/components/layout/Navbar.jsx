@@ -10,29 +10,35 @@ export default function Navbar({
   brand = "Monarch",
   links = [
     { label: "Beranda", href: "/" },
-    { label: "Layanan", href: "/layanan" },
-    // { label: "Harga & Layanan", href: "/pricing" },
+    {
+      label: "layanan",
+      dropdown: [
+        { label: "Arsitek", href: "/arsitek" },
+        { label: "Kontraktor", href: "/kontraktor" },
+        // { label: "Interior & Furniture", href: "/furnitur" },
+        { label: "Skema Layanan", href: "/order" },
+      ],
+    },
+    {
+      label: "Profil",
+      dropdown: [
+        { label: "Tim Kami", href: "/team" },
+        { label: "Profil Perusahaan", href: "/profile" },
+      ],
+    },
     // { label: "Portfolio", href: "/portfolio" },
     {
       label: "Portfolio",
       dropdown: [
-        // { label: "Desain Rumah", href: "/rumah" },
-        { label: "Desain Arsitektur", href: "/portfolio" },
-        { label: "Interior & Furniture", href: "/desain" },
+        { label: "Arsitek", href: "/desainarsitek" },
+        { label: "Kontraktor", href: "/desainkontraktor" },
+        { label: "Interior & Furniture", href: "/desaininterior" },
+        { label: "Komersial", href: "/desainkomersial" },
+        { label: "Animasi 3D", href: "/desainanimasi" },
       ],
     },
-        {
-      label: "Profil",
-      dropdown: [
-        // { label: "Desain Rumah", href: "/rumah" },
-        { label: "Tim Kami", href: "/team" },
-        // { label: "Interior & Furniture", href: "/desain" },
-      ],
-    },
-    // { label: "Harga", href: "/harga" },
+    { label: "Testimoni", href: "/testimoni" },
     { label: "Kontak", href: "/kontak" },
-    // { label: "Informasi", href: "/information" },
-    // { label: "Kontak", href: "/contact" },
   ],
 }) {
   const [open, setOpen] = useState(false);
@@ -46,18 +52,18 @@ export default function Navbar({
 
   return (
     <header className="fixed top-4 left-0 right-0 z-50 px-4 md:px-8 ">
-      <nav className="mx-auto w-full bg-[#dfe4ea]/15 backdrop-blur-md border border-[#14100c]/15 rounded-2xl px-4 py-3 flex items-center justify-between gap-4">
+      <nav className="mx-auto w-full bg-black/80 border border-[#14100c]/15 px-4 py-3 flex items-center justify-between gap-4 z-99">
         {/* Brand */}
         <div className="flex items-center gap-3">
           <span className="w-9 h-9 rounded-full flex items-center justify-center overflow-hidden">
             <Link href={"/"}>
-            <Image
-              src="/images/brand/logos.png"
-              alt="Brand Logo"
-              width={24}
-              height={24}
-              className="object-contain"
-            />
+              <Image
+                src="/images/brand/logos.png"
+                alt="Brand Logo"
+                width={24}
+                height={24}
+                className="object-contain"
+              />
             </Link>
           </span>
           {/* <span className="font-semibold text-white">{brand}</span> */}
@@ -73,7 +79,7 @@ export default function Navbar({
                 onMouseEnter={() => setDropdownOpen(l.label)}
                 onMouseLeave={() => setDropdownOpen(null)}
               >
-                <button className="flex items-center gap-1 text-sm text-[#2f3542] transition-colors">
+                <button className="flex items-center gap-1 text-sm text-yellow-400 transition-colors">
                   {l.label}
                   <HiChevronDown className="w-4 h-4" />
                 </button>
@@ -105,7 +111,7 @@ export default function Navbar({
               <li key={l.href}>
                 <Link
                   href={l.href}
-                  className="relative text-sm text-[#2f3542] hover:text-[#eaddce] transition-colors 
+                  className="relative text-sm text-yellow-400 hover:text-[#eaddce] transition-colors 
                     after:content-[''] after:absolute after:left-0 after:bottom-0 
                     after:w-full after:h-[1px] after:bg-[#eaddce] after:scale-x-0
                     after:origin-left after:transition-transform after:duration-300 
@@ -133,9 +139,9 @@ export default function Navbar({
             className="md:hidden p-2 rounded-lg text-black transition"
           >
             {open ? (
-              <HiX className="w-6 h-6 text-[#2E2B25]" />
+              <HiX className="w-6 h-6 text-white" />
             ) : (
-              <HiMenu className="w-6 h-6 text-[#2E2B25]" />
+              <HiMenu className="w-6 h-6 text-white" />
             )}
           </button>
         </div>

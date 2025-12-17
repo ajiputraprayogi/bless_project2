@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import WhyChooseUs from "../../atomic/PilihKami";
 
 interface HeroSectionProps {
   onExploreClick: () => void;
@@ -38,7 +39,7 @@ export default function HeroSection({ onExploreClick }: HeroSectionProps) {
   // Pilih banner aktif pertama, jika tidak ada fallback default
   const activeBanner =
     banners.find((b) => b.active) ?? {
-      img: "/images/design/home1.jpg",
+      img: "/images/design/1.png",
       active: true,
       id: "default",
     };
@@ -59,9 +60,9 @@ export default function HeroSection({ onExploreClick }: HeroSectionProps) {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="text-4xl md:text-[7rem] tracking-wide text-white/90"
+          className="text-4xl md:text-[7rem] font-montserrat tracking-wide text-white/90"
         >
-          Bless Luxury <br />Kontraktor
+          Bless Arsitek<br /><span className="text-yellow-400">Kontraktor</span>
         </motion.h1>
 
         <button
@@ -85,6 +86,7 @@ export default function HeroSection({ onExploreClick }: HeroSectionProps) {
           </p>
         )}
       </div>
+      
     </section>
   );
 }

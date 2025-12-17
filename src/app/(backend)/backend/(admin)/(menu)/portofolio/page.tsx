@@ -19,11 +19,21 @@ import SkeletonTable from "@/components/skeleton/Table";
 import AddPortofolioButton from "./AddPortofolioButton";
 import Button from "@/components/ui/button/Button";
 
+// Tipe data untuk setiap objek gambar (dari model PortfolioImage)
+type PortfolioImage = {
+  id: number;
+  url: string;
+  portofolioId: number;
+};
+
+// PERUBAHAN UTAMA: Ganti 'image' menjadi 'images' array
 type Portfolio = {
   id: number;
   name: string;
-  image?: string | null;
+  portofolio_images: PortfolioImage[]; // ✅ Sekarang berupa array objek gambar
   description?: string | null;
+  type?: string | null;
+  kategori?: string | null;
 };
 
 function PortofolioPage() {
@@ -36,6 +46,15 @@ function PortofolioPage() {
   const canEdit = useMemo(() => hasPermission(userPermissions, "edit-portofolio"), [userPermissions]);
   const canDelete = useMemo(() => hasPermission(userPermissions, "delete-portofolio"), [userPermissions]);
 
+  const typeLabels = {
+    arsitek: "Arsitek",
+    kontraktor: "Kontraktor",
+    furnitur: "Interior & Furtinur",
+    animasi: "Animasi",
+    komersial: "Komersial",
+  };
+
+
   useEffect(() => {
     document.title = "Data Portofolio | Admin Panel";
     fetchPortofolio();
@@ -44,6 +63,8 @@ function PortofolioPage() {
   async function fetchPortofolio() {
     setLoading(true);
     try {
+      // PERHATIAN: Pastikan endpoint API Anda (/api/backend/portofolio)
+      // sudah diubah agar mengembalikan data dengan relasi images (menggunakan include: { images: true } di Prisma)
       const res = await fetch("/api/backend/portofolio", { cache: "no-store" });
       if (!res.ok) throw new Error("Gagal memuat data portofolio");
       const data = await res.json();
@@ -110,27 +131,39 @@ function PortofolioPage() {
                     <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
                       Portofolio
                     </TableCell>
+                    <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
+                      Type
+                    </TableCell>
+                    {/* <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
+                      Kategori
+                    </TableCell> */}
                     <TableCell isHeader className="px-5 py-3 font-medium text-gray-500 text-center text-theme-xs dark:text-gray-400">
                       Actions
                     </TableCell>
                   </TableRow>
                 </TableHeader>
 
+
                 <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
                   {allPortofolio.map((portfolio) => {
-                    const description = portfolio.description ?? ""; // fallback supaya tidak undefined
+                    const description = portfolio.description ?? "";
                     const shortDescription =
                       description.length > 150
                         ? description.slice(0, 150) + "..."
                         : description || "Tidak ada deskripsi";
 
+                    // PERUBAHAN KEDUA: Ambil URL gambar pertama untuk preview
+                    const firstImageUrl = portfolio.portofolio_images.length > 0 ? portfolio.portofolio_images[0].url : null;
+
                     return (
                       <TableRow key={portfolio.id}>
+                        {/* Kolom Portofolio */}
                         <TableCell className="px-5 py-4 sm:px-6 text-start">
                           <div className="flex items-center gap-3">
-                            {portfolio.image ? (
+                            {/* Gunakan firstImageUrl untuk preview */}
+                            {firstImageUrl ? (
                               <img
-                                src={portfolio.image}
+                                src={firstImageUrl}
                                 alt={portfolio.name}
                                 className="h-32 w-32 rounded-lg object-cover border border-gray-200 dark:border-gray-700"
                               />
@@ -150,6 +183,21 @@ function PortofolioPage() {
                             </div>
                           </div>
                         </TableCell>
+
+                        {/* Kolom Type */}
+                        <TableCell className="px-5 py-4 sm:px-6 text-start">
+                          {/* Menggunakan type assertion untuk memastikan index adalah salah satu key dari typeLabels */}
+                          {typeLabels[
+                            (portfolio.type ?? '') as keyof typeof typeLabels
+                          ] ?? "-"}
+                        </TableCell>
+
+                        {/* Kolom Kategori */}
+                        {/* <TableCell className="px-5 py-4 sm:px-6 text-start">
+                          {portfolio.kategori ?? "-"}
+                        </TableCell> */}
+
+                        {/* Actions */}
                         <TableCell className="px-5 py-4 sm:px-6 text-start">
                           <div className="flex items-center gap-0">
                             {!canEdit && !canDelete && (

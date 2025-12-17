@@ -5,7 +5,7 @@ export async function GET() {
     {
       title: "Hunian Rumah",
       subtitle: "Minimalist Home Decor",
-      image: "/images/design/home1.jpg",
+      image: "/images/design/1.png",
     },
     {
       title: "Kost & Perumahan",

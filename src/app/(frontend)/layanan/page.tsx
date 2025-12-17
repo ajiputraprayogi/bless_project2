@@ -11,7 +11,7 @@ const layananList = [
   {
     label: "Desain Rumah",
     images: [
-      "/images/design/home1.jpg",
+      "/images/design/1.png",
       "/images/design/home2.jpg",
       "/images/design/home3.jpg",
     ],
@@ -41,7 +41,7 @@ const layananList = [
   {
     label: "Desain Eksterior",
     images: [
-      "/images/design/home1.jpg",
+      "/images/design/1.png",
       "/images/design/home2.jpg",
       "/images/design/home3.jpg",
     ],

@@ -1,10 +1,10 @@
-// src/app/(frontend)/dummyapi/profile/route.ts
+// src/app/(frontend)/api/profile/route.ts
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 
 export async function GET() {
   try {
-    // ✅ Ambil data profil terbaru atau pertama dari database, termasuk misi yang berelasi
+    // ✅ Ambil data profil Portofolio atau pertama dari database, termasuk misi yang berelasi
     const dbProfile = await prisma.profile.findFirst({
       select: {
         id: true,

@@ -1,4 +1,4 @@
-// src/app/(frontend)/dummyapi/kontak/route.ts
+// src/app/(frontend)/api/kontak/route.ts
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 
