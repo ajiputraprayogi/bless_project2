@@ -196,33 +196,40 @@ export default function JasaArsitekPage() {
               ) : (
                 projectList.map((project, idx) => (
                   <motion.div
-  key={project.id}
-  initial={{ opacity: 0, scale: 0.9 }}
-  whileInView={{ opacity: 1, scale: 1 }}
-  viewport={{ once: true }}
-  transition={{ duration: 0.5, delay: idx * 0.1 }}
-  className="w-[300px] md:w-[350px] h-[350px] flex-shrink-0 rounded-xl cursor-pointer shadow-xl hover:scale-[1.02] transition-all relative group overflow-hidden transform-gpu"
-  onClick={() => router.push(`/portofolio/${project.slug}`)}
->
-  {/* IMAGE (yang nge-zoom) */}
-  <Image
-    src={project.images[0]}
-    alt={project.name}
-    fill
-    className="object-cover transition-transform duration-500 group-hover:scale-110"
-  />
+                    key={project.id}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: idx * 0.1 }}
+                    className="w-[300px] md:w-[350px] h-[350px] flex-shrink-0 rounded-xl cursor-pointer shadow-xl hover:scale-[1.02] transition-all relative group overflow-hidden transform-gpu"
+                    // onClick={() => router.push(`/portofolio/${project.slug}`)}
+                  >
+                    {/* IMAGE (yang nge-zoom) */}
+                    <Image
+                      src={project.images[0]}
+                      alt={project.name}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
 
-  {/* OVERLAY + TEKS (fixed / tidak ikut scale) */}
-  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4 pointer-events-none">
-    <h3 className="text-white text-xl font-semibold truncate">
-      {project.name}
-    </h3>
-  </div>
-</motion.div>
-
+                    {/* OVERLAY + TEKS (fixed / tidak ikut scale) */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4 pointer-events-none">
+                      {/* <h3 className="text-white text-xl font-semibold truncate">
+                        {project.name}
+                      </h3> */}
+                    </div>
+                  </motion.div>
                 ))
               )}
             </div>
+            <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => window.open("https://wa.me/6285176965609", "_blank")}
+            className="mt-6 px-8 py-4 bg-orange-600 text-white font-semibold text-lg shadow-lg"
+          >
+            Hubungi Admin
+          </motion.button>
           </div>
         </div>
       </section>
