@@ -62,7 +62,7 @@ export default function HeroSection({ onExploreClick }: HeroSectionProps) {
           transition={{ duration: 0.7 }}
           className="text-4xl md:text-[7rem] font-montserrat tracking-wide text-white/90"
         >
-          Bless Luxury <br /><span className="text-yellow-400">Contractor</span>
+          Bless Arsitek<br /><span className="text-yellow-400">Kontraktor</span>
         </motion.h1>
 
         <button
