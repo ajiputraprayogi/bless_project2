@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiMenu, HiX, HiChevronDown } from "react-icons/hi";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -43,6 +44,12 @@ export default function Navbar({
 }) {
   const [open, setOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(null);
+  const pathname = usePathname();
+
+  const isDropdownActive = (dropdown) => {
+  return dropdown.some((item) => pathname === item.href);
+};
+
 
   const panel = {
     hidden: { opacity: 0, y: -12 },
@@ -66,7 +73,6 @@ export default function Navbar({
               />
             </Link>
           </span>
-          {/* <span className="font-semibold text-white">{brand}</span> */}
         </div>
 
         {/* Desktop links */}
@@ -126,12 +132,7 @@ export default function Navbar({
 
         {/* CTA + Hamburger */}
         <div className="flex items-center gap-3">
-          {/* <Link
-            href="/portfolio"
-            className="hidden md:inline-block text-white text-sm px-3 py-1.5 rounded-lg bg-white/10 backdrop-blur-sm border border-white/6 hover:bg-white/12 transition"
-          >
-            Portfolio
-          </Link> */}
+          
           <button
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
@@ -205,16 +206,6 @@ export default function Navbar({
                   )
                 )}
               </ul>
-
-              {/* <div className="mt-6">
-                <Link
-                  href="/portfolio"
-                  className="block text-center text-sm text-white px-4 py-2 rounded-lg bg-white/10 border border-white/6"
-                  onClick={() => setOpen(false)}
-                >
-                  Portfolio
-                </Link>
-              </div> */}
             </motion.div>
           </motion.div>
         )}
