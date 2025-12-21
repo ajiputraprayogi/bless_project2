@@ -81,7 +81,7 @@ useEffect(() => {
       {/* PORTFOLIO */}
       <section
         key={resetKey}
-        className="bg-black py-20 max-w-full mx-auto px-6 mt-3"
+        className="bg-black py-20 max-w-full mx-auto px-6"
       >
         <div className="text-center mb-12">
           <p className="text-sm tracking-[3px] text-gray-200 uppercase">
@@ -102,7 +102,7 @@ useEffect(() => {
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               className={`
-                group cursor-pointer bg-white rounded-xl shadow-md overflow-hidden
+                group cursor-pointer bg-[#dfe4ea] rounded-xl shadow-md overflow-hidden
                 ${index % 2 === 1 ? "translate-y-4 sm:translate-y-0" : ""}
               `}
               onClick={() => router.push(`/portfolio/${item.slug}`)}

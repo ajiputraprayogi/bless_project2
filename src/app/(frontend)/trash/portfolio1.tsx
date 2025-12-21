@@ -36,46 +36,46 @@ export default function PortfolioPage() {
   //   if (saved) setActiveType(saved);
   // }, []);
 
-async function fetchData(type: string) {
-  setLoading(true);
-  try {
-    const res = await fetch(
-      `api/portofolio/eksteriors${type !== "all" ? "?type=" + type : ""}`
-    );
-
-    if (!res.ok) throw new Error("Gagal mengambil data");
-
-    const data: PortfolioItem[] = await res.json();
-
-    let finalData: PortfolioItem[] = [];
-
-    if (type === "all") {
-      // Ambil 1 item masing-masing tipe sesuai urutan filterButtons
-      const typeOrder = filterButtons.map((btn) => btn.type);
-
-      typeOrder.forEach((t) => {
-        if (t === "all") return;
-
-        const found = data.find((item) => item.type === t);
-        if (found) finalData.push(found);
-      });
-    } else {
-      // Mode filter biasa: ambil max 5 + urut
-      const limited = data.slice(0, 5);
-      const typeOrder = filterButtons.map((btn) => btn.type);
-
-      finalData = limited.sort(
-        (a, b) => typeOrder.indexOf(a.type) - typeOrder.indexOf(b.type)
+  async function fetchData(type: string) {
+    setLoading(true);
+    try {
+      const res = await fetch(
+        `api/portofolio/eksteriors${type !== "all" ? "?type=" + type : ""}`
       );
-    }
 
-    setPortfolios(finalData);
-  } catch (error) {
-    console.error("Error:", error);
-  } finally {
-    setLoading(false);
+      if (!res.ok) throw new Error("Gagal mengambil data");
+
+      const data: PortfolioItem[] = await res.json();
+
+      let finalData: PortfolioItem[] = [];
+
+      if (type === "all") {
+        // Ambil 1 item masing-masing tipe sesuai urutan filterButtons
+        const typeOrder = filterButtons.map((btn) => btn.type);
+
+        typeOrder.forEach((t) => {
+          if (t === "all") return;
+
+          const found = data.find((item) => item.type === t);
+          if (found) finalData.push(found);
+        });
+      } else {
+        // Mode filter biasa: ambil max 5 + urut
+        const limited = data.slice(0, 5);
+        const typeOrder = filterButtons.map((btn) => btn.type);
+
+        finalData = limited.sort(
+          (a, b) => typeOrder.indexOf(a.type) - typeOrder.indexOf(b.type)
+        );
+      }
+
+      setPortfolios(finalData);
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setLoading(false);
+    }
   }
-}
 
 
   useEffect(() => {
@@ -103,7 +103,7 @@ async function fetchData(type: string) {
   };
 
   return (
-    <main className="min-h-screen bg-black py-20 px-6 mt-4">
+    <main className="min-h-screen bg-black py-20 px-6">
       {/* Header */}
       <div className="text-center mb-12">
         <p className="text-sm tracking-[3px] text-white uppercase">
@@ -120,21 +120,21 @@ async function fetchData(type: string) {
       {/* Filter */}
       <div className="flex flex-wrap justify-center gap-3 mb-8">
         {filterButtons.map((btn) => (
-<Link
-  key={btn.type}
-  href={btn.href}
-  onClick={() => {
-    setActiveType(btn.type);
-    sessionStorage.setItem("lastType", btn.type);
-  }}
-  className={`px-4 py-2 rounded-full font-medium transition
+          <Link
+            key={btn.type}
+            href={btn.href}
+            onClick={() => {
+              setActiveType(btn.type);
+              sessionStorage.setItem("lastType", btn.type);
+            }}
+            className={`px-4 py-2 rounded-full font-medium transition
     ${activeType === btn.type
-      ? "bg-[#BFA98E] text-white"
-      : "bg-white text-gray-700 hover:bg-[#D9C8AA]"
-    }`}
->
-  {btn.label}
-</Link>
+                ? "bg-[#BFA98E] text-white"
+                : "bg-white text-gray-700 hover:bg-[#D9C8AA]"
+              }`}
+          >
+            {btn.label}
+          </Link>
 
         ))}
       </div>
@@ -172,7 +172,7 @@ async function fetchData(type: string) {
                       src={coverImage}
                       alt={item.name}
                       fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-700"
+                      className="object-cover group-hover:scale-105 transition-transform duration-700"
                     />
                   </div>
 
@@ -185,7 +185,7 @@ async function fetchData(type: string) {
                       {item.description}
                     </p>
                   </div> */}
-                  
+
 
                   {/* Badge tipe */}
                   <span className="absolute top-4 left-4 bg-black/50 text-white text-xs font-medium px-3 py-1 rounded-full">

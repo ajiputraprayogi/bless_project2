@@ -58,7 +58,16 @@ const navItems: NavItem[] = [
       { name: "Order", path: "/backend/steppayment", permission: "view-steppayment" }
     ],
   },
-  { icon: <BoxCubeIcon />, name: "Portofolio", path: "/backend/portofolio", permission: "view-portofolio" },
+  {
+    name: "Portofolio",
+    icon: <BoxCubeIcon />,
+    subItems: [
+      // { name: "Paket", path: "/backend/paket", permission: "view-paket" },
+      { name: "Portofolio", path: "/backend/portofolio", permission: "view-portofolio" },
+      { name: "3D Animasi", path: "/backend/animasi", permission: "view-portofolio-video" }
+    ],
+  },
+  // { icon: <BoxCubeIcon />, name: "Portofolio", path: "/backend/portofolio", permission: "view-portofolio" },
   // { icon: <BoxCubeIcon />, name: "Layanan", path: "/backend/layanan", permission: "view-portofolio" },
   {
     name: "Profil",
