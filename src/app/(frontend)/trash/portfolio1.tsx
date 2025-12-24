@@ -143,7 +143,7 @@ export default function PortfolioPage() {
       {loading ? (
         <p className="text-center text-gray-500">Memuat portfolio...</p>
       ) : (
-        <div className="max-w-7xl mx-auto grid grid-cols-1 gap-8">
+        <div className="w-full min-h-screen mx-auto grid grid-cols-1 gap-8">
           {portfolios.map((item, index) => {
             const coverImage =
               item.image || item.images?.[0] || "/placeholder.png";
@@ -167,7 +167,7 @@ export default function PortfolioPage() {
                   }
                 >
                   {/* Gambar */}
-                  <div className="relative md:h-[550px] h-[350px] w-full overflow-hidden">
+                  <div className="relative md:h-[100vh] h-[350px] w-full overflow-hidden">
                     <Image
                       src={coverImage}
                       alt={item.name}
