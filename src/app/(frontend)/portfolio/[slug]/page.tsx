@@ -56,25 +56,24 @@ export default function PortfolioDetailPage() {
   return (
     <main className="min-h-screen bg-[#F7F4EF] py-20 px-6 flex flex-col items-center gap-10 pt-[5rem]">
       {/* Slider */}
-      <div className="relative w-full max-w-4xl h-[600px] flex items-center justify-center">
+      <div className="relative w-full aspect-[4/3] flex items-center justify-center">
 <AnimatePresence mode="wait">
-  <motion.div
-    key={activeIndex}
-    initial={{ opacity: 0, x: 50 }}
-    animate={{ opacity: 1, x: 0 }}
-    exit={{ opacity: 0, x: -50 }}
-    transition={{ duration: 0.4 }}
-    className="relative w-full flex justify-center"
-  >
-    <Image
-      src={item.images[activeIndex]}
-      alt={item.name}
-      width={800}
-      height={600} // angka berapa pun, hanya untuk ratio awal
-      className="rounded-xl object-contain h-auto w-full max-w-full"
-    />
-  </motion.div>
-</AnimatePresence>
+    <motion.div
+      key={activeIndex}
+      className="relative w-full h-full"
+      initial={{ opacity: 0, x: 40 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -40 }}
+      transition={{ duration: 0.35 }}
+    >
+      <Image
+        src={item.images[activeIndex]}
+        alt={item.name}
+        fill
+        className="rounded-xl object-contain"
+      />
+    </motion.div>
+  </AnimatePresence>
 
 
         {/* Navigasi */}
