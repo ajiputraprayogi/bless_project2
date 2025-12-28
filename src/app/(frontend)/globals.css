@@ -2,6 +2,9 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+* {
+  font-family: "Outfit";
+}
 html,
 body {
   margin: 0;
