@@ -81,7 +81,7 @@ useEffect(() => {
       {/* PORTFOLIO */}
       <section
         key={resetKey}
-        className="bg-black py-20 max-w-full mx-auto px-6 mt-3"
+        className="bg-black py-20 max-w-full mx-auto px-6"
       >
         <div className="text-center mb-12">
           <p className="text-sm tracking-[3px] text-gray-200 uppercase">

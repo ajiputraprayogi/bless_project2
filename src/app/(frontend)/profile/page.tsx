@@ -89,7 +89,7 @@ export default function ProfilPerusahaan() {
             {/* Logo */}
             <div className="bg-black p-4">
               <Image
-                src="/images/brand/logos.png"
+                src="/icon.jpg"
                 alt="Bless Kontraktor Logo"
                 width={350}
                 height={120}

@@ -43,7 +43,7 @@ export default function Footer() {
         <div className="space-y-2">
           <h4 className="font-semibold mb-8 text-xl">Kontak Kami</h4>
           <p>
-            Whatsapp: <a href="https://api.whatsapp.com/send?phone=6285700600" className="text-orange-400">08888886</a>
+            Whatsapp: <a href="https://api.whatsapp.com/send?phone=6285176965609" className="text-orange-400">085176965609</a>
           </p>
           <p>
             Email: <a href="mailto:Blessmanagement@gmail.com" className="text-orange-400">Blessmanagement@gmail.com</a>

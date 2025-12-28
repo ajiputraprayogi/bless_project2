@@ -16,7 +16,7 @@ export default function StepSection() {
 
   useEffect(() => {
     async function fetchSteps() {
-      const res = await fetch("/dummyapi/step");
+      const res = await fetch("/api/steppayment");
       const data: Step[] = await res.json();
       setSteps(data);
       setLoading(false);
