@@ -17,9 +17,6 @@ const outfit = Outfit({
 export const metadata: Metadata = {
   title: "Bless Luxury Contractor",
   description: "Kontraktor Site",
-  icons: {
-    icon: "/favicon.png",
-  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

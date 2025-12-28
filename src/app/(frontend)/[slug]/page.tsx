@@ -52,50 +52,55 @@ export default function PortfolioDetailPage() {
   return (
     <main className="min-h-screen bg-[#F7F4EF] py-10 px-6 flex flex-col items-center gap-5 pt-[5rem]">
       {/* Slider */}
-      <div className="relative w-full max-w-4xl h-auto flex items-center justify-center rounded-xl">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeIndex}
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            transition={{ duration: 0.4 }}
-            className="relative w-full h-full rounded-xl"
-          >
-            <Image
-              src={item.images[activeIndex]}
-              alt={`${item.title} - ${activeIndex + 1}`}
-              fill
-              className="object-contain rounded-lg "
-            />
-          </motion.div>
-        </AnimatePresence>
+<div className="relative w-full max-w-5xl mx-auto">
+  <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden bg-black/5">
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={activeIndex}
+        initial={{ opacity: 0, x: 50 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -50 }}
+        transition={{ duration: 0.4 }}
+        className="absolute inset-0"
+      >
+        <Image
+          src={item.images[activeIndex]}
+          alt={`${item.title} - ${activeIndex + 1}`}
+          fill
+          sizes="(max-width: 768px) 100vw, 1024px"
+          className="object-contain"
+          priority
+        />
+      </motion.div>
+    </AnimatePresence>
 
-        {/* Navigasi */}
-        {totalImages > 1 && (
-          <>
-            <button
-              onClick={prevImage}
-              className="absolute left-4 top-1/2 -translate-y-1/2 text-white text-4xl bg-black/40 hover:bg-black/60 px-3 py-1"
-            >
-              ‹
-            </button>
-            <button
-              onClick={nextImage}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-white text-4xl bg-black/40 hover:bg-black/60 px-3 py-1"
-            >
-              ›
-            </button>
-          </>
-        )}
+    {/* Navigasi */}
+    {totalImages > 1 && (
+      <>
+        <button
+          onClick={prevImage}
+          className="absolute left-3 top-1/2 -translate-y-1/2 text-white text-3xl bg-black/40 hover:bg-black/60 px-3 py-1 rounded-lg"
+        >
+          ‹
+        </button>
+        <button
+          onClick={nextImage}
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-white text-3xl bg-black/40 hover:bg-black/60 px-3 py-1 rounded-lg"
+        >
+          ›
+        </button>
+      </>
+    )}
 
-        {/* Index */}
-        {totalImages > 1 && (
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white bg-black/30 px-4 py-1 rounded-full text-sm">
-            {activeIndex + 1} / {totalImages}
-          </div>
-        )}
+    {/* Index */}
+    {totalImages > 1 && (
+      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 text-white bg-black/40 px-4 py-1 rounded-full text-sm">
+        {activeIndex + 1} / {totalImages}
       </div>
+    )}
+  </div>
+</div>
+
 
       {/* Deskripsi */}
       <div className="max-w-3xl text-center">
