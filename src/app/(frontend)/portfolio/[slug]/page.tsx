@@ -30,7 +30,6 @@ export default function PortfolioDetailPage() {
         const res = await fetch(`/api/portofolio/eksteriors`);
         const data: PortfolioItem[] = await res.json();
 
-        // Cari berdasarkan slug
         const project = data.find((p) => p.slug === slug);
         setItem(project ?? null);
         setActiveIndex(0);
@@ -53,48 +52,55 @@ export default function PortfolioDetailPage() {
   const prevImage = () =>
     setActiveIndex((prev) => (prev - 1 + totalImages) % totalImages);
 
+  // Fixed image dimensions (in CSS pixels)
+  const IMAGE_WIDTH = 800; // adjust as needed
+  const IMAGE_HEIGHT = 600; // 4:3 ratio
+
   return (
     <main className="min-h-screen bg-[#F7F4EF] py-20 px-6 flex flex-col items-center gap-10 pt-[5rem]">
-      {/* Slider */}
-      <div className="relative w-full aspect-[4/3] flex items-center justify-center">
-<AnimatePresence mode="wait">
-    <motion.div
-      key={activeIndex}
-      className="relative w-full h-full"
-      initial={{ opacity: 0, x: 40 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -40 }}
-      transition={{ duration: 0.35 }}
-    >
-      <Image
-        src={item.images[activeIndex]}
-        alt={item.name}
-        fill
-        className="rounded-xl object-contain"
-      />
-    </motion.div>
-  </AnimatePresence>
+      {/* Fixed-width slider container */}
+      <div className="relative w-full max-w-[800px] h-auto flex items-center justify-center">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeIndex}
+            className="relative"
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -40 }}
+            transition={{ duration: 0.35 }}
+          >
+            <Image
+              src={item.images[activeIndex]}
+              alt={item.name}
+              width={IMAGE_WIDTH}
+              height={IMAGE_HEIGHT}
+              className="rounded-xl object-contain w-full h-auto"
+              priority // optional: if it's the main image
+            />
+          </motion.div>
+        </AnimatePresence>
 
-
-        {/* Navigasi */}
+        {/* Navigation buttons */}
         {totalImages > 1 && (
           <>
             <button
               onClick={prevImage}
-              className="absolute left-4 top-1/2 -translate-y-1/2 text-white text-4xl bg-black/40 hover:bg-black/60 px-3 py-1"
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-white text-4xl bg-black/40 hover:bg-black/60 px-3 py-1 rounded"
+              aria-label="Previous image"
             >
               ‹
             </button>
             <button
               onClick={nextImage}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-white text-4xl bg-black/40 hover:bg-black/60 px-3 py-1"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-white text-4xl bg-black/40 hover:bg-black/60 px-3 py-1 rounded"
+              aria-label="Next image"
             >
               ›
             </button>
           </>
         )}
 
-        {/* Index */}
+        {/* Index indicator */}
         {totalImages > 1 && (
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white bg-black/30 px-4 py-1 rounded-full text-sm">
             {activeIndex + 1} / {totalImages}
@@ -102,19 +108,13 @@ export default function PortfolioDetailPage() {
         )}
       </div>
 
-      {/* Deskripsi */}
+      {/* Description */}
       <div className="max-w-3xl text-center">
-  <h1 className="text-4xl font-semibold text-[#2E2B25]">
-    {item.name}
-  </h1>
+        <h1 className="text-4xl font-semibold text-[#2E2B25]">{item.name}</h1>
+        <p className="text-gray-600 mt-4 text-justify">{item.description}</p>
+      </div>
 
-  <p className="text-gray-600 mt-4 text-justify">
-    {item.description}
-  </p>
-</div>
-
-
-      {/* Button Hubungi Kami */}
+      {/* Contact button */}
       <div className="w-full max-w-4xl flex justify-end">
         <Link
           href="/portfolio"
