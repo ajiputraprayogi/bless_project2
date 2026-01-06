@@ -27,7 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <section className="relative min-h-screen overflow-hidden">
           <div className="h-full">
             <Navbar />
-            <div className="mt-[5rem]"></div>
+            {/* <div className="mt-[5rem]"></div> */}
             {children}
 
             {/* Footer otomatis hide di slug */}

@@ -2,69 +2,53 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
 
-interface Project {
-  id: number;
-  slug: string;
-  name: string;
-  description: string;
-  images: string[];
-  type: string;
+interface Video {
+  link: string;
 }
 
-export default function ComercialPage() {
-  const [projects, setProjects] = useState<Project[]>([]);
+export default function YoutubeApiPage() {
+  const [videos, setVideos] = useState<Video[]>([]);
   const [loading, setLoading] = useState(true);
-  const [resetKey, setResetKey] = useState(0);
-  const router = useRouter();
 
-useEffect(() => {
-  async function fetchProjects() {
+  // 🔥 Fungsi untuk ambil videoId dari link
+  const getVideoId = (link: string) => {
     try {
-      const res = await fetch("/api/portofolio/eksteriors");
-      if (!res.ok) throw new Error("Failed to fetch portfolio data");
-      const data: Project[] = await res.json();
-
-      // Filter hanya tipe arsitek
-      const filtered = data.filter((item) => item.type === "animasi");
-
-      setProjects(filtered);
-    } catch (err) {
-      console.error("Error fetching data:", err);
-    } finally {
-      setLoading(false);
+      const url = new URL(link);
+      if (url.hostname.includes("youtu.be")) {
+        // short link
+        return url.pathname.slice(1);
+      } else if (url.hostname.includes("youtube.com")) {
+        return url.searchParams.get("v");
+      }
+      return null;
+    } catch (e) {
+      return null;
     }
-  }
+  };
 
-  fetchProjects();
-}, []);
-
-
-  // Reset animasi pas scroll ke atas
+  // 🔥 Fetch dari API
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY === 0) setResetKey((prev) => prev + 1);
+    const fetchVideos = async () => {
+      try {
+        const res = await fetch("/api/linkyt"); // endpoint API
+        if (!res.ok) throw new Error("Gagal fetch video");
+        const data: Video[] = await res.json();
+        setVideos(data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    fetchVideos();
   }, []);
 
-  if (loading) {
-    return (
-      <section className="py-20 text-center text-[#2F3542]">
-        <div className="min-h-[60vh] flex items-center justify-center text-[#a4b0be]">
-          <div className="loader border-4 border-[#a4b0be] border-t-transparent rounded-full w-10 h-10 animate-spin"></div>
-        </div>
-      </section>
-    );
-  }
-
   return (
-    <>
-      {/* HERO */}
-      <section className="relative w-full h-[50vh]">
+    <div className="flex flex-col items-center w-full bg-black">
+      {/* HERO SECTION */}
+      <section className="relative w-full h-[50vh] md:h-[60vh]">
         <Image
           src="/images/design/2.png"
           alt="Background Hero"
@@ -73,66 +57,46 @@ useEffect(() => {
         />
         <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
           <h1 className="text-4xl md:text-5xl text-white text-center px-4 font-semibold">
-            Desain Animasi 3D
+            Desain Animasi
           </h1>
         </div>
       </section>
 
-      {/* PORTFOLIO */}
-      <section
-        key={resetKey}
-        className="bg-black py-20 max-w-full mx-auto px-6"
-      >
-        <div className="text-center mb-12">
-          <p className="text-sm tracking-[3px] text-gray-200 uppercase">
-            Portfolio
-          </p>
-          <h2 className="text-3xl md:text-4xl font-semibold text-white">
-            Portofolio Bless
-          </h2>
-        </div>
+      {/* YOUTUBE VIDEOS SECTION */}
+      <section className="w-full max-w-6xl px-4 py-16">
+        <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-12">
+          Animasi 3D
+        </h2>
 
-        {/* GRID */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-6">
-          {projects.map((item, index) => (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className={`
-                group cursor-pointer bg-white rounded-xl shadow-md overflow-hidden
-                ${index % 2 === 1 ? "translate-y-4 sm:translate-y-0" : ""}
-              `}
-              onClick={() => router.push(`/portfolio/${item.slug}`)}
-            >
-              {/* IMAGE */}
-              <div className="relative w-full h-[220px] sm:h-[260px] md:h-[300px] lg:h-[340px] overflow-hidden">
-                <Image
-                  src={item.images[0]}       // <= FIX UTAMA
-                  alt={item.name}
-                  fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                />
+        {loading ? (
+          <p className="text-gray-500 text-lg text-center">Memuat video...</p>
+        ) : videos.length === 0 ? (
+          <p className="text-gray-500 text-lg text-center">Tidak ada video tersedia</p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {videos.map((video, idx) => {
+              const id = getVideoId(video.link);
+              if (!id) return null;
 
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-500" />
-              </div>
-
-              {/* DESCRIPTION */}
-              <div className="px-4 py-2">
-                <h3 className="text-sm md:text-base font-semibold text-gray-800">
-                  {item.name}
-                </h3>
-
-                <p className="text-xs md:text-sm text-gray-500 mt-1">
-                  {item.type}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+              return (
+                <div
+                  key={idx}
+                  className="w-full aspect-video rounded-xl overflow-hidden shadow-lg bg-black hover:scale-[1.02] transition-transform duration-300"
+                >
+                  <iframe
+                    src={`https://www.youtube.com/embed/${id}`}
+                    title={`YouTube video ${idx}`}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                    className="w-full h-full"
+                  />
+                </div>
+              );
+            })}
+          </div>
+        )}
       </section>
-    </>
+    </div>
   );
 }

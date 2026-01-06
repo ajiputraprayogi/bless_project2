@@ -108,7 +108,7 @@ useEffect(() => {
               onClick={() => router.push(`/portfolio/${item.slug}`)}
             >
               {/* IMAGE */}
-              <div className="relative w-full h-[220px] sm:h-[260px] md:h-[300px] lg:h-[340px] overflow-hidden">
+              <div className="relative w-full aspect-[16/9] overflow-hidden">
                 <Image
                   src={item.images[0]}       // <= FIX UTAMA
                   alt={item.name}
