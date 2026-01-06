@@ -94,44 +94,44 @@ useEffect(() => {
 
         {/* GRID */}
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-6">
-          {projects.map((item, index) => (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className={`
-                group cursor-pointer bg-white rounded-xl shadow-md overflow-hidden
-                ${index % 2 === 1 ? "translate-y-4 sm:translate-y-0" : ""}
-              `}
-              onClick={() => router.push(`/portfolio/${item.slug}`)}
-            >
-              {/* IMAGE */}
-              <div className="relative w-full h-[220px] sm:h-[260px] md:h-[300px] lg:h-[340px] overflow-hidden">
-                <Image
-                  src={item.images[0]}       // <= FIX UTAMA
-                  alt={item.name}
-                  fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                />
-
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-500" />
-              </div>
-
-              {/* DESCRIPTION */}
-              <div className="px-4 py-2">
-                <h3 className="text-sm md:text-base font-semibold text-gray-800">
-                  {item.name}
-                </h3>
-
-                <p className="text-xs md:text-sm text-gray-500 mt-1">
-                  {item.type}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+                  {projects.map((item, index) => (
+                    <motion.div
+                      key={item.id}
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, amount: 0.2 }}
+                      transition={{ duration: 0.6, delay: index * 0.1 }}
+                      className={`
+                        group cursor-pointer bg-[#dfe4ea] rounded-xl shadow-md overflow-hidden
+                        ${index % 2 === 1 ? "translate-y-4 sm:translate-y-0" : ""}
+                      `}
+                      onClick={() => router.push(`/portfolio/${item.slug}`)}
+                    >
+                      {/* IMAGE */}
+                      <div className="relative w-full aspect-[16/9] overflow-hidden">
+                        <Image
+                          src={item.images[0]}       // <= FIX UTAMA
+                          alt={item.name}
+                          fill
+                          className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                        />
+        
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-500" />
+                      </div>
+        
+                      {/* DESCRIPTION */}
+                      <div className="px-4 py-2">
+                        <h3 className="text-sm md:text-base font-semibold text-gray-800">
+                          {item.name}
+                        </h3>
+        
+                        <p className="text-xs md:text-sm text-gray-500 mt-1">
+                          {item.type}
+                        </p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
       </section>
     </>
   );

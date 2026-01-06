@@ -67,7 +67,7 @@ export default function MediaSlider() {
               </div>
             </div> */}
 
-            <p className="font-semibold text-xl w-auto p-4 bg-yellow-200 text-yellow-800">
+            <p className="font-semibold text-xl w-auto p-4 bg-yellow-200 text-yellow-800 rounded-xl">
               {data[current].client}
             </p>
 
