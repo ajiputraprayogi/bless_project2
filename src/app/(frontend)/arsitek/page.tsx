@@ -190,7 +190,7 @@ export default function JasaArsitekPage() {
           <div className="relative">
             <div ref={scrollRef} className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth py-2">
               {loading ? (
-                <div className="flex items-center justify-center w-full min-h-[300px] text-gray-500 text-lg py-12 bg-gray-100 rounded-lg">
+                <div className="flex items-center justify-center w-full min-h-[300px] text-gray-500 text-lg py-12 rounded-lg">
                   Memuat Portofolio...
                 </div>
               ) : (
@@ -201,7 +201,7 @@ export default function JasaArsitekPage() {
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: idx * 0.1 }}
-                    className="w-[300px] md:w-[350px] h-[350px] flex-shrink-0 rounded-xl cursor-pointer shadow-xl hover:scale-[1.02] transition-all relative group overflow-hidden transform-gpu"
+                    className="w-1/3 aspect-[16/9] flex-shrink-0 rounded-xl cursor-pointer shadow-xl hover:scale-[1.02] transition-all relative group overflow-hidden transform-gpu"
                     // onClick={() => router.push(`/portofolio/${project.slug}`)}
                   >
                     {/* IMAGE (yang nge-zoom) */}
@@ -213,15 +213,16 @@ export default function JasaArsitekPage() {
                     />
 
                     {/* OVERLAY + TEKS (fixed / tidak ikut scale) */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4 pointer-events-none">
-                      {/* <h3 className="text-white text-xl font-semibold truncate">
+                    {/* <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4 pointer-events-none">
+                      <h3 className="text-white text-xl font-semibold truncate">
                         {project.name}
-                      </h3> */}
-                    </div>
+                      </h3>
+                    </div> */}
                   </motion.div>
                 ))
               )}
             </div>
+            
             <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
