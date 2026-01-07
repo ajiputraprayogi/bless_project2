@@ -80,6 +80,7 @@ const navItems: NavItem[] = [
   // { icon: <InfoIcon />, name: "Informasi", path: "/backend/faq", permission: "view-faq" },
   { icon: <EnvelopeIcon />, name: "Kontak", path: "/backend/kontak", permission: "view-kontak" },
   { icon: <ChatIcon />, name: "Testimoni", path: "/backend/testimoni", permission: "view-testimoni" },
+  { icon: <ChatIcon />, name: "Dummy Testimoni", path: "/backend/dummy_testi", permission: "view-dummy-testi" },
   {
     name: "Settings",
     icon: <PlugInIcon />,
