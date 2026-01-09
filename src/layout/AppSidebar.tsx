@@ -64,7 +64,7 @@ const navItems: NavItem[] = [
     subItems: [
       // { name: "Paket", path: "/backend/paket", permission: "view-paket" },
       { name: "Portofolio", path: "/backend/portofolio", permission: "view-portofolio" },
-      { name: "3D Animasi", path: "/backend/animasi", permission: "view-portofolio-video" }
+      { name: "3D Animasi", path: "/backend/link_animasi", permission: "view-portofolio-video" }
     ],
   },
   // { icon: <BoxCubeIcon />, name: "Portofolio", path: "/backend/portofolio", permission: "view-portofolio" },
@@ -79,8 +79,16 @@ const navItems: NavItem[] = [
   },
   // { icon: <InfoIcon />, name: "Informasi", path: "/backend/faq", permission: "view-faq" },
   { icon: <EnvelopeIcon />, name: "Kontak", path: "/backend/kontak", permission: "view-kontak" },
-  { icon: <ChatIcon />, name: "Testimoni", path: "/backend/testimoni", permission: "view-testimoni" },
-  { icon: <ChatIcon />, name: "Dummy Testimoni", path: "/backend/dummy_testi", permission: "view-dummy-testi" },
+  // { icon: <ChatIcon />, name: "Testimoni", path: "/backend/testimoni", permission: "view-testimoni" },
+  // { icon: <ChatIcon />, name: "Dummy Testimoni", path: "/backend/dummy_testi", permission: "view-dummy-testi" },
+  {
+    name: "Testimoni",
+    icon: <ChatIcon />,
+    subItems: [
+      { name: "Testimoni", path: "/backend/testimoni", permission: "view-testimoni" },
+      { name: "Dummy Testimoni", path: "/backend/dummy_testi", permission: "view-dummy-testi" }
+    ],
+  },
   {
     name: "Settings",
     icon: <PlugInIcon />,

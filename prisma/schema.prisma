@@ -249,3 +249,10 @@ model dummy_testi {
   created_at DateTime @default(now()) @db.Timestamp(6)
   updated_at DateTime @default(now()) @db.Timestamp(6)
 }
+
+model link_animasi {
+  id         Int      @id @default(autoincrement())
+  link       String
+  created_at DateTime @default(now()) @db.Timestamp(6)
+  updated_at DateTime @default(now()) @db.Timestamp(6)
+}
