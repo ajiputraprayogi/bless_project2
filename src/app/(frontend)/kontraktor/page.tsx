@@ -188,50 +188,62 @@ export default function JasaKontraktorPage() {
           </div>
 
           <div className="relative">
-            <div ref={scrollRef} className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth py-2">
-              {loading ? (
-                <div className="flex items-center justify-center w-full min-h-[300px] text-gray-500 text-lg py-12 rounded-lg">
-                  Memuat Portofolio...
-                </div>
-              ) : (
-                projectList.map((project, idx) => (
-                  <motion.div
-                    key={project.id}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: idx * 0.1 }}
-                    className="w-1/3 aspect-[16/9] flex-shrink-0 rounded-xl cursor-pointer shadow-xl hover:scale-[1.02] transition-all relative group overflow-hidden transform-gpu"
-                    // onClick={() => router.push(`/portofolio/${project.slug}`)}
-                  >
-                    {/* IMAGE (yang nge-zoom) */}
-                    <Image
-                      src={project.images[0]}
-                      alt={project.name}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
+  <div
+    ref={scrollRef}
+    className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth py-2"
+  >
+    {loading ? (
+      <div className="flex items-center justify-center w-full min-h-[300px] text-gray-500 text-lg py-12 rounded-lg">
+        Memuat Portofolio...
+      </div>
+    ) : (
+      // Loop setiap project
+      projectList.map((project, idx) => {
+        // Ambil kata Progress ... % dari description
+        const progressMatch = project.description.match(/Progress\s*\d+\s*%/i);
+        const progressText = progressMatch ? progressMatch[0] : "";
 
-                    {/* OVERLAY + TEKS (fixed / tidak ikut scale) */}
-                    {/* <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4 pointer-events-none">
-                      <h3 className="text-white text-xl font-semibold truncate">
-                        {project.name}
-                      </h3>
-                    </div> */}
-                  </motion.div>
-                ))
-              )}
-            </div>
-            
-            <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => window.open("https://wa.me/6285176965609", "_blank")}
-            className="mt-6 px-8 py-4 bg-orange-600 text-white font-semibold text-lg shadow-lg"
+        // Loop tiap image project
+        return project.images.map((img, i) => (
+          <motion.div
+            key={`${project.id}-${i}`}
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: idx * 0.1 + i * 0.05 }}
+            className="w-1/3 aspect-[16/9] flex-shrink-0 rounded-xl cursor-pointer shadow-xl hover:scale-[1.02] transition-all relative group overflow-hidden transform-gpu"
           >
-            Hubungi Admin
-          </motion.button>
-          </div>
+            {/* IMAGE */}
+            <Image
+              src={img}
+              alt={project.name}
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-110"
+            />
+
+            {/* Overlay Progress saja */}
+            {progressText && (
+              <div className="absolute bottom-4 left-4 bg-black/60 text-white px-3 py-1 rounded text-sm font-medium">
+                {progressText}
+              </div>
+            )}
+          </motion.div>
+        ));
+      })
+    )}
+  </div>
+
+  {/* Tombol Hubungi Admin */}
+  <motion.button
+    whileHover={{ scale: 1.05 }}
+    whileTap={{ scale: 0.95 }}
+    onClick={() => window.open("https://wa.me/6285176965609", "_blank")}
+    className="mt-6 px-8 py-4 bg-orange-600 text-white font-semibold text-lg shadow-lg rounded-full"
+  >
+    Hubungi Admin
+  </motion.button>
+</div>
+
         </div>
       </section>
     </>
