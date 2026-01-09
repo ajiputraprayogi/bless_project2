@@ -33,7 +33,7 @@ export default function Navbar({
       dropdown: [
         { label: "Arsitek", href: "/desainarsitek" },
         { label: "Kontraktor", href: "/desainkontraktor" },
-        { label: "Interior & Furniture", href: "/desaininterior" },
+        { label: "Interior", href: "/desaininterior" },
         { label: "Komersial", href: "/desainkomersial" },
         { label: "Animasi 3D", href: "/desainanimasi" },
       ],
