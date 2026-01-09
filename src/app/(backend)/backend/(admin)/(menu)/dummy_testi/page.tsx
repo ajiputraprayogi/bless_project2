@@ -161,12 +161,12 @@ function DummyTestiPage() {
                       Pesan
                     </TableCell>
 
-                    <TableCell
+                    {/* <TableCell
                       isHeader
                       className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                     >
                       Created
-                    </TableCell>
+                    </TableCell> */}
 
                     <TableCell
                       isHeader
@@ -202,9 +202,9 @@ function DummyTestiPage() {
                         </TableCell>
 
                         {/* Kolom Created */}
-                        <TableCell className="px-5 py-4 sm:px-6 text-start text-sm text-gray-500 dark:text-gray-400">
+                        {/* <TableCell className="px-5 py-4 sm:px-6 text-start text-sm text-gray-500 dark:text-gray-400">
                           {new Date(item.created_at).toLocaleDateString("id-ID")}
-                        </TableCell>
+                        </TableCell> */}
 
                         {/* Actions */}
                         <TableCell className="px-5 py-4 sm:px-6 text-center">

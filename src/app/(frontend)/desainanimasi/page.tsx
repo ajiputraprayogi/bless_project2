@@ -31,7 +31,7 @@ export default function YoutubeApiPage() {
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const res = await fetch("/api/linkyt"); // endpoint API
+        const res = await fetch("/api/link_animasi"); // endpoint API
         if (!res.ok) throw new Error("Gagal fetch video");
         const data: Video[] = await res.json();
         setVideos(data);
