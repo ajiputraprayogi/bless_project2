@@ -63,7 +63,7 @@ export default function PortfolioDetailPage() {
         <AnimatePresence mode="wait">
           <motion.div
             key={activeIndex}
-            className="relative"
+            className="relative mt-[3rem]"
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -40 }}

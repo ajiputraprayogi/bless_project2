@@ -201,7 +201,7 @@ export default function JasaArsitekPage() {
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: idx * 0.1 }}
-                    className="w-1/3 aspect-[16/9] flex-shrink-0 rounded-xl cursor-pointer shadow-xl hover:scale-[1.02] transition-all relative group overflow-hidden transform-gpu"
+                    className="w-1/2 md:w-1/3 aspect-[16/9] flex-shrink-0 rounded-xl cursor-pointer shadow-xl hover:scale-[1.02] transition-all relative group overflow-hidden transform-gpu"
                     // onClick={() => router.push(`/portofolio/${project.slug}`)}
                   >
                     {/* IMAGE (yang nge-zoom) */}
