@@ -158,7 +158,7 @@ export default function PortfolioPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="group relative overflow-hidden rounded-md shadow-md cursor-pointer bg-white"
+                className="group relative overflow-hidden md:flex md:justify-center rounded-md shadow-md cursor-pointer bg-transparent"
               >
                 <Link
                   href={linkUrl}
@@ -167,13 +167,16 @@ export default function PortfolioPage() {
                   }
                 >
                   {/* Gambar */}
-                  <div className="relative md:h-[100vh] h-[350px] w-full overflow-hidden">
+                  <div className="relative flex justify-center md:h-[100vh] h-[350px] w-full md:w-[1200px] overflow-hidden">
                     <Image
                       src={coverImage}
                       alt={item.name}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-700"
                     />
+                    <span className="absolute top-4 left-10 bg-black/50 text-white text-xs font-medium px-3 py-1 rounded-full">
+                    {typeLabelMap[item.type] || item.type}
+                  </span>
                   </div>
 
                   {/* Box teks */}
@@ -186,11 +189,6 @@ export default function PortfolioPage() {
                     </p>
                   </div> */}
 
-
-                  {/* Badge tipe */}
-                  <span className="absolute top-4 left-4 bg-black/50 text-white text-xs font-medium px-3 py-1 rounded-full">
-                    {typeLabelMap[item.type] || item.type}
-                  </span>
                 </Link>
               </motion.div>
             );
