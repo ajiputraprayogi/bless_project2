@@ -39,7 +39,7 @@ export default function HeroSection({ onExploreClick }: HeroSectionProps) {
   // Pilih banner aktif pertama, jika tidak ada fallback default
   const activeBanner =
     banners.find((b) => b.active) ?? {
-      img: "/images/design/1.png",
+      img: "/images/1.png",
       active: true,
       id: "default",
     };

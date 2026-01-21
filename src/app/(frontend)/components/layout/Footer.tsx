@@ -28,7 +28,7 @@ export default function Footer() {
             height={50}
           />
           <p className="text-white/90">
-            Bless Kontraktor merupakan perusahaan konsultan jasa arsitek yang menyediakan jasa desain, kontraktor pembangunan, dan interior & furniture.
+            Bless Arsitek & Kontraktor adalah jasa di bidang desain dan konstruksi yang menyediakan layanan pembangunan baru, renovasi, serta desain interior dan eksterior hingga tahap pelaksanaan
           </p>
           <div className="flex gap-4 text-xl text-white/90">
             <a href="https://www.instagram.com/Bless_Kontraktor/" target="_blank"><FaInstagram /></a>
@@ -43,10 +43,10 @@ export default function Footer() {
         <div className="space-y-2">
           <h4 className="font-semibold mb-8 text-xl">Kontak Kami</h4>
           <p>
-            Whatsapp: <a href="https://api.whatsapp.com/send?phone=6285176965609" className="text-orange-400">085176965609</a>
+            Whatsapp: <a href="https://api.whatsapp.com/send?phone=6285176965609" className="text-orange-400">0856-0672-5609</a>
           </p>
           <p>
-            Email: <a href="mailto:Blessmanagement@gmail.com" className="text-orange-400">Blessmanagement@gmail.com</a>
+            Email: <a href="mailto:Blessmanagement@gmail.com" className="text-orange-400">blesskontraktor@gmail.com</a>
           </p>
           <p>Alamat: Jl. Mayor Bismo No.279, Semampir, Kec. Kota, Kabupaten Kediri, Jawa Timur 64121</p>
         </div>
