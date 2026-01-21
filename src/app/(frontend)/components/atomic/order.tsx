@@ -17,7 +17,7 @@ export default function OrderForm() {
     alamat: "",
   });
 
-  const nomorAdmin = "6285176965609"; 
+  const nomorAdmin = "085606725609"; 
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>

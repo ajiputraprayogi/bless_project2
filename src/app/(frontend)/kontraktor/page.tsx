@@ -117,8 +117,12 @@ export default function JasaKontraktorPage() {
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6">
             Konsultasikan Desain Impian Anda
           </h2>
-          <p className="mb-4 text-lg max-w-3xl mx-auto">
-            <strong>Bless Kontraktor</strong> menyediakan layanan <b>jasa Kontraktor profesional</b>.
+          <p className="mb-4 text-lg max-w-3xl mx-auto text-justify">
+            <strong>Bless Arsitek dan Kontraktor</strong> menyediakan jasa kontraktor untuk pembangunan dan renovasi berbagai jenis bangunan, seperti rumah, villa, ruko, kantor, dan lainnya. Kami berkomitmen untuk memberikan hasil pembangunan berkualitas tinggi dengan memperhatikan keindahan, kenyamanan, dan ketahanan bangunan sebagai prioritas utama.
+
+Kami melayani renovasi rumah, mulai dari pekerjaan kecil seperti penambahan ruangan hingga renovasi besar seperti perombakan total atau renovasi pada ruangan tertentu.
+
+Didukung oleh tenaga kerja berpengalaman, kami pastikan setiap proyek selesai tepat waktu dengan hasil yang maksimal. Harga yang kami tawarkan dapat disesuaikan dengan anggaran Anda, dan kami terbuka untuk negosiasi.
           </p>
 
           <motion.button
@@ -130,37 +134,6 @@ export default function JasaKontraktorPage() {
             Hubungi Kami via WhatsApp
           </motion.button>
         </motion.div>
-      </section>
-
-      {/* BENEFITS */}
-      <section className="bg-gray-50 py-16">
-        <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-800 text-center mb-12">
-            Mengapa Memilih Jasa Kontraktor Kami?
-          </h2>
-
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            {benefits.map((benefit, index) => (
-              <motion.div
-                key={index}
-                className="bg-white p-6 rounded-xl shadow-lg border-t-4 border-orange-600"
-                variants={itemVariants}
-              >
-                <div className="flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 mb-4">
-                  {benefit.icon}
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">{benefit.title}</h3>
-                <p className="text-gray-600">{benefit.description}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
       </section>
 
       {/* PORTFOLIO SLIDER */}
@@ -244,6 +217,37 @@ export default function JasaKontraktorPage() {
   </motion.button>
 </div>
 
+        </div>
+      </section>
+
+            {/* BENEFITS */}
+      <section className="bg-gray-50 py-16">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-gray-800 text-center mb-12">
+            Mengapa Memilih Jasa Kontraktor Kami?
+          </h2>
+
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            {benefits.map((benefit, index) => (
+              <motion.div
+                key={index}
+                className="bg-white p-6 rounded-xl shadow-lg border-t-4 border-orange-600"
+                variants={itemVariants}
+              >
+                <div className="flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 mb-4">
+                  {benefit.icon}
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">{benefit.title}</h3>
+                <p className="text-gray-600">{benefit.description}</p>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
     </>
