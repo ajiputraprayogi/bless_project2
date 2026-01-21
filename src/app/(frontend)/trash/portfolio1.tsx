@@ -19,7 +19,7 @@ const filterButtons = [
   { label: "Semua", type: "all", href: "/" },
   { label: "Desain Arsitek", type: "arsitek", href: "/desainarsitek" },
   { label: "Jasa Kontraktor", type: "kontraktor", href: "/desainkontraktor" },
-  { label: "Interior & Furniture", type: "furnitur", href: "/desaininterior" },
+  { label: "Interior", type: "furnitur", href: "/desaininterior" },
   { label: "Komersial", type: "komersial", href: "/desainkomersial" },
   { label: "Animasi 3D", type: "animasi", href: "/desainanimasi" },
 ];
@@ -86,7 +86,7 @@ export default function PortfolioPage() {
   const typeLabelMap: Record<string, string> = {
     arsitek: "Desain Arsitek",
     kontraktor: "Jasa Kontraktor",
-    furnitur: "Interior & Furniture",
+    furnitur: "Interior",
     komersial: "Komersial",
     animasi: "Animasi 3D",
     all: "Semua",
@@ -167,14 +167,15 @@ export default function PortfolioPage() {
                   }
                 >
                   {/* Gambar */}
-                  <div className="relative flex justify-center md:h-[100vh] h-[350px] w-full md:w-[1200px] overflow-hidden">
+                  <div className="relative flex justify-center overflow-hidden">
                     <Image
                       src={coverImage}
                       alt={item.name}
-                      fill
+                      width={1600}
+                      height={900}
                       className="object-cover group-hover:scale-105 transition-transform duration-700"
                     />
-                    <span className="absolute top-4 left-10 bg-black/50 text-white text-xs font-medium px-3 py-1 rounded-full">
+                    <span className="absolute top-4 left-5 bg-black/50 text-white text-xs font-medium px-3 py-1 rounded-full">
                     {typeLabelMap[item.type] || item.type}
                   </span>
                   </div>

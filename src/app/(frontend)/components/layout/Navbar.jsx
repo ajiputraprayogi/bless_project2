@@ -16,7 +16,7 @@ export default function Navbar({
       dropdown: [
         { label: "Arsitek", href: "/arsitek" },
         { label: "Kontraktor", href: "/kontraktor" },
-        // { label: "Interior & Furniture", href: "/furnitur" },
+        { label: "Interior", href: "/furnitur" },
         { label: "Skema Layanan", href: "/order" },
       ],
     },
