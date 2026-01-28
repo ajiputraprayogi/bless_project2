@@ -124,7 +124,7 @@ export default function ProfilPerusahaan() {
               <div className="md:w-1/3">
                 <div className="bg-black p-4">
                   <Image
-                    src="/icon.jpg"
+                    src="/logo.png"
                     alt="Logo"
                     width={350}
                     height={120}
