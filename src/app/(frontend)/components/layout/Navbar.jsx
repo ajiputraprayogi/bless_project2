@@ -65,7 +65,7 @@ export default function Navbar({
           <span className="w-9 h-9 rounded-full flex items-center justify-center overflow-hidden">
             <Link href={"/"}>
               <Image
-                src="/images/brand/logos.png"
+                src="/logo.png"
                 alt="Brand Logo"
                 width={24}
                 height={24}
