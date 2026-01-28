@@ -22,7 +22,7 @@ export default function Footer() {
         {/* Logo & Description */}
         <div className="space-y-4">
           <Image
-            src="/images/brand/logos.png"
+            src="/logo.png"
             alt="Bless Kontraktor Logo Footer"
             width={50}
             height={50}
