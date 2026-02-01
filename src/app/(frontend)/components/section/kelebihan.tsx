@@ -73,7 +73,7 @@ export default function KelebihanKekuranganPage() {
           className="p-8 bg-[#2F3542]/70 backdrop-blur-sm shadow-sm rounded-2xl border-t-4 border-white"
         >
           <h2 className="text-2xl font-semibold text-green-400 mb-6 border-b border-gray-200 pb-2">
-            Kelebihan Memakai jasa Bless Kontraktor
+            Mengapa Bless Arsitek dan Kontraktor ?
           </h2>
           {kelebihan.map((item) => (
             <div key={item.id} className="mb-6">
@@ -91,18 +91,18 @@ export default function KelebihanKekuranganPage() {
                   </li>
                 ))}
               </ul>
-<button
-  onClick={() =>
-    window.open(
-      "https://wa.me/6285176965609?text=Halo%2C%20saya%20mau%20tanya%20mengenai%20layanan...",
-      "_blank"
-    )
-  }
-  className="mt-3 px-4 py-3 bg-yellow-400 text-black font-medium rounded-md 
+              <button
+                onClick={() =>
+                  window.open(
+                    "https://wa.me/6285176965609?text=Halo%2C%20saya%20mau%20tanya%20mengenai%20layanan...",
+                    "_blank"
+                  )
+                }
+                className="mt-3 px-4 py-3 bg-yellow-400 text-black font-medium rounded-md 
              transition duration-300 ease-in-out transform hover:scale-105 hover:bg-yellow-400 hover:text-white"
->
-  Hubungi Kami
-</button>
+              >
+                Hubungi Kami
+              </button>
 
             </div>
           ))}
@@ -117,7 +117,7 @@ export default function KelebihanKekuranganPage() {
           className="p-8 bg-[#2F3542]/70 backdrop-blur-sm shadow-sm rounded-2xl border-t-4 border-white"
         >
           <h2 className="text-2xl font-semibold text-red-400 mb-6 border-b border-gray-200 pb-2">
-            Kerugian Tidak Memakai Jasa Bless Kontraktor
+            Bangun Tanpa Arsitek & Kontraktor ? Ini Risikonya.
           </h2>
           {kekurangan.map((item) => (
             <div key={item.id} className="mb-6">
@@ -135,23 +135,35 @@ export default function KelebihanKekuranganPage() {
                   </li>
                 ))}
               </ul>
-<button
-  onClick={() =>
-    window.open(
-      "https://wa.me/6285176965609?text=Halo%2C%20saya%20mau%20tanya%20mengenai%20layanan...",
-      "_blank"
-    )
-  }
-  className="mt-3 px-4 py-3 bg-yellow-400 text-black font-medium rounded-md 
+              <button
+                onClick={() =>
+                  window.open(
+                    "https://wa.me/6285176965609?text=Halo%2C%20saya%20mau%20tanya%20mengenai%20layanan...",
+                    "_blank"
+                  )
+                }
+                className="mt-3 px-4 py-3 bg-yellow-400 text-black font-medium rounded-md 
              transition duration-300 ease-in-out transform hover:scale-105 hover:bg-yellow-400 hover:text-white"
->
-  Hubungi Kami
-</button>
+              >
+                Hubungi Kami
+              </button>
 
             </div>
 
           ))}
+          
         </motion.div>
+
+                  <div className="w-full text-center bg-blue-800 text-white rounded-2xl shadow-lg p-8 z-50">
+            <h2 className="text-2xl font-semibold mb-4">
+              Satu Pintu Koordinasi
+            </h2>
+            <p className="text-base leading-relaxed text-blue-100">
+              Dengan arsitek dan kontraktor dalam satu manajemen, komunikasi menjadi lebih efektif,
+              mengurangi kesalahpahaman, dan mempercepat pengambilan keputusan.
+            </p>
+          </div>
+
       </div>
     </main>
   );
