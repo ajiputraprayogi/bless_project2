@@ -62,7 +62,7 @@ export default function StepSection() {
               >
                 {/* GLASS CARD */}
                 <div
-                  className="
+                  className={`
                     inline-block
                     rounded-2xl
                     bg-white/70
@@ -70,7 +70,8 @@ export default function StepSection() {
                     shadow-lg
                     p-6
                     max-w-md
-                  "
+                    ${step.side === "start" ? "md:text-left" : "md:text-left"}
+                  `}
                 >
                   <div className="text-lg font-black text-[#2E2B25] mb-2">
                     {step.title}

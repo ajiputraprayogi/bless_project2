@@ -29,8 +29,7 @@ export default function FurnitureHero() {
           <div className="bg-transparent p-6 transition-all border-b">
             <h3 className="text-3xl font-semibold mb-2">Jasa Desain Arsitek</h3>
             <p className="text-gray-300 text-sm leading-relaxed">
-              Kami akan mewujudkan hunian dengan konsep desain yang bisa direquest sesuai
-              keinginan dan standar arsitektur agar menghasilkan hunian yang indah, aman, dan nyaman.
+              Wujudkan rumah impian Anda bersama tim arsitek profesional kami. Desain bisa disesuaikan dengan kebutuhan, gaya hidup, dan budget, dengan hasil yang indah, fungsional, dan nyaman untuk jangka panjang.
             </p>
           </div>
 
@@ -38,17 +37,15 @@ export default function FurnitureHero() {
           <div className="bg-transparent p-6 transition-all border-b">
             <h3 className="text-xl font-semibold mb-2">Kontraktor Pembangunan</h3>
             <p className="text-gray-300 text-sm leading-relaxed">
-              Kami berkomitmen memberikan hasil pembangunan bermutu tinggi dengan memperhatikan
-              keindahan, kenyamanan, dan ketahanan bangunan sebagai prioritas utama.
+              Bangun rumah tanpa ribet dan penuh kepastian. Kami menangani proses pembangunan secara profesional dengan kualitas kerja rapi, material terpilih, dan hasil bangunan yang kuat, aman, serta tepat waktu.
             </p>
           </div>
 
           {/* Service 3 */}
           <div className="bg-transparent p-6 transition-all border-b">
-            <h3 className="text-xl font-semibold mb-2">Interior & Furniture</h3>
+            <h3 className="text-xl font-semibold mb-2">Interior</h3>
             <p className="text-gray-300 text-sm leading-relaxed">
-              Kami melayani segala bentuk dan style hunian — pribadi maupun komersial — mulai dari
-              urban, eco, modern, tradisional, mediterania, hingga gaya Bali.
+              Lengkapi hunian Anda dengan desain interior yang serasi dan elegan. Kami melayani rumah pribadi hingga bangunan komersial dengan berbagai pilihan gaya, sesuai karakter dan keinginan Anda.
             </p>
           </div>
         </motion.div>

@@ -45,6 +45,9 @@ export default function Footer() {
           <p>
             Whatsapp: <a href="https://api.whatsapp.com/send?phone=6285176965609" className="text-orange-400">0856-0672-5609</a>
           </p>
+                    <p>
+            Whatsapp: <a href="https://api.whatsapp.com/send?phone=6285176965609" className="text-orange-400">0851-7696-5609</a>
+          </p>
           <p>
             Email: <a href="mailto:Blessmanagement@gmail.com" className="text-orange-400">blesskontraktor@gmail.com</a>
           </p>

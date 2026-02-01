@@ -56,6 +56,32 @@ export default function PortfolioDetailPage() {
   const IMAGE_WIDTH = 800; // adjust as needed
   const IMAGE_HEIGHT = 600; // 4:3 ratio
 
+const highlightKeywords = (
+  text: string,
+  keywords: string[]
+) => {
+  return text.split(/(\s+)/).map((part, index) => {
+    const cleanPart = part.replace(/[.,]/g, "").toLowerCase();
+
+    const isMatch = keywords.some(
+      keyword => keyword.toLowerCase() === cleanPart
+    );
+
+    return isMatch ? (
+      <strong
+        key={index}
+        className="font-semibold text-gray-900"
+      >
+        {part}
+      </strong>
+    ) : (
+      part
+    );
+  });
+};
+
+
+
   return (
     <main className="min-h-screen bg-[#F7F4EF] py-20 px-6 flex flex-col items-center gap-10 pt-[5rem]">
       {/* Fixed-width slider container */}
@@ -111,7 +137,7 @@ export default function PortfolioDetailPage() {
       {/* Description */}
       <div className="max-w-3xl text-center">
         <h1 className="text-4xl font-semibold text-[#2E2B25]">{item.name}</h1>
-        <p className="text-gray-600 mt-4 text-justify">{item.description}</p>
+        <p className="text-gray-600 mt-4 text-justify">{highlightKeywords(item.description, ["Bless", "Arsitek", "dan", "Kontraktor"])}</p>
       </div>
 
       {/* Contact button */}
