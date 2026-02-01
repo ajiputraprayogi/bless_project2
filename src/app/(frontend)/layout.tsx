@@ -15,7 +15,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Bless Luxury Contractor",
+  title: "Bless Arsitek & Kontraktor",
   description: "Kontraktor Site",
 };
 
