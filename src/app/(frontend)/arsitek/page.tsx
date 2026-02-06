@@ -19,8 +19,8 @@ interface Project {
 const benefits = [
   {
     icon: <Puzzle className="w-6 h-6 text-orange-600" />,
-    title: "Desain Kustom Unik",
-    description: "Setiap desain dibuat khusus sesuai preferensi, gaya hidup, dan anggaran Anda."
+    title: "Kualitas Terjamin",
+    description: "Setiap desain dibuat berdasarkan standar kualitas tinggi dan anggaran Anda."
   },
   {
     icon: <UserRound className="w-6 h-6 text-orange-600" />,
@@ -29,13 +29,13 @@ const benefits = [
   },
   {
     icon: <RefreshCw className="w-6 h-6 text-orange-600" />,
-    title: "Revisi Tanpa Batas*",
-    description: "Revisi desain tanpa batas (sesuai ketentuan)."
+    title: "Tepat Waktu & Efisien",
+    description: "Komitmen pada jadwal proyek dan efisiensi dalam setiap tahap pengerjaan."
   },
   {
     icon: <MessageCircle className="w-6 h-6 text-orange-600" />,
-    title: "Konsultasi Mudah",
-    description: "Layanan konsultasi online yang mudah diakses di seluruh Indonesia."
+    title: "Transparansi & Kepercayaan",
+    description: "Komunikasi terbuka dan transparan untuk membangun kepercayaan dengan klien."
   }
 ];
 
