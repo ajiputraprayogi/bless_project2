@@ -67,18 +67,18 @@ export default function ContactPage() {
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 relative">
                   <Image
-                    src="/images/brand/logos.png"
+                    src="/logo.png"
                     alt="Bless Design Logo"
                     fill
-                    className="object-contain rounded-lg"
+                    className="object-contain rounded-lg bg-black"
                   />
                 </div>
                 <div>
                   <h1 className="text-2xl font-semibold text-[#2F3542]">
-                    Bless Design
+                    Bless Arsitek & Kontraktor
                   </h1>
                   <p className="text-sm text-[#A4B0BE]">
-                    Modern Kontraktorure & interior design
+                    Jasa Arsitek & Kontraktor Profesional
                   </p>
                 </div>
               </div>
