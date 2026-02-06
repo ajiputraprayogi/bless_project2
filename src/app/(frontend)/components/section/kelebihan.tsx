@@ -154,15 +154,28 @@ export default function KelebihanKekuranganPage() {
           
         </motion.div>
 
-                  <div className="w-full text-center bg-blue-800 text-white rounded-2xl shadow-lg p-8 z-50">
-            <h2 className="text-2xl font-semibold mb-4">
-              Satu Pintu Koordinasi
-            </h2>
-            <p className="text-base leading-relaxed text-blue-100">
-              Dengan arsitek dan kontraktor dalam satu manajemen, komunikasi menjadi lebih efektif,
-              mengurangi kesalahpahaman, dan mempercepat pengambilan keputusan.
-            </p>
-          </div>
+<div className="relative w-full max-w-6xl mx-auto overflow-hidden rounded-2xl border border-white/20 bg-gradient-to-br from-blue-700 via-blue-800 to-indigo-900 p-8 text-white shadow-xl">
+  {/* glow background */}
+  <div className="pointer-events-none absolute -top-24 -right-24 h-64 w-64 rounded-full bg-blue-400/30 blur-3xl" />
+  <div className="pointer-events-none absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-indigo-500/20 blur-3xl" />
+
+  <div className="relative z-10 space-y-4 text-center">
+    <span className="inline-block rounded-full bg-white/10 px-4 py-1 text-sm font-medium tracking-wide text-blue-100">
+      Koordinasi Terintegrasi
+    </span>
+
+    <h2 className="text-3xl font-semibold leading-tight tracking-tight">
+      Satu Pintu Koordinasi
+    </h2>
+
+    <p className="text-base leading-relaxed text-blue-100">
+      Dengan arsitek dan kontraktor dalam satu manajemen, komunikasi menjadi
+      lebih efektif, mengurangi kesalahpahaman, dan mempercepat pengambilan
+      keputusan.
+    </p>
+  </div>
+</div>
+
 
       </div>
     </main>

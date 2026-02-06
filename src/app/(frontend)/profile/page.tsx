@@ -136,7 +136,7 @@ export default function ProfilPerusahaan() {
               <div className="md:w-2/3 space-y-3 text-gray-700">
                 <div>
                   <h2 className="text-xl font-semibold mb-1 text-orange-500">Sejarah</h2>
-                  <p className="text-justify">{profil.sejarah}</p>
+                  <p className="text-justify"><span className="font-bold">Bless Arsitek & Kontraktor</span> hadir sebagai jawaban atas kebutuhan masyarakat akan layanan kontraktor dan desain bangunan yang tidak hanya fungsional, tetapi juga menghadirkan nilai estetika dan kemewahan.</p>
                 </div>
 
                 <div>
