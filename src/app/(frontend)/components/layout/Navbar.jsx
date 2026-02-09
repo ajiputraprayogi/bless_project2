@@ -62,13 +62,13 @@ export default function Navbar({
       <nav className="mx-auto w-full bg-black/80 border border-[#14100c]/15 px-4 py-3 flex items-center justify-between gap-4 z-99">
         {/* Brand */}
         <div className="flex items-center gap-3">
-          <span className="w-9 h-9 rounded-full flex items-center justify-center overflow-hidden">
+          <span className="w-9 h-9 flex items-center justify-center overflow-hidden">
             <Link href={"/"}>
               <Image
                 src="/logo.png"
                 alt="Brand Logo"
-                width={24}
-                height={24}
+                width={45}
+                height={45}
                 className="object-contain"
               />
             </Link>
