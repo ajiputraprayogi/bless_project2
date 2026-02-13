@@ -19,7 +19,7 @@ interface Project {
 const benefits = [
   {
     icon: <Puzzle className="w-6 h-6 text-orange-600" />,
-    title: "Kualitas Terjamin",
+    title: "Desain Kustom Unik",
     description: "Setiap desain dibuat berdasarkan standar kualitas tinggi dan anggaran Anda."
   },
   {
@@ -29,13 +29,13 @@ const benefits = [
   },
   {
     icon: <RefreshCw className="w-6 h-6 text-orange-600" />,
-    title: "Tepat Waktu & Efisien",
-    description: "Komitmen pada jadwal proyek dan efisiensi dalam setiap tahap pengerjaan."
+    title: "Revisi Fleksibel",
+    description: "Revisi desain fleksibel hingga Anda puas dengan hasil akhirnya."
   },
   {
     icon: <MessageCircle className="w-6 h-6 text-orange-600" />,
-    title: "Transparansi & Kepercayaan",
-    description: "Komunikasi terbuka dan transparan untuk membangun kepercayaan dengan klien."
+    title: "Konsultasi Mudah",
+    description: "Layanan konsultasi online yang mudah diakses di seluruh Indonesia."
   }
 ];
 
@@ -118,7 +118,7 @@ export default function JasaArsitekPage() {
             Konsultasikan Desain Impian Anda
           </h2>
           <p className="mb-4 text-lg max-w-3xl mx-auto text-justify">
-            <strong>Bless Kontraktor</strong> menyediakan layanan jasa arsitektur dengan tim yang berpengalaman dan profesional. Kami melayani desain rumah, villa, kost, apartemen, residence, kantor, cafe, serta berbagai jenis bangunan lainnya.
+            <strong>Bless Arsitek & Kontraktor</strong> menyediakan layanan jasa arsitektur dengan tim yang berpengalaman dan profesional. Kami melayani desain rumah, villa, kost, apartemen, residence, kantor, cafe, serta berbagai jenis bangunan lainnya.
 
 Kami membantu mewujudkan desain sesuai kebutuhan dan keinginan Anda, dengan pengerjaan yang mengikuti standar arsitektur untuk menghasilkan bangunan yang indah, aman, dan nyaman.
 
