@@ -122,7 +122,7 @@ export default function JasaKontraktorPage() {
 
 Kami melayani renovasi rumah, mulai dari pekerjaan kecil seperti penambahan ruangan hingga renovasi besar seperti perombakan total atau renovasi pada ruangan tertentu.
 
-Didukung oleh tenaga kerja berpengalaman, kami pastikan setiap proyek selesai tepat waktu dengan hasil yang maksimal. Harga yang kami tawarkan dapat disesuaikan dengan anggaran Anda, dan kami terbuka untuk negosiasi.
+Didukung oleh tenaga kerja berpengalaman, kami pastikan setiap proyek selesai tepat waktu dengan hasil yang maksimal. Harga yang kami tawarkan dapat disesuaikan dengan anggaran Anda.
           </p>
 
           <motion.button
