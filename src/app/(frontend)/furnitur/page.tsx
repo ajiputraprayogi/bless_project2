@@ -19,7 +19,7 @@ interface Project {
 const benefits = [
   {
     icon: <Puzzle className="w-6 h-6 text-orange-600" />,
-    title: "Kualitas Terjamin",
+    title: "Desain Kustom Unik",
     description: "Setiap desain dibuat berdasarkan standar kualitas tinggi dan anggaran Anda."
   },
   {
@@ -29,13 +29,13 @@ const benefits = [
   },
   {
     icon: <RefreshCw className="w-6 h-6 text-orange-600" />,
-    title: "Tepat Waktu & Efisien",
-    description: "Komitmen pada jadwal proyek dan efisiensi dalam setiap tahap pengerjaan."
+    title: "Revisi Fleksibel",
+    description: "Revisi desain fleksibel hingga Anda puas dengan hasil akhirnya."
   },
   {
     icon: <MessageCircle className="w-6 h-6 text-orange-600" />,
-    title: "Transparansi & Kepercayaan",
-    description: "Komunikasi terbuka dan transparan untuk membangun kepercayaan dengan klien."
+    title: "Konsultasi Mudah",
+    description: "Layanan konsultasi online yang mudah diakses di seluruh Indonesia."
   }
 ];
 
@@ -118,11 +118,17 @@ export default function JasaKontraktorPage() {
             Konsultasikan Desain Impian Anda
           </h2>
           <p className="mb-4 text-lg max-w-3xl mx-auto text-justify">
-            <strong>Bless Arsitek dan Kontraktor</strong> menyediakan jasa kontraktor untuk pembangunan dan renovasi berbagai jenis bangunan, seperti rumah, villa, ruko, kantor, dan lainnya. Kami berkomitmen untuk memberikan hasil pembangunan berkualitas tinggi dengan memperhatikan keindahan, kenyamanan, dan ketahanan bangunan sebagai prioritas utama.
+            <strong>Bless Arsitek dan Kontraktor</strong> melayani jasa desain interior sekaligus pengerjaannya, sehingga setiap ide Anda bisa terwujud dengan hasil yang maksimal.
 
-Kami melayani renovasi rumah, mulai dari pekerjaan kecil seperti penambahan ruangan hingga renovasi besar seperti perombakan total atau renovasi pada ruangan tertentu.
+Kami melayani berbagai kebutuhan ruang, baik untuk hunian pribadi maupun bangunan komersial. Beragam gaya desain dapat kami kerjakan, mulai dari modern, urban, eco, tradisional, mediterania, Bali, hingga konsep lainnya sesuai keinginan Anda.
 
-Didukung oleh tenaga kerja berpengalaman, kami pastikan setiap proyek selesai tepat waktu dengan hasil yang maksimal. Harga yang kami tawarkan dapat disesuaikan dengan anggaran Anda, dan kami terbuka untuk negosiasi.
+Dengan sistem kerja yang rapi dan profesional, kami siap melayani desain interior di seluruh Indonesia.
+
+Sudah punya gambaran desain? Silakan diskusikan bersama kami.
+
+Belum punya ide? Tidak perlu khawatir, tim kami akan membantu menentukan desain yang paling sesuai dengan kebutuhan dan karakter ruang Anda.
+<br />
+<strong>Wujudkan Interior Impian Anda bersama Bless Arsitek dan Kontraktor.</strong>
           </p>
 
           <motion.button
@@ -141,7 +147,7 @@ Didukung oleh tenaga kerja berpengalaman, kami pastikan setiap proyek selesai te
         <div className="mb-12">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-3xl font-bold text-gray-800 border-l-4 border-orange-600 pl-3">
-              Karya Kontraktor Kami
+              Karya Kami
             </h2>
 
             <div className="flex space-x-3">
@@ -224,7 +230,7 @@ Didukung oleh tenaga kerja berpengalaman, kami pastikan setiap proyek selesai te
       <section className="bg-gray-50 py-16">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-gray-800 text-center mb-12">
-            Mengapa Memilih Jasa Kontraktor Kami?
+            Mengapa Memilih Kami?
           </h2>
 
           <motion.div
