@@ -154,25 +154,48 @@ export default function KelebihanKekuranganPage() {
           
         </motion.div>
 
-<div className="relative w-full max-w-6xl mx-auto overflow-hidden rounded-2xl border border-white/20 bg-gradient-to-br from-blue-700 via-blue-800 to-indigo-900 p-8 text-white shadow-xl">
-  {/* glow background */}
-  <div className="pointer-events-none absolute -top-24 -right-24 h-64 w-64 rounded-full bg-blue-400/30 blur-3xl" />
+<div className="relative w-full max-w-6xl mx-auto overflow-hidden rounded-2xl border border-white/20 bg-slate-900 p-8 text-white shadow-2xl">
+  
+  {/* 1. BACKGROUND IMAGE LAYER */}
+  {/* Ganti url di bawah ini dengan path image arsitek Anda, misal: "/images/arsitek-bg.jpg" */}
+  <div 
+    className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
+    style={{ 
+      backgroundImage: "url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop')" 
+    }}
+  >
+    {/* Overlay Gelap & Biru untuk memastikan teks terbaca & menyatu dengan tema */}
+    <div className="absolute inset-0 bg-gradient-to-br from-yellow-900/90 via-yellow-900/80 to-yellow-950/95 backdrop-blur-[2px]" />
+  </div>
+
+  {/* 2. GLOW EFFECTS (Diposisikan ulang agar menyatu dengan background) */}
+  <div className="pointer-events-none absolute -top-24 -right-24 h-64 w-64 rounded-full bg-blue-400/20 blur-3xl" />
   <div className="pointer-events-none absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-indigo-500/20 blur-3xl" />
 
-  <div className="relative z-10 space-y-4 text-center">
-    <span className="inline-block rounded-full bg-white/10 px-4 py-1 text-sm font-medium tracking-wide text-blue-100">
+  {/* 3. CONTENT LAYER */}
+  <div className="relative z-10 flex flex-col items-center justify-center space-y-6 text-center">
+    
+    {/* Badge */}
+    <span className="inline-flex items-center rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-blue-100 shadow-sm backdrop-blur-md">
       Koordinasi Terintegrasi
     </span>
 
-    <h2 className="text-3xl font-semibold leading-tight tracking-tight">
+    {/* Heading */}
+    <h2 className="text-4xl font-bold leading-tight tracking-tight text-white drop-shadow-md">
       Satu Pintu Koordinasi
     </h2>
 
-    <p className="text-base leading-relaxed text-blue-100">
-      Dengan arsitek dan kontraktor dalam satu manajemen, komunikasi menjadi
-      lebih efektif, mengurangi kesalahpahaman, dan mempercepat pengambilan
-      keputusan.
-    </p>
+    {/* Description */}
+    <div className="max-w-2xl">
+      <p className="text-lg leading-relaxed text-blue-100/90">
+        Dengan arsitek dan kontraktor dalam satu manajemen, komunikasi menjadi
+        lebih efektif, mengurangi kesalahpahaman, dan mempercepat pengambilan
+        keputusan.
+      </p>
+    </div>
+
+    {/* Optional: Decorative Line */}
+    <div className="h-1 w-24 rounded-full bg-gradient-to-r from-transparent via-blue-400 to-transparent opacity-50" />
   </div>
 </div>
 
