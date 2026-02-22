@@ -29,7 +29,7 @@ export default function Navbar({
     },
     // { label: "Portfolio", href: "/portfolio" },
     {
-      label: "Portfolio",
+      label: "Portofolio",
       dropdown: [
         { label: "Arsitek", href: "/desainarsitek" },
         { label: "Kontraktor", href: "/desainkontraktor" },
