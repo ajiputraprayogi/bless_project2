@@ -21,12 +21,20 @@ function getYoutubeEmbed(url: string) {
   try {
     const u = new URL(url);
 
+    // ✅ youtube.com/watch?v=ID
     if (u.searchParams.get("v")) {
       return `https://www.youtube.com/embed/${u.searchParams.get("v")}`;
     }
 
+    // ✅ youtu.be/ID
     if (u.hostname === "youtu.be") {
       return `https://www.youtube.com/embed${u.pathname}`;
+    }
+
+    // ✅ youtube.com/shorts/ID
+    if (u.pathname.startsWith("/shorts/")) {
+      const id = u.pathname.split("/shorts/")[1];
+      return `https://www.youtube.com/embed/${id}`;
     }
 
     return null;

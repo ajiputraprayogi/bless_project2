@@ -3,6 +3,7 @@
 import React from "react";
 import { FaInstagram, FaFacebook, FaTiktok, FaYoutube } from "react-icons/fa";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -30,12 +31,19 @@ export default function Footer() {
           <p className="text-white/90">
             Bless Arsitek & Kontraktor adalah jasa di bidang desain dan konstruksi yang menyediakan layanan pembangunan baru, renovasi, serta desain interior dan eksterior hingga tahap pelaksanaan
           </p>
+          {/* <div className="flex gap-4 text-xl text-white/90">
+            <a href="https://www.instagram.com/Bless_Kontraktor/"><FaInstagram /></a>
+            <a href="https://instagram.com/Bless_construction?utm_medium=copy_link"><FaInstagram /></a>
+            <a href="https://www.facebook.com/jasaarsitek.kedirijawatimur"><FaFacebook /></a>
+            <a href="https://www.tiktok.com/@Bless.arsitek?lang=id-ID"><FaTiktok /></a>
+            <a href="https://www.youtube.com/channel/UCscxnyb5CbEagKqitQlKCqA"><FaYoutube /></a>
+          </div> */}
           <div className="flex gap-4 text-xl text-white/90">
-            <a href="https://www.instagram.com/Bless_Kontraktor/" target="_blank"><FaInstagram /></a>
-            <a href="https://instagram.com/Bless_construction?utm_medium=copy_link" target="_blank"><FaInstagram /></a>
-            <a href="https://www.facebook.com/jasaarsitek.kedirijawatimur" target="_blank"><FaFacebook /></a>
-            <a href="https://www.tiktok.com/@Bless.arsitek?lang=id-ID" target="_blank"><FaTiktok /></a>
-            <a href="https://www.youtube.com/channel/UCscxnyb5CbEagKqitQlKCqA" target="_blank"><FaYoutube /></a>
+            {/* <Link href="https://www.instagram.com/Bless_Kontraktor/"><FaInstagram /></Link> */}
+            <Link href="/kontak"><FaInstagram /></Link>
+            <Link href="/kontak"><FaFacebook /></Link>
+            <Link href="/kontak"><FaTiktok /></Link>
+            <Link href="/https://youtube.com/@bless.kontraktor?si=Vk3jstmon2gWMH7z"><FaYoutube /></Link>
           </div>
         </div>
 
