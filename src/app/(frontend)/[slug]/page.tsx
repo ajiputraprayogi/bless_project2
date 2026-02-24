@@ -111,7 +111,7 @@ export default function PortfolioDetailPage() {
             {/* Button Selengkapnya */}
       <div className="w-full max-w-4xl flex justify-end">
         <Link
-          href="/portfolio"
+          href="/kontak"
           className="px-6 py-3 bg-yellow-300 text-black rounded-xl hover:bg-yellow-600 transition"
         >
           Hubungi Kami →
