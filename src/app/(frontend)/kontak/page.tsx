@@ -84,10 +84,13 @@ export default function ContactPage() {
               </div>
 
               <p className="mt-6 leading-relaxed text-[#2F3542]/80">
-                Butuh kerjasama atau ngobrol soal desain?
+                Butuh ngobrol atau konsultasi dengan tim kami?
                 <br />
-                Kami terbuka untuk konsultasi desain, request style arsitek, dan
-                kolaborasi proyek.
+                Konsultasi sekarang dan mulai realisasikan bangunan impian Anda dengan perencanaan yang tepat.
+                <br />
+                Kami terbuka untuk konsultasi desain, bangun baru, dan renovasi.
+                <br />
+                Hubungi kami sekarang
               </p>
             </div>
           </div>
