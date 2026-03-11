@@ -107,6 +107,20 @@ export default function TestimoniChatPage() {
   const [error, setError] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
+  /* ================= CLOSE ON ESCAPE ================= */
+  useEffect(() => {
+    if (!selectedImage) return;
+
+    const handleKeydown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setSelectedImage(null);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeydown);
+    return () => window.removeEventListener("keydown", handleKeydown);
+  }, [selectedImage]);
+
   /* ================= FETCH ================= */
   useEffect(() => {
     async function fetchTestimoni() {
@@ -248,6 +262,16 @@ export default function TestimoniChatPage() {
               className="relative w-full max-w-5xl h-[90vh]"
               onClick={(e) => e.stopPropagation()}
             >
+              {/* Close button */}
+              <button
+                type="button"
+                onClick={() => setSelectedImage(null)}
+                className="absolute top-4 right-4 z-10 h-10 w-10 rounded-full bg-black/60 text-white shadow-lg hover:bg-black/75 focus:outline-none focus:ring-2 focus:ring-white"
+                aria-label="Tutup gambar"
+              >
+                <span className="text-2xl leading-none">×</span>
+              </button>
+
               <Image
                 src={selectedImage}
                 alt="Preview"
