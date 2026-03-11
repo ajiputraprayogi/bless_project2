@@ -48,19 +48,23 @@ function ImageCard({
   src,
   alt,
   onClick,
+  className,
+  imageClassName,
 }: {
   src: string;
   alt: string | null;
   onClick: (src: string) => void;
+  className?: string;
+  imageClassName?: string;
 }) {
   return (
     <motion.div
       whileHover={{ scale: 1.03 }}
       transition={{ duration: 0.3 }}
-      className="border border-yellow-400/20 bg-zinc-900 rounded-2xl shadow-lg shadow-black/40 overflow-hidden cursor-pointer border border-white/5"
+      className={`border border-yellow-400/20 bg-zinc-900 rounded-2xl shadow-lg shadow-black/40 overflow-hidden cursor-pointer border border-white/5 ${className ?? ""}`}
       onClick={() => onClick(src)}
     >
-      <div className="relative w-full h-64">
+      <div className={imageClassName ?? "relative w-full h-64"}>
         <Image
           src={src}
           alt={alt || "Screenshot Chat"}
@@ -188,15 +192,24 @@ export default function TestimoniChatPage() {
                 Screenshot Chat Klien
               </h2>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                {sschat.map(item => (
-                  <ImageCard
-                    key={item.id}
-                    src={item.src!}
-                    alt={item.alt}
-                    onClick={setSelectedImage}
-                  />
-                ))}
+              <div className="relative">
+                <div className="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-6 px-4">
+                  {sschat.map(item => (
+                    <div
+                      key={item.id}
+                      className="snap-center flex-shrink-0 w-full"
+                    >
+                      <ImageCard
+                        src={item.src!}
+                        alt={item.alt}
+                        onClick={setSelectedImage}
+                        imageClassName="relative w-full aspect-video"
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black/90 to-transparent" />
               </div>
             </section>
           )}
