@@ -17,7 +17,7 @@ export default function OrderForm() {
     alamat: "",
   });
 
-  const nomorAdmin = "085176965609"; 
+  const nomorAdmin = "+6285176965609"; 
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -67,7 +67,7 @@ export default function OrderForm() {
               {
                 label: "Email *",
                 name: "email",
-                type: "email",
+                type: "text",
                 placeholder: "Email aktif",
               },
               {
