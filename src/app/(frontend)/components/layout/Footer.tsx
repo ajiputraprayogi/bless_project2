@@ -43,7 +43,7 @@ export default function Footer() {
             <Link href="/kontak"><FaInstagram /></Link>
             <Link href="/kontak"><FaFacebook /></Link>
             <Link href="/kontak"><FaTiktok /></Link>
-            <Link href="/https://youtube.com/@bless.kontraktor?si=Vk3jstmon2gWMH7z"><FaYoutube /></Link>
+            <Link href="/desainanimasi"><FaYoutube /></Link>
           </div>
         </div>
 
