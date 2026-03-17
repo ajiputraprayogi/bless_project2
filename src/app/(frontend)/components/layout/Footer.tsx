@@ -40,9 +40,9 @@ export default function Footer() {
           </div> */}
           <div className="flex gap-4 text-xl text-white/90">
             {/* <Link href="https://www.instagram.com/Bless_Kontraktor/"><FaInstagram /></Link> */}
-            <Link href="/kontak"><FaInstagram /></Link>
-            <Link href="/kontak"><FaFacebook /></Link>
-            <Link href="/kontak"><FaTiktok /></Link>
+            <Link href="https://www.instagram.com/bless.arsitekdankontraktor"><FaInstagram /></Link>
+            <Link href="https://www.facebook.com/share/16dieoJsDn/"><FaFacebook /></Link>
+            <Link href="https://www.tiktok.com/@bless.kontraktor"><FaTiktok /></Link>
             <Link href="/desainanimasi"><FaYoutube /></Link>
           </div>
         </div>
