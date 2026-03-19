@@ -128,7 +128,12 @@ Kami melayani seluruh wilayah Indonesia dan menyediakan konsultasi online yang m
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => window.open("https://wa.me/6285176965609", "_blank")}
+            onClick={() => 
+  window.open(
+    "https://wa.me/6285176965609?text=Halo%20saya%20mau%20tanya%20mengenai%20layanan%20bless%20arsitek%20dan%20kontraktor",
+    "_blank"
+  )
+}
             className="mt-6 px-8 py-4 bg-orange-600 text-white font-semibold text-lg rounded-full shadow-lg"
           >
             Hubungi Kami via WhatsApp
@@ -201,7 +206,12 @@ Kami melayani seluruh wilayah Indonesia dan menyediakan konsultasi online yang m
             <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => window.open("https://wa.me/6285176965609", "_blank")}
+            onClick={() => 
+  window.open(
+    "https://wa.me/6285176965609?text=Halo%20saya%20mau%20tanya%20mengenai%20layanan%20bless%20arsitek%20dan%20kontraktor",
+    "_blank"
+  )
+}
             className="mt-6 px-8 py-4 bg-orange-600 text-white font-semibold text-lg shadow-lg"
           >
             Hubungi Admin

@@ -142,12 +142,17 @@ const highlightKeywords = (
 
       {/* Contact button */}
       <div className="w-full max-w-4xl flex justify-end">
-        <Link
-          href="/kontak"
+        <button
+          onClick={() => 
+  window.open(
+    "https://wa.me/6285176965609?text=Halo%20saya%20mau%20tanya%20mengenai%20layanan%20bless%20arsitek%20dan%20kontraktor",
+    "_blank"
+  )
+}
           className="px-6 py-3 bg-yellow-300 text-black rounded-xl hover:bg-yellow-600 transition"
         >
           Hubungi Kami →
-        </Link>
+        </button>
       </div>
     </main>
   );
