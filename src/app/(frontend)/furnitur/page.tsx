@@ -87,7 +87,8 @@ export default function JasaKontraktorPage() {
       {/* HERO */}
       <section className="relative w-full h-[60vh] md:h-[70vh] overflow-hidden">
         <Image
-          src="/images/design/1.png"
+          // src="/images/design/1.png"
+          src="/images/bg1.jpg"
           alt="Background Hero Kontraktor"
           fill
           className="object-cover transition-transform duration-1000 ease-in-out hover:scale-105"

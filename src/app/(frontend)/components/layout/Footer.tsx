@@ -43,7 +43,7 @@ export default function Footer() {
             <Link href="https://www.instagram.com/bless.arsitekdankontraktor"><FaInstagram /></Link>
             <Link href="https://www.facebook.com/share/16dieoJsDn/"><FaFacebook /></Link>
             <Link href="https://www.tiktok.com/@bless.kontraktor"><FaTiktok /></Link>
-            <Link href="/desainanimasi"><FaYoutube /></Link>
+            <Link href="https://www.youtube.com/@bless.kontraktor"><FaYoutube /></Link>
           </div>
         </div>
 

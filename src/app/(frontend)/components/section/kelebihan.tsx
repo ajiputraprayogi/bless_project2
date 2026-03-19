@@ -138,7 +138,7 @@ export default function KelebihanKekuranganPage() {
               <button
                 onClick={() =>
                   window.open(
-                    "https://wa.me/6285176965609?text=Halo%2C%20saya%20mau%20tanya%20mengenai%20layanan...",
+                    "https://wa.me/6285176965609?text=Halo%2C%20saya%20mau%20tanya%20mengenai%20layanan%20bless%20arsitek%20dan%20kontraktor",
                     "_blank"
                   )
                 }

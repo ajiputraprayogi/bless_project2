@@ -5,6 +5,7 @@ import GradualBlur from "./components/layout/gradual";
 import Navbar from "./components/layout/Navbar";
 import AOSInitializer from "./components/layout/AOSinitializer";
 import { Outfit } from "next/font/google";
+import WhatsappCTA from "./components/whatsapp";
 
 // ⬇️ IMPORT WRAPPER CLIENT
 import FooterWrapper from "./components/layout/footerwrapper";
@@ -24,6 +25,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={outfit.className}>
         <AOSInitializer />
+        <WhatsappCTA
+          phone="6285176965609"
+        message="Halo, saya mau tanya mengenai layanan bless arsitek dan kontraktor"
+        />
         <section className="relative min-h-screen overflow-hidden">
           <div className="h-full">
             <Navbar />
