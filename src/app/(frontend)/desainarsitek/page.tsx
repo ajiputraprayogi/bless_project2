@@ -64,7 +64,7 @@ export default function ComercialPage() {
       {/* HERO */}
       <section className="relative w-full h-[50vh]">
         <Image
-          src="/images/design/1.png"
+          src="/images/bg1.jpg"
           alt="Hero Background"
           fill
           className="object-cover"

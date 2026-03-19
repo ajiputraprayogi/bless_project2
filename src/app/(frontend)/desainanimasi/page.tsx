@@ -50,7 +50,8 @@ export default function YoutubeApiPage() {
       {/* HERO SECTION */}
       <section className="relative w-full h-[50vh] md:h-[60vh]">
         <Image
-          src="/images/design/2.png"
+          // src="/images/design/2.png"
+          src="/images/bg1.jpg"
           alt="Background Hero"
           fill
           className="object-cover"

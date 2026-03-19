@@ -65,7 +65,7 @@ export default function OrderForm() {
                 placeholder: "Nama Lengkap",
               },
               {
-                label: "Email *",
+                label: "Email",
                 name: "email",
                 type: "text",
                 placeholder: "Email aktif",
@@ -120,12 +120,11 @@ export default function OrderForm() {
                 options: ["1 Lantai", "2 Lantai", "3 Lantai", "4+ Lantai"],
               },
               {
-                label: "Jenis Paket Desain",
+                label: "Pilih Jenis Layanan",
                 name: "paket",
                 options: [
-                  "Paket Arsitek",
-                  "Paket Interior",
-                  "Paket Arsitek + Interior",
+                  "Layanan Desain Arsitek",
+                  "Layanan Desain Arsitek + Kontraktor",
                 ],
               },
               {
