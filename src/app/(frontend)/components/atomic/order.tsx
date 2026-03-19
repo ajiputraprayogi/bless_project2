@@ -120,7 +120,7 @@ export default function OrderForm() {
                 options: ["1 Lantai", "2 Lantai", "3 Lantai", "4+ Lantai"],
               },
               {
-                label: "Pilih Jenis Layanan",
+                label: "Jenis Layanan",
                 name: "paket",
                 options: [
                   "Layanan Desain Arsitek",
