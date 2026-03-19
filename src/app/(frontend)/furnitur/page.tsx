@@ -137,7 +137,7 @@ Belum punya ide? Tidak perlu khawatir, tim kami akan membantu menentukan desain 
             whileTap={{ scale: 0.95 }}
             onClick={() => 
   window.open(
-    "https://wa.me/6285176965609?text=Halo%20saya%20mau%20tanya%20mengenai%20layanan%20bless%20arsitek%20dan%20kontraktor",
+    "https://wa.me/6285176965609?text=Halo%20saya%20mau%20tanya%20mengenai%20layanan%20Bless%20Arsitek%20dan%20Kontraktor",
     "_blank"
   )
 }
@@ -224,7 +224,7 @@ Belum punya ide? Tidak perlu khawatir, tim kami akan membantu menentukan desain 
     whileTap={{ scale: 0.95 }}
     onClick={() => 
   window.open(
-    "https://wa.me/6285176965609?text=Halo%20saya%20mau%20tanya%20mengenai%20layanan%20bless%20arsitek%20dan%20kontraktor",
+    "https://wa.me/6285176965609?text=Halo%20saya%20mau%20tanya%20mengenai%20layanan%20Bless%20Arsitek%20dan%20Kontraktor",
     "_blank"
   )
 }
