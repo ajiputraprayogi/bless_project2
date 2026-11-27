@@ -1,23 +1,26 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { cachedPublicQuery, publicJsonResponse } from "@/lib/cache";
 
 export async function GET() {
   try {
-    // ✅ Ambil semua Testimoni, urutkan berdasarkan ID DESC (terbaru di atas)
-    // Sesuai dengan skema Anda: id, client, message, alt, video, avatar, src
-    const testimoni = await prisma.testimoni.findMany({
-      select: {
-        id: true,
-        client: true,
-        message: true,
-        alt: true,
-        video: true,
-        avatar: true, 
-        src: true,
-        // created_at dan updated_at dihapus karena tidak ada di skema
-      },
-      orderBy: { id: "desc" }, // Umumnya testimoni diurutkan dari yang terbaru
-    });
+    const testimoni = await cachedPublicQuery(
+      ["public-testimoni"],
+      "testimoni",
+      async () =>
+        prisma.testimoni.findMany({
+          select: {
+            id: true,
+            client: true,
+            message: true,
+            alt: true,
+            video: true,
+            avatar: true,
+            src: true,
+          },
+          orderBy: { id: "desc" },
+        })
+    );
 
     if (!testimoni || testimoni.length === 0) {
       return NextResponse.json(
@@ -26,7 +29,7 @@ export async function GET() {
       );
     }
 
-    return NextResponse.json(testimoni, { status: 200 });
+    return publicJsonResponse(testimoni, 200);
   } catch (error) {
     console.error("Error mengambil data Testimoni:", error);
     return NextResponse.json(

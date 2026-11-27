@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { prisma } from "@/lib/db";
 
 // ✅ GET: Ambil data kontak berdasarkan ID
@@ -38,6 +39,8 @@ export async function PUT(req, { params }) {
       data: { platform, url, icon, order, is_active },
     });
 
+    revalidateTag("kontak");
+
     return NextResponse.json(updatedContact, { status: 200 });
   } catch (error) {
     console.error("PUT /kontak/[id] error:", error);
@@ -59,6 +62,7 @@ export async function DELETE(req, { params }) {
     }
 
     await prisma.kontak.delete({ where: { id } });
+    revalidateTag("kontak");
 
     return NextResponse.json({ message: "Contact deleted" }, { status: 200 });
   } catch (error) {

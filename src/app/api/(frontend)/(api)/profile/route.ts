@@ -1,46 +1,48 @@
-// src/app/(frontend)/api/profile/route.ts
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { cachedPublicQuery, publicJsonResponse } from "@/lib/cache";
 
 export async function GET() {
   try {
-    // ✅ Ambil data profil Portofolio atau pertama dari database, termasuk misi yang berelasi
-    const dbProfile = await prisma.profile.findFirst({
-      select: {
-        id: true,
-        sejarah: true,
-        visi: true,
-        misi: {
+    const profileData = await cachedPublicQuery(
+      ["public-profile"],
+      "profile",
+      async () => {
+        const dbProfile = await prisma.profile.findFirst({
           select: {
             id: true,
-            text: true,
+            sejarah: true,
+            visi: true,
+            misi: {
+              select: {
+                id: true,
+                text: true,
+              },
+              orderBy: { id: "asc" },
+            },
           },
-          orderBy: { id: "asc" }, // Urutkan misi berdasarkan ID atau kriteria lain jika ada
-        },
-      },
-      orderBy: { created_at: "desc" }, // Ambil profil yang paling baru dibuat
-    });
+          orderBy: { created_at: "desc" },
+        });
 
-    if (!dbProfile) {
-      return NextResponse.json({
-        error: "Data profil tidak ditemukan"
-      }, {
-        status: 404
-      });
+        if (!dbProfile) return null;
+
+        return {
+          id: dbProfile.id,
+          sejarah: dbProfile.sejarah,
+          visi: dbProfile.visi,
+          misi: dbProfile.misi.map((m) => m.text),
+        };
+      }
+    );
+
+    if (!profileData) {
+      return NextResponse.json(
+        { error: "Data profil tidak ditemukan" },
+        { status: 404 }
+      );
     }
 
-    // ✅ Map agar sesuai dengan format yang lebih sederhana jika diperlukan
-    // Karena struktur data sudah cukup bersih, kita hanya melakukan mapping sederhana
-    const profileData = {
-      id: dbProfile.id,
-      sejarah: dbProfile.sejarah,
-      visi: dbProfile.visi,
-      misi: dbProfile.misi.map(m => m.text), // Hanya ambil array teks misi
-      // Jika ingin mengirim objek misi lengkap:
-      // misi_list: dbProfile.misi 
-    };
-
-    return NextResponse.json(profileData);
+    return publicJsonResponse(profileData);
   } catch (error) {
     console.error("Error mengambil data profil:", error);
     return NextResponse.json(

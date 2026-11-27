@@ -47,28 +47,30 @@ export async function PUT(request, context) {
       return NextResponse.json({ error: "permissionIds harus array" }, { status: 400 });
     }
 
-    // Update nama role dulu
-    await prisma.roles.update({
-      where: { id },
-      data: { name },
-    });
+    // Jalankan update nama role + sinkronisasi permission dalam satu transaksi
+    const operations = [
+      prisma.roles.update({
+        where: { id },
+        data: { name },
+      }),
+      prisma.role_has_permissions.deleteMany({
+        where: { role_id: id },
+      }),
+    ];
 
-    // Sinkronisasi role_has_permissions
-    // Hapus semua yang lama
-    await prisma.role_has_permissions.deleteMany({
-      where: { role_id: id },
-    });
-
-    // Tambahkan yang baru jika ada
     if (permissionIds.length > 0) {
       const newRelations = permissionIds.map((permissionId) => ({
         role_id: id,
-        permission_id: Number(permissionId), // pastikan number
+        permission_id: Number(permissionId),
       }));
-      await prisma.role_has_permissions.createMany({
-        data: newRelations,
-      });
+      operations.push(
+        prisma.role_has_permissions.createMany({
+          data: newRelations,
+        })
+      );
     }
+
+    await prisma.$transaction(operations);
 
     // Return role beserta permissions detail
     const roleWithPermissions = await prisma.roles.findUnique({

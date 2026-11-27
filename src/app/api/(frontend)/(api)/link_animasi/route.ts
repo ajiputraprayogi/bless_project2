@@ -1,23 +1,24 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { cachedPublicQuery, publicJsonResponse } from "@/lib/cache";
 
 export async function GET() {
   try {
-    // Ambil semua link animasi dari database
-    const data = await prisma.link_animasi.findMany({
-      select: {
-        // id: true,
-        link: true,
-        // created_at: true,
-        // updated_at: true,
-      },
-      orderBy: {
-        created_at: "desc", // terbaru di atas
-      },
-    });
+    const data = await cachedPublicQuery(
+      ["public-link-animasi"],
+      "link_animasi",
+      async () =>
+        prisma.link_animasi.findMany({
+          select: {
+            link: true,
+          },
+          orderBy: {
+            created_at: "desc",
+          },
+        })
+    );
 
-    // Jika kosong, bisa tetap return array kosong
-    return NextResponse.json(data, { status: 200 });
+    return publicJsonResponse(data, 200);
   } catch (error) {
     console.error("GET link_animasi error:", error);
     return NextResponse.json(

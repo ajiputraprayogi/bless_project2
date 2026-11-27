@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { prisma } from "@/lib/db";
 
 // ✅ GET untuk ambil semua FAQ
@@ -44,6 +45,8 @@ export async function POST(request: Request) {
         sortOrder: sortOrder ?? 0,
       },
     });
+
+    revalidateTag("faq");
 
     return NextResponse.json(newFaq, { status: 201 });
   } catch (error) {

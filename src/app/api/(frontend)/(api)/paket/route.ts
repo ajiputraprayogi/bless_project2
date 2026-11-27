@@ -1,13 +1,15 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { cachedPublicQuery, publicJsonResponse } from "@/lib/cache";
 
 export async function GET() {
   try {
-    // ✅ Ambil semua Paket, termasuk fitur, urutkan berdasarkan ID ASC
-    const pakets = await prisma.paket.findMany({
-      orderBy: { id: "asc" },
-      include: { fitur: true }, // ambil fitur terkait
-    });
+    const pakets = await cachedPublicQuery(["public-paket"], "paket", async () =>
+      prisma.paket.findMany({
+        orderBy: { id: "asc" },
+        include: { fitur: true },
+      })
+    );
 
     if (!pakets || pakets.length === 0) {
       return NextResponse.json(
@@ -16,7 +18,7 @@ export async function GET() {
       );
     }
 
-    return NextResponse.json(pakets, { status: 200 });
+    return publicJsonResponse(pakets, 200);
   } catch (error) {
     console.error("Error mengambil data Paket:", error);
     return NextResponse.json(

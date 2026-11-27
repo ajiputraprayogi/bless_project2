@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useMemo } from "react";
+import Image from "next/image";
 import { hasPermission } from "@/utils/hasPermission";
 import { usePermissions } from "@/context/PermissionsContext";
 import withPermission from "@/components/auth/withPermission";
@@ -123,9 +124,11 @@ function BannerPage() {
                     <TableRow key={banner.id}>
                       <TableCell className="px-5 py-4 sm:px-6 text-start">
                         {banner.image ? (
-                          <img
+                          <Image
                             src={banner.image}
                             alt={`Banner ${banner.id}`}
+                            width={256}
+                            height={128}
                             className="h-32 w-64 rounded-lg object-cover border border-gray-200 dark:border-gray-700"
                           />
                         ) : (

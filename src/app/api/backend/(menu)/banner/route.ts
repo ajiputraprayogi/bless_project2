@@ -1,11 +1,7 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { prisma } from "@/lib/db";
-import { createClient } from "@supabase/supabase-js";
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY! // pakai service role biar bisa upload tanpa auth user
-);
+import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 
 // ✅ GET semua banner
 export async function GET() {
@@ -46,6 +42,7 @@ export async function POST(request: Request) {
     }
 
     // Generate nama file unik
+    const supabase = getSupabaseAdmin();
     const fileExt = imageFile.name.split(".").pop();
     const fileName = `banner-${Date.now()}.${fileExt}`;
 
@@ -80,6 +77,8 @@ export async function POST(request: Request) {
         created_by: createdBy,
       },
     });
+
+    revalidateTag("banner");
 
     return NextResponse.json(newBanner, { status: 201 });
   } catch (error) {

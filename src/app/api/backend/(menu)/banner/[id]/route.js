@@ -1,15 +1,7 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { prisma } from "@/lib/db";
-import { createClient } from "@supabase/supabase-js";
-
-if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-  throw new Error("Supabase environment variables are missing");
-}
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 
 // ✅ GET detail banner by ID
 export async function GET(req, context) {
@@ -62,6 +54,7 @@ export async function PUT(req, context) {
 
     // ✅ Upload file baru jika ada
     if (file && file.size > 0) {
+      const supabase = getSupabaseAdmin();
       if (existing.image) {
         const oldFilePath = existing.image.split("/").pop();
         await supabase.storage.from("banner-images").remove([oldFilePath]);
@@ -97,6 +90,8 @@ export async function PUT(req, context) {
       },
     });
 
+    revalidateTag("banner");
+
     return NextResponse.json(updated, { status: 200 });
   } catch (error) {
     console.error("Prisma error (PUT Banner):", error);
@@ -114,11 +109,13 @@ export async function DELETE(req, context) {
 
     const existing = await prisma.banner.findUnique({ where: { id } });
     if (existing?.image) {
+      const supabase = getSupabaseAdmin();
       const oldFilePath = existing.image.split("/").pop();
       await supabase.storage.from("banner-images").remove([oldFilePath]);
     }
 
     await prisma.banner.delete({ where: { id } });
+    revalidateTag("banner");
 
     return NextResponse.json({ message: "Banner berhasil dihapus" }, { status: 200 });
   } catch (error) {

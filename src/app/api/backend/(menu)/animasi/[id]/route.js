@@ -1,16 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
-import { createClient } from "@supabase/supabase-js";
+import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 import slugify from "slugify";
-
-if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-  throw new Error("Supabase environment variables are missing");
-}
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
 
 // Mendapatkan filename dari URL Supabase
 function getSupabaseFilePath(publicUrl) {
@@ -145,6 +136,7 @@ export async function PATCH(req, context) {
     }
 
     const newSlug = await generateUniqueSlugForUpdate(newName, id);
+    const supabase = getSupabaseAdmin();
 
     // --------------------------------------------------
     // 1. HAPUS GAMBAR LAMA (Supabase + Prisma)
@@ -273,6 +265,7 @@ export async function DELETE(req, context) {
       .filter((p) => p !== null);
 
     if (filePaths.length > 0) {
+      const supabase = getSupabaseAdmin();
       const { error } = await supabase.storage.from("portofolio-images").remove(filePaths);
       if (error) console.warn("Supabase delete warning:", error);
     }

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { prisma } from "@/lib/db";
 
 // ✅ Ambil semua kontak
@@ -42,6 +43,8 @@ export async function POST(request: Request) {
         is_active: Boolean(is_active), // ✅ Paksa jadi boolean (true/false)
       },
     });
+
+    revalidateTag("kontak");
 
     return NextResponse.json(newKontak, { status: 201 });
   } catch (error) {

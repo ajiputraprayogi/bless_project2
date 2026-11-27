@@ -1,48 +1,41 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { prisma } from "@/lib/db";
-import { createClient } from "@supabase/supabase-js";
+import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 import slugify from "slugify";
-
-if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-  throw new Error("Supabase environment variables are missing");
-}
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
 
 // Mendapatkan filename dari URL Supabase
 function getSupabaseFilePath(publicUrl) {
-  if (!publicUrl) return null;
+  if (!publicUrl) return null;
 
-  const segments = publicUrl.split("/");
-  const filename = segments.pop();
-  const bucket = segments[segments.length - 1];
+  const segments = publicUrl.split("/");
+  const filename = segments.pop();
+  const bucket = segments[segments.length - 1];
 
-  if (bucket === "portofolio-images") {
-    return filename;
-  }
-  return null;
+  if (bucket === "portofolio-images") {
+    return filename;
+  }
+  return null;
 }
 
-// Generate slug unik saat update
+// Generate slug unik saat update dalam 1 query
 async function generateUniqueSlugForUpdate(name, id) {
-  const baseSlug = slugify(name, { lower: true, strict: true });
-  let uniqueSlug = baseSlug;
-  let count = 1;
+  const baseSlug = slugify(name, { lower: true, strict: true });
+  const existing = await prisma.portofolio.findMany({
+    where: { slug: { startsWith: baseSlug } },
+    select: { id: true, slug: true },
+  });
 
-  while (true) {
-    const existing = await prisma.portofolio.findUnique({
-      where: { slug: uniqueSlug },
-    });
+  const takenSlugs = new Set(
+    existing.filter((item) => item.id !== id).map((item) => item.slug)
+  );
+  if (!takenSlugs.has(baseSlug)) return baseSlug;
 
-    if (!existing || existing.id === id) break;
-
-    uniqueSlug = `${baseSlug}-${count++}`;
-  }
-
-  return uniqueSlug;
+  let count = 1;
+  while (takenSlugs.has(`${baseSlug}-${count}`)) {
+    count++;
+  }
+  return `${baseSlug}-${count}`;
 }
 
 // ==========================================================================
@@ -146,102 +139,105 @@ export async function PATCH(req, context) {
 
     const newSlug = await generateUniqueSlugForUpdate(newName, id);
 
-    // --------------------------------------------------
-    // 1. HAPUS GAMBAR LAMA (Supabase + Prisma)
-    // --------------------------------------------------
-    if (imagesToDelete.length > 0) {
-      const toRemove = existing.portofolio_images.filter((img) =>
-        imagesToDelete.includes(img.id)
-      );
+    // --------------------------------------------------
+    // 1. HAPUS GAMBAR LAMA (Supabase + Prisma) & VALIDASI GAMBAR BARU
+    // --------------------------------------------------
+    const validNewFiles = newImageFiles.filter(
+      (fileItem) => fileItem instanceof File && fileItem.size > 0
+    );
 
-      const filePaths = toRemove
-        .map((img) => getSupabaseFilePath(img.url))
-        .filter((p) => p !== null);
+    for (const fileItem of validNewFiles) {
+      if (fileItem.size > MAX_SIZE) {
+        return NextResponse.json(
+          { error: `Ukuran file ${fileItem.name} lebih dari 500KB` },
+          { status: 400 }
+        );
+      }
 
-      if (filePaths.length > 0) {
-        const { error } = await supabase.storage.from("portofolio-images").remove(filePaths);
-        if (error) console.warn("Supabase delete warning:", error);
-      }
+      if (!ALLOWED_TYPES.includes(fileItem.type)) {
+        return NextResponse.json(
+          { error: `Format file ${fileItem.name} tidak valid` },
+          { status: 400 }
+        );
+      }
+    }
 
-      // 🔥 PERBAIKAN FINAL (Baris 168): Menggunakan format camelCase tunggal
-      // Sesuai dengan model 'portofolio_images' di skema, yang diakses sebagai 'portofolioImage'
-      await prisma.portofolio_images.deleteMany({
-        where: { id: { in: imagesToDelete } },
-      });
-    }
+    const supabase = getSupabaseAdmin();
 
-    // --------------------------------------------------
-    // 2. UPLOAD GAMBAR BARU
-    // --------------------------------------------------
-    const newImageUrls = [];
+    const deleteTask = (async () => {
+      if (imagesToDelete.length === 0) return;
+      const toRemove = existing.portofolio_images.filter((img) =>
+        imagesToDelete.includes(img.id)
+      );
+      const filePaths = toRemove
+        .map((img) => getSupabaseFilePath(img.url))
+        .filter((p) => p !== null);
 
-    for (const fileItem of newImageFiles) {
-      if (fileItem instanceof File && fileItem.size > 0) {
-        if (fileItem.size > MAX_SIZE) {
-          return NextResponse.json(
-            { error: `Ukuran file ${fileItem.name} lebih dari 500KB` },
-            { status: 400 }
-          );
-        }
+      await Promise.all([
+        filePaths.length > 0
+          ? supabase.storage.from("portofolio-images").remove(filePaths)
+          : Promise.resolve(),
+        prisma.portofolio_images.deleteMany({
+          where: { id: { in: imagesToDelete } },
+        }),
+      ]);
+    })();
 
-        if (!ALLOWED_TYPES.includes(fileItem.type)) {
-          return NextResponse.json(
-            { error: `Format file ${fileItem.name} tidak valid` },
-            { status: 400 }
-          );
-        }
+    // --------------------------------------------------
+    // 2. UPLOAD GAMBAR BARU SECARA PARALEL
+    // --------------------------------------------------
+    const uploadTask = Promise.all(
+      validNewFiles.map(async (fileItem) => {
+        const buffer = Buffer.from(await fileItem.arrayBuffer());
+        const ext = fileItem.name.split(".").pop();
+        const filename = `${newSlug}-${Date.now()}-${Math.random()
+          .toString(36)
+          .substring(2, 8)}.${ext}`;
 
-        const buffer = Buffer.from(await fileItem.arrayBuffer());
-        const ext = fileItem.name.split(".").pop();
-        const filename = `${newSlug}-${Date.now()}-${Math.random()
-          .toString(36)
-          .substring(2, 8)}.${ext}`;
+        const { error: uploadError } = await supabase.storage
+          .from("portofolio-images")
+          .upload(filename, buffer, {
+            contentType: fileItem.type,
+          });
 
-        const { error: uploadError } = await supabase.storage
-          .from("portofolio-images")
-          .upload(filename, buffer, {
-            contentType: fileItem.type,
-          });
+        if (uploadError) {
+          throw new Error(`Gagal upload file ${fileItem.name}`);
+        }
 
-        if (uploadError) {
-          console.error("Upload error:", uploadError);
-          return NextResponse.json(
-            { error: `Gagal upload file ${fileItem.name}` },
-            { status: 500 }
-          );
-        }
+        const { data } = supabase.storage
+          .from("portofolio-images")
+          .getPublicUrl(filename);
 
-        const { data } = supabase.storage
-          .from("portofolio-images")
-          .getPublicUrl(filename);
+        return data?.publicUrl ? { url: data.publicUrl } : null;
+      })
+    );
 
-        if (data?.publicUrl) {
-          newImageUrls.push({ url: data.publicUrl });
-        }
-      }
-    }
+    const [, uploadedUrls] = await Promise.all([deleteTask, uploadTask]);
+    const newImageUrls = uploadedUrls.filter(Boolean);
 
-    // --------------------------------------------------
-    // 3. UPDATE DATABASE
-    // --------------------------------------------------
-    const updated = await prisma.portofolio.update({
-      where: { id },
-      data: {
-        name: newName,
-        slug: newSlug,
-        kategori: newKategori,
-        type: newType,
-        description,
-        portofolio_images: {
-          create: newImageUrls,
-        },
-      },
-      include: {
-        portofolio_images: true,
-      },
-    });
+    // --------------------------------------------------
+    // 3. UPDATE DATABASE
+    // --------------------------------------------------
+    const updated = await prisma.portofolio.update({
+      where: { id },
+      data: {
+        name: newName,
+        slug: newSlug,
+        kategori: newKategori,
+        type: newType,
+        description,
+        portofolio_images: {
+          create: newImageUrls,
+        },
+      },
+      include: {
+        portofolio_images: true,
+      },
+    });
 
-    return NextResponse.json(updated, { status: 200 });
+    revalidateTag("portofolio");
+
+    return NextResponse.json(updated, { status: 200 });
   } catch (error) {
     console.error("PATCH error:", error);
     return NextResponse.json({ error: "Gagal update portofolio" }, { status: 500 });
@@ -272,14 +268,16 @@ export async function DELETE(req, context) {
       .map((img) => getSupabaseFilePath(img.url))
       .filter((p) => p !== null);
 
-    if (filePaths.length > 0) {
-      const { error } = await supabase.storage.from("portofolio-images").remove(filePaths);
-      if (error) console.warn("Supabase delete warning:", error);
-    }
+    if (filePaths.length > 0) {
+      const supabase = getSupabaseAdmin();
+      const { error } = await supabase.storage.from("portofolio-images").remove(filePaths);
+      if (error) console.warn("Supabase delete warning:", error);
+    }
 
-    await prisma.portofolio.delete({ where: { id } });
+    await prisma.portofolio.delete({ where: { id } });
+    revalidateTag("portofolio");
 
-    return NextResponse.json({ message: "Portofolio berhasil dihapus" });
+    return NextResponse.json({ message: "Portofolio berhasil dihapus" });
   } catch (error) {
     console.error("DELETE error:", error);
     return NextResponse.json({ error: "Gagal menghapus portofolio" }, { status: 500 });

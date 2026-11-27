@@ -1,56 +1,24 @@
-// import { Outfit } from 'next/font/google';
-// import './globals.css';
-
-// import { SidebarProvider } from '@/context/SidebarContext';
-// import { ThemeProvider } from '@/context/ThemeContext';
-
-// const outfit = Outfit({
-//   subsets: ["latin"],
-// });
-
-// export default function RootLayout({
-//   children,
-// }: Readonly<{
-//   children: React.ReactNode;
-// }>) {
-//   return (
-//     <html lang="en">
-//       <body className={`${outfit.className} dark:bg-gray-900`}>
-//         <ThemeProvider>
-//           <SidebarProvider>{children}</SidebarProvider>
-//         </ThemeProvider>
-//       </body>
-//     </html>
-//   );
-// }
-
-"use client";
-
 import { Outfit } from "next/font/google";
 import "./globals.css";
-
-import { SidebarProvider } from "@/context/SidebarContext";
-import { ThemeProvider } from "@/context/ThemeContext";
-import { SessionProvider } from "next-auth/react";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/lib/auth";
+import BackendProviders from "./Providers";
 
 const outfit = Outfit({
   subsets: ["latin"],
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await getServerSession(authOptions);
+
   return (
     <html lang="en">
       <body className={`${outfit.className} dark:bg-gray-900`}>
-        {/* SessionProvider wajib di luar supaya useSession bisa dipakai di semua komponen */}
-        <SessionProvider>
-          <ThemeProvider>
-            <SidebarProvider>{children}</SidebarProvider>
-          </ThemeProvider>
-        </SessionProvider>
+        <BackendProviders session={session}>{children}</BackendProviders>
       </body>
     </html>
   );

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { prisma } from "@/lib/db";
 
 // ✅ Ambil detail Paket by ID
@@ -65,6 +66,8 @@ export async function PUT(req, context) {
       include: { fitur: true },
     });
 
+    revalidateTag("paket");
+
     return NextResponse.json(updated, { status: 200 });
   } catch (error) {
     console.error("Prisma error (PUT Paket):", error);
@@ -92,6 +95,7 @@ export async function DELETE(req, context) {
     }
 
     await prisma.paket.delete({ where: { id } });
+    revalidateTag("paket");
 
     return NextResponse.json(
       { message: "Paket berhasil dihapus" },

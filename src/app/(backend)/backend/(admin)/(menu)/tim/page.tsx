@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useMemo } from "react";
+import Image from "next/image";
 import { hasPermission } from "@/utils/hasPermission";
 import { usePermissions } from "@/context/PermissionsContext";
 import withPermission from "@/components/auth/withPermission";
@@ -129,9 +130,11 @@ function TimPage() {
                       <TableCell className="px-5 py-4 sm:px-6 text-start">
                         <div className="flex items-center gap-3">
                           {tim.image ? (
-                            <img
+                            <Image
                               src={tim.image}
                               alt={tim.nama}
+                              width={128}
+                              height={128}
                               className="h-32 w-32 rounded-lg object-cover border border-gray-200 dark:border-gray-700"
                             />
                           ) : (

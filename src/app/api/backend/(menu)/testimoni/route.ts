@@ -1,12 +1,7 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { prisma } from "@/lib/db";
-import { createClient } from "@supabase/supabase-js";
-
-// Supabase Client
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 
 // --- GET All Testimoni ---
 export async function GET() {
@@ -89,41 +84,38 @@ export async function POST(request: Request) {
       }
     }
 
-    // UPLOAD GAMBAR KE SUPABASE
+    // UPLOAD GAMBAR KE SUPABASE SECARA PARALEL
+    const supabase = getSupabaseAdmin();
+    const baseName = client.toLowerCase().replace(/\s/g, "_");
+    const uploadResults = await Promise.all(
+      filesToUpload.map(async ({ file, fieldName }) => {
+        const isAvatar = fieldName === "Avatar";
+        const bucketName = isAvatar ? "testimoni-avatars" : "testimoni-src";
+        const fileExt = file.name.split(".").pop();
+        const fileName = `${baseName}-${isAvatar ? "avatar" : "src"}-${Date.now()}.${fileExt}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from(bucketName)
+          .upload(fileName, file);
+
+        if (uploadError) {
+          throw new Error(`Gagal upload ${fieldName}: ${file.name}`);
+        }
+
+        const { data: publicUrlData } = supabase.storage
+          .from(bucketName)
+          .getPublicUrl(fileName);
+
+        return {
+          key: isAvatar ? ("avatar" as const) : ("src" as const),
+          url: publicUrlData.publicUrl,
+        };
+      })
+    );
+
     const uploadedUrls: { avatar?: string; src?: string } = {};
-
-    for (const { file, fieldName } of filesToUpload) {
-      const isAvatar = fieldName === "Avatar";
-      const bucketName = isAvatar ? "testimoni-avatars" : "testimoni-src";
-      
-      const fileExt = file.name.split(".").pop();
-      // Gunakan nama klien + field name untuk nama file yang lebih informatif
-      const baseName = client.toLowerCase().replace(/\s/g, "_"); 
-      const fileName = `${baseName}-${isAvatar ? 'avatar' : 'src'}-${Date.now()}.${fileExt}`;
-
-      // Menggunakan file secara langsung (sudah merupakan tipe File)
-      const { error: uploadError } = await supabase.storage
-        .from(bucketName)
-        .upload(fileName, file);
-
-      if (uploadError) {
-        console.error("Supabase Upload Error:", uploadError);
-        // TODO: Implementasi rollback (hapus file yang sudah terupload) jika terjadi error
-        return NextResponse.json(
-          { error: `Gagal upload ${fieldName}: ${file.name}` },
-          { status: 500 }
-        );
-      }
-
-      const { data: publicUrlData } = supabase.storage
-        .from(bucketName)
-        .getPublicUrl(fileName);
-
-      if (isAvatar) {
-        uploadedUrls.avatar = publicUrlData.publicUrl;
-      } else {
-        uploadedUrls.src = publicUrlData.publicUrl;
-      }
+    for (const res of uploadResults) {
+      uploadedUrls[res.key] = res.url;
     }
     
     // VALIDASI FINAL URL
@@ -146,6 +138,8 @@ export async function POST(request: Request) {
         // created_by DIHAPUS
       },
     });
+
+    revalidateTag("testimoni");
 
     return NextResponse.json(newTestimoni, { status: 201 });
   } catch (error) {

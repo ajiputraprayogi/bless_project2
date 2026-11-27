@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { prisma } from "@/lib/db";
 
 // ✅ GET untuk ambil semua Profile + relasi misi
@@ -57,6 +58,8 @@ export async function POST(request: NextRequest) {
         misi: true, // supaya langsung dapat daftar misi setelah create
       },
     });
+
+    revalidateTag("profile");
 
     return NextResponse.json(newProfile, { status: 201 });
   } catch (error) {

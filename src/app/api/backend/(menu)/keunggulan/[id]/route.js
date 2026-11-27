@@ -1,16 +1,8 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { prisma } from "@/lib/db";
-import { createClient } from "@supabase/supabase-js";
+import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 import slugify from "slugify";
-
-if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-  throw new Error("Supabase environment variables are missing");
-}
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
 
 const BUCKET_NAME = "keunggulan-images"; 
 
@@ -113,6 +105,7 @@ export async function PUT(req, context) {
 
     // ✅ Upload file baru jika ada
     if (file && file instanceof File && file.size > 0) {
+      const supabase = getSupabaseAdmin();
       // Hapus gambar lama
       if (existing.image) {
         const oldFilePath = existing.image.split(BUCKET_NAME + "/")[1];
@@ -158,6 +151,8 @@ export async function PUT(req, context) {
       },
     });
 
+    revalidateTag("keunggulan");
+
     return NextResponse.json(updated, { status: 200 });
   } catch (error) {
     console.error("Prisma error (PUT Keunggulan):", error);
@@ -190,11 +185,13 @@ export async function DELETE(req, context) {
     if (existing?.image) {
       const oldFilePath = existing.image.split(BUCKET_NAME + "/")[1];
       if (oldFilePath) {
+        const supabase = getSupabaseAdmin();
         await supabase.storage.from(BUCKET_NAME).remove([oldFilePath]); 
       }
     }
 
     await prisma.keunggulan.delete({ where: { id } });
+    revalidateTag("keunggulan");
 
     return NextResponse.json({ message: "Keunggulan berhasil dihapus" }, { status: 200 });
   } catch (error) {

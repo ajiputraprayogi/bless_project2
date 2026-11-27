@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { prisma } from "@/lib/db";
 
 // ✅ Ambil detail chat by ID
@@ -65,6 +66,8 @@ export async function PUT(req, context) {
       },
     });
 
+    revalidateTag("chat");
+
     return NextResponse.json(updated, { status: 200 });
   } catch (error) {
     console.error("Prisma error (PUT Chat):", error);
@@ -92,6 +95,7 @@ export async function DELETE(req, context) {
     }
 
     await prisma.chat.delete({ where: { id } });
+    revalidateTag("chat");
 
     return NextResponse.json(
       { message: "Chat berhasil dihapus" },

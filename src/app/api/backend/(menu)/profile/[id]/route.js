@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { prisma } from "@/lib/db";
 
 // ✅ Ambil detail Profile by ID
@@ -77,6 +78,8 @@ export async function PUT(req, context) {
       },
     });
 
+    revalidateTag("profile");
+
     return NextResponse.json(updated, { status: 200 });
   } catch (error) {
     console.error("Prisma error (PUT Profile):", error);
@@ -104,6 +107,7 @@ export async function DELETE(req, context) {
     }
 
     await prisma.profile.delete({ where: { id } });
+    revalidateTag("profile");
 
     return NextResponse.json(
       { message: "Profile berhasil dihapus" },

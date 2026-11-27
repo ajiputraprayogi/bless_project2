@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { prisma } from "@/lib/db";
 
 export async function GET(req) {
@@ -65,6 +66,8 @@ export async function PUT(req) {
       include: { kelebihan_kekurangan_detail: true },
     });
 
+    revalidateTag("kelebihan-kekurangan");
+
     return NextResponse.json(updated, { status: 200 });
   } catch (error) {
     console.error("Prisma error (PUT KK):", error);
@@ -87,6 +90,7 @@ export async function DELETE(req) {
     }
 
     await prisma.kelebihan_kekurangan.delete({ where: { id } });
+    revalidateTag("kelebihan-kekurangan");
 
     return NextResponse.json({ message: "Data berhasil dihapus" }, { status: 200 });
   } catch (error) {

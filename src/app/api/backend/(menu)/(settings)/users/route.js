@@ -11,7 +11,12 @@ export async function GET() {
         user_roles: {
           take: 1,
           select: {
-            roles: true,
+            roles: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
           },
         },
       },

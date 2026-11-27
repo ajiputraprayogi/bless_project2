@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { prisma } from "@/lib/db";
 
 // ======================================================
@@ -89,6 +90,8 @@ export async function PATCH(req, context) {
       },
     });
 
+    revalidateTag("link_animasi");
+
     return NextResponse.json(updated, { status: 200 });
 
   } catch (error) {
@@ -129,6 +132,7 @@ export async function DELETE(req, context) {
     await prisma.link_animasi.delete({
       where: { id: numericId },
     });
+    revalidateTag("link_animasi");
 
     return NextResponse.json(
       { message: "Link animasi berhasil dihapus" },

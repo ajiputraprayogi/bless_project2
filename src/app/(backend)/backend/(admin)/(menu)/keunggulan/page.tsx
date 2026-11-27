@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useMemo } from "react";
+import Image from "next/image";
 import { hasPermission } from "@/utils/hasPermission";
 import { usePermissions } from "@/context/PermissionsContext";
 import withPermission from "@/components/auth/withPermission";
@@ -137,10 +138,12 @@ function KeunggulanPage() {
                         <TableCell className="px-5 py-4 sm:px-6 text-start">
                           <div className="flex items-start gap-3"> {/* Ubah items-center jadi items-start */}
                             {keunggulan.image ? (
-                              <img
+                              <Image
                                 src={keunggulan.image}
                                 alt={keunggulan.title}
-                                className="h-32 w-32 rounded-lg object-cover border border-gray-200 dark:border-gray-700 flex-shrink-0" // Tambah flex-shrink-0
+                                width={128}
+                                height={128}
+                                className="h-32 w-32 rounded-lg object-cover border border-gray-200 dark:border-gray-700 flex-shrink-0"
                               />
                             ) : (
                               <div className="h-32 w-32 rounded-lg bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-sm text-gray-500 flex-shrink-0">

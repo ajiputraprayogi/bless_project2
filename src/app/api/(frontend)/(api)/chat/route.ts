@@ -1,18 +1,20 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { cachedPublicQuery, publicJsonResponse } from "@/lib/cache";
 
 export async function GET() {
   try {
-    // ✅ Ambil chat pertama (atau bisa pakai findMany kalau mau semua chat)
-    const chat = await prisma.chat.findFirst({
-      orderBy: { created_at: "desc" }, // ambil chat Portofolio
-      select: {
-        id: true,
-        title: true,
-        description: true,
-        discount: true,
-      },
-    });
+    const chat = await cachedPublicQuery(["public-chat"], "chat", async () =>
+      prisma.chat.findFirst({
+        orderBy: { created_at: "desc" },
+        select: {
+          id: true,
+          title: true,
+          description: true,
+          discount: true,
+        },
+      })
+    );
 
     if (!chat) {
       return NextResponse.json(
@@ -21,7 +23,7 @@ export async function GET() {
       );
     }
 
-    return NextResponse.json(chat);
+    return publicJsonResponse(chat);
   } catch (error) {
     console.error("Error mengambil data chat:", error);
     return NextResponse.json(

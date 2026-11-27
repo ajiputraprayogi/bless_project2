@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { prisma } from "@/lib/db";
 
 type StepDetail = {
@@ -52,6 +53,8 @@ export async function POST(request: Request) {
       },
       include: { payment_step_detail: true },
     });
+
+    revalidateTag("steppayment");
 
     return NextResponse.json(newStep, { status: 201 });
   } catch (error) {

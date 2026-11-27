@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { prisma } from "@/lib/db";
 
 // ✅ GET untuk ambil semua Paket
@@ -53,6 +54,8 @@ export async function POST(request: Request) {
       },
       include: { fitur: true },
     });
+
+    revalidateTag("paket");
 
     return NextResponse.json(newPaket, { status: 201 });
   } catch (error) {

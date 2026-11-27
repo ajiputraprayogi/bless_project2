@@ -1,15 +1,7 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { prisma } from "@/lib/db";
-import { createClient } from "@supabase/supabase-js";
-
-if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-  throw new Error("Supabase environment variables are missing");
-}
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 
 // ✅ Ambil detail tim
 export async function GET(req, context) {
@@ -64,6 +56,7 @@ export async function PUT(req, context) {
     let imageUrl = existing.image;
 
     if (file && file.size > 0) {
+      const supabase = getSupabaseAdmin();
       if (existing.image) {
         const oldFilePath = existing.image.split("/").pop();
         await supabase.storage.from("tim-images").remove([oldFilePath]);
@@ -95,6 +88,8 @@ export async function PUT(req, context) {
       },
     });
 
+    revalidateTag("tim");
+
     return NextResponse.json(updated, { status: 200 });
   } catch (error) {
     console.error("Prisma error (PUT):", error);
@@ -112,11 +107,13 @@ export async function DELETE(req, context) {
 
     const existing = await prisma.tim.findUnique({ where: { id } });
     if (existing?.image) {
+      const supabase = getSupabaseAdmin();
       const oldFilePath = existing.image.split("/").pop();
       await supabase.storage.from("tim-images").remove([oldFilePath]);
     }
 
     await prisma.tim.delete({ where: { id } });
+    revalidateTag("tim");
 
     return NextResponse.json({ message: "Anggota tim berhasil dihapus" }, { status: 200 });
   } catch (error) {

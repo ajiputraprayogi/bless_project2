@@ -1,18 +1,20 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { cachedPublicQuery, publicJsonResponse } from "@/lib/cache";
 
 export async function GET() {
   try {
-    // ✅ Ambil semua FAQ, urutkan berdasarkan sortOrder ASC
-    const faqs = await prisma.faq.findMany({
-      orderBy: { sortOrder: "asc" },
-      select: {
-        id: true,
-        question: true,
-        answer: true,
-        sortOrder: true,
-      },
-    });
+    const faqs = await cachedPublicQuery(["public-faq"], "faq", async () =>
+      prisma.faq.findMany({
+        orderBy: { sortOrder: "asc" },
+        select: {
+          id: true,
+          question: true,
+          answer: true,
+          sortOrder: true,
+        },
+      })
+    );
 
     if (!faqs || faqs.length === 0) {
       return NextResponse.json(
@@ -21,7 +23,7 @@ export async function GET() {
       );
     }
 
-    return NextResponse.json(faqs, { status: 200 });
+    return publicJsonResponse(faqs, 200);
   } catch (error) {
     console.error("Error mengambil data FAQ:", error);
     return NextResponse.json(

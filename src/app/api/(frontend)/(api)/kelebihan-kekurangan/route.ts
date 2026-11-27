@@ -1,12 +1,18 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { cachedPublicQuery, publicJsonResponse } from "@/lib/cache";
 
 export async function GET() {
   try {
-    const data = await prisma.kelebihan_kekurangan.findMany({
-      orderBy: { id: "asc" },
-      include: { kelebihan_kekurangan_detail: true },
-    });
+    const data = await cachedPublicQuery(
+      ["public-kelebihan-kekurangan"],
+      "kelebihan-kekurangan",
+      async () =>
+        prisma.kelebihan_kekurangan.findMany({
+          orderBy: { id: "asc" },
+          include: { kelebihan_kekurangan_detail: true },
+        })
+    );
 
     if (!data || data.length === 0) {
       return NextResponse.json(
@@ -15,7 +21,7 @@ export async function GET() {
       );
     }
 
-    return NextResponse.json(data, { status: 200 });
+    return publicJsonResponse(data, 200);
   } catch (error) {
     console.error("Error mengambil data Kelebihan/Kekurangan:", error);
     return NextResponse.json(

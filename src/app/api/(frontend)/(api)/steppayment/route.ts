@@ -41,46 +41,49 @@
 // }
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { cachedPublicQuery, publicJsonResponse } from "@/lib/cache";
 
 export async function GET() {
   try {
-    const paymentSteps = await prisma.payment_step.findMany({
-      orderBy: { step_number: "asc" },
-      select: {
-        id: true,
-        step_number: true,
-        title: true,
-        payment_step_detail: {
-          orderBy: { id: "asc" },
+    const formatted = await cachedPublicQuery(
+      ["public-steppayment"],
+      "steppayment",
+      async () => {
+        const paymentSteps = await prisma.payment_step.findMany({
+          orderBy: { step_number: "asc" },
           select: {
-            sub_title: true,
-            description: true,
+            id: true,
+            step_number: true,
+            title: true,
+            payment_step_detail: {
+              orderBy: { id: "asc" },
+              select: {
+                sub_title: true,
+                description: true,
+              },
+            },
           },
-        },
-      },
-    });
+        });
 
-    if (!paymentSteps || paymentSteps.length === 0) {
+        return paymentSteps.map((step) => ({
+          id: step.id,
+          title: step.title,
+          side: step.step_number % 2 === 1 ? "start" : "end",
+          description: step.payment_step_detail.map(
+            (d) => d.description || d.sub_title
+          ),
+        }));
+      }
+    );
+
+    if (!formatted || formatted.length === 0) {
       return NextResponse.json(
         { error: "Data langkah pembayaran tidak ditemukan" },
         { status: 404 }
       );
     }
 
-    // 🔥 Transformasi output
-    const formatted = paymentSteps.map((step) => ({
-      id: step.id,
-      title: step.title,
-
-      // 🔥 SIDE otomatis dari step_number
-      side: step.step_number % 2 === 1 ? "start" : "end",
-
-      description: step.payment_step_detail.map(
-        (d) => d.description || d.sub_title
-      ),
-    }));
-
-    return NextResponse.json(formatted);
+    return publicJsonResponse(formatted);
   } catch (error) {
     console.error("Error:", error);
     return NextResponse.json(

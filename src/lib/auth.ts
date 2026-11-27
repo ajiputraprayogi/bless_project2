@@ -1,9 +1,7 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/db";
 import bcrypt from "bcrypt";
-
-const prisma = new PrismaClient();
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -97,7 +95,7 @@ export const authOptions: NextAuthOptions = {
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
-  debug: true,
+  debug: process.env.NODE_ENV === "development",
 };
 
 export default NextAuth(authOptions);

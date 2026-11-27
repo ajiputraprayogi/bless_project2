@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useMemo } from "react";
+import Image from "next/image";
 import { hasPermission } from "@/utils/hasPermission";
 import { usePermissions } from "@/context/PermissionsContext";
 import withPermission from "@/components/auth/withPermission";
@@ -188,10 +189,11 @@ function TestimoniPage() {
                           <div className="flex items-center gap-3">
                             {/* Gunakan avatar klien */}
                             {item.avatar ? (
-                              // Anggap path avatar seperti '/images/user/ferry.jpg' bisa diakses
-                              <img
-                                src={item.avatar} 
+                              <Image
+                                src={item.avatar}
                                 alt={item.client}
+                                width={64}
+                                height={64}
                                 className="h-16 w-16 rounded-full object-cover border border-gray-200 dark:border-gray-700"
                               />
                             ) : (

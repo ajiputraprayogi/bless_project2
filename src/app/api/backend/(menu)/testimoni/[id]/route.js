@@ -1,15 +1,7 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { prisma } from "@/lib/db";
-import { createClient } from "@supabase/supabase-js";
-
-if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-    throw new Error("Supabase environment variables are missing");
-}
-
-const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 
 // ======================================================
 // Helper Supabase
@@ -125,6 +117,7 @@ export async function PATCH(req, context) {
         // ======================================================
         // FILE HANDLING
         // ======================================================
+        const supabase = getSupabaseAdmin();
         const fileFields = [
             { field: "avatar", file: newAvatarFile, delete: deleteAvatarSignal, existing: existing.avatar },
             { field: "src", file: newSrcFile, delete: deleteSrcSignal, existing: existing.src },
@@ -189,6 +182,8 @@ export async function PATCH(req, context) {
             data: updateData,
         });
 
+        revalidateTag("testimoni");
+
         return NextResponse.json(updated, { status: 200 });
 
     } catch (error) {
@@ -230,11 +225,15 @@ export async function DELETE(req, context) {
             if (p) files.push({ bucket: "testimoni-src", path: p });
         }
 
-        for (const f of files) {
-            await supabase.storage.from(f.bucket).remove([f.path]);
+        if (files.length > 0) {
+            const supabase = getSupabaseAdmin();
+            await Promise.all(
+                files.map((f) => supabase.storage.from(f.bucket).remove([f.path]))
+            );
         }
 
         await prisma.testimoni.delete({ where: { id: numericId } });
+        revalidateTag("testimoni");
 
         return NextResponse.json(
             { message: "Testimoni berhasil dihapus" },

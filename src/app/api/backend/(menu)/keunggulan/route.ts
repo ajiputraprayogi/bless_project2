@@ -1,12 +1,7 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { prisma } from "@/lib/db";
-import { createClient } from "@supabase/supabase-js";
-
-// --- Supabase Setup ---
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY! // pakai service role biar bisa upload tanpa auth user
-);
+import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 
 // --- Utility Functions ---
 
@@ -19,17 +14,19 @@ function slugify(text: string): string {
     .replace(/[^a-z0-9\-]/g, "");
 }
 
-// Fungsi ini disesuaikan untuk model keunggulan
-// Fungsi ini sekarang memeriksa keunikan slug pada model `keunggulan`
 async function generateUniqueSlug(baseSlug: string) {
-  let uniqueSlug = baseSlug;
+  const existing = await prisma.keunggulan.findMany({
+    where: { slug: { startsWith: baseSlug } },
+    select: { slug: true },
+  });
+  const taken = new Set(existing.map((item) => item.slug));
+  if (!taken.has(baseSlug)) return baseSlug;
+
   let count = 1;
-
-  while (await prisma.keunggulan.findUnique({ where: { slug: uniqueSlug } })) {
-    uniqueSlug = `${baseSlug}-${count++}`;
+  while (taken.has(`${baseSlug}-${count}`)) {
+    count++;
   }
-
-  return uniqueSlug;
+  return `${baseSlug}-${count}`;
 }
 
 // =========================================================================
@@ -93,6 +90,7 @@ export async function POST(request: Request) {
     const bucketName = "keunggulan-images"; // Ganti nama bucket Supabase
     
     if (imageFile) {
+      const supabase = getSupabaseAdmin();
       const fileExt = imageFile.name.split(".").pop();
       // Gunakan uniqueSlug untuk penamaan file
       const fileName = `${uniqueSlug}-${Date.now()}.${fileExt}`; 
@@ -131,6 +129,8 @@ export async function POST(request: Request) {
         description: description || null,
       },
     });
+
+    revalidateTag("keunggulan");
 
     return NextResponse.json(newKeunggulan, { status: 201 });
   } catch (error) {

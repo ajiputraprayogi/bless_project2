@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { prisma } from "@/lib/db";
 
 // ✅ Ambil detail step payment by ID (Termasuk detailnya)
@@ -114,6 +115,7 @@ export async function PUT(req, context) {
 
     // Jalankan semua operasi dalam satu transaksi
     await prisma.$transaction(transactionOperations);
+    revalidateTag("steppayment");
 
     return NextResponse.json({ message: "Step payment berhasil diperbarui" }, { status: 200 });
   } catch (error) {
@@ -142,6 +144,7 @@ export async function DELETE(req, context) {
     }
 
     await prisma.payment_step.delete({ where: { id } });
+    revalidateTag("steppayment");
 
     return NextResponse.json(
       { message: "Step payment berhasil dihapus" },

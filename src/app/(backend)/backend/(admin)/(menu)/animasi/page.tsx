@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useMemo } from "react";
+import Image from "next/image";
 import { hasPermission } from "@/utils/hasPermission";
 import { usePermissions } from "@/context/PermissionsContext";
 import withPermission from "@/components/auth/withPermission";
@@ -187,9 +188,11 @@ function PortofolioVideoPage() {
                         <TableCell className="px-5 py-4 text-start">
                           <div className="flex items-center gap-3">
                             {video.thumbnail_url ? (
-                              <img
+                              <Image
                                 src={video.thumbnail_url}
                                 alt={video.title}
+                                width={128}
+                                height={128}
                                 className="h-32 w-32 rounded-lg object-cover border"
                               />
                             ) : (

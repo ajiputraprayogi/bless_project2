@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { prisma } from "@/lib/db";
 
 // ✅ GET: ambil semua data Kelebihan & Kekurangan beserta detail
@@ -66,6 +67,8 @@ export async function POST(request: Request) {
         kelebihan_kekurangan_detail: true,
       },
     });
+
+    revalidateTag("kelebihan-kekurangan");
 
     return NextResponse.json(newData, { status: 201 });
   } catch (error) {

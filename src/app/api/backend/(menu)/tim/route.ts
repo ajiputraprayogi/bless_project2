@@ -1,11 +1,7 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { prisma } from "@/lib/db";
-import { createClient } from "@supabase/supabase-js";
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY! // pakai service role biar bisa upload tanpa auth user
-);
+import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 
 // ✅ GET untuk ambil semua tim
 export async function GET() {
@@ -50,6 +46,7 @@ export async function POST(request: Request) {
     // Upload gambar jika ada
     let imageUrl: string | null = null;
     if (imageFile) {
+      const supabase = getSupabaseAdmin();
       const fileExt = imageFile.name.split(".").pop();
       const fileName = `tim-${Date.now()}.${fileExt}`;
       const { data, error } = await supabase.storage
@@ -82,6 +79,8 @@ export async function POST(request: Request) {
         image: imageUrl,
       },
     });
+
+    revalidateTag("tim");
 
     return NextResponse.json(newTim, { status: 201 });
   } catch (error) {

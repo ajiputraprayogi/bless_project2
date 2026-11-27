@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { prisma } from "@/lib/db";
 
 // ======================================================
@@ -92,6 +93,8 @@ export async function PATCH(req, context) {
       },
     });
 
+    revalidateTag("dummytesti");
+
     return NextResponse.json(updated, { status: 200 });
 
   } catch (error) {
@@ -132,6 +135,7 @@ export async function DELETE(req, context) {
     await prisma.dummy_testi.delete({
       where: { id: numericId },
     });
+    revalidateTag("dummytesti");
 
     return NextResponse.json(
       { message: "Dummy testimoni berhasil dihapus" },

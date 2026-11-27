@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { prisma } from "@/lib/db";
 
 // ✅ Ambil detail FAQ by ID
@@ -65,6 +66,8 @@ export async function PUT(req, context) {
       },
     });
 
+    revalidateTag("faq");
+
     return NextResponse.json(updated, { status: 200 });
   } catch (error) {
     console.error("Prisma error (PUT FAQ):", error);
@@ -92,6 +95,7 @@ export async function DELETE(req, context) {
     }
 
     await prisma.faq.delete({ where: { id } });
+    revalidateTag("faq");
 
     return NextResponse.json(
       { message: "FAQ berhasil dihapus" },
