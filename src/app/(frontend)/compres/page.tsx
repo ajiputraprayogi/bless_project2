@@ -36,7 +36,7 @@ export default function ImageCompressorPage() {
     });
   };
 
-  const LOGO_URL = "/bless_logo.png"; // <-- GANTI dengan path logo Anda
+  const LOGO_URL = "/logo.png";
 
   const addWatermark = (blob: Blob, logoUrl: string = LOGO_URL) => {
     return new Promise<Blob>((resolve) => {
